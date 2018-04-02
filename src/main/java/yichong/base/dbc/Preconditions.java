@@ -17,17 +17,10 @@ package yichong.base.dbc;
 
 /**
  * <h1>class Preconditions</h1>
- * <p>
- * This class defines a set of static methods called by other methods to check the
- * preconditions when calling these methods, throw an {@code IllegalArgumentException} to
- * indicate that the calling method has been passed an illegal or inappropriate argument,
- * throw an {@code IllegalStateException} to signal that the calling method has been
- * invoked at an illegal or inappropriate time/state for the requested operation.
- * </p>
- *
- * These methods are designed primarily for checking preconditions of the
- * calling methods or constructors before executing the actual operations in the
- * calling methods or constructors, e.g. as demonstrated below: {@code
+ * Inspired by the concept of 'Design by Contract(DBC)',
+ * these methods are designed primarily for checking preconditions of the calling methods or constructors before
+ * executing the actual operations in them, e.g. as demonstrated below:
+ * {@code
  * <pre>
  * public void foo(Bar bar, int size){
  * 	   Preconditions.assertNotNull("Bar bar", bar);
@@ -37,31 +30,30 @@ package yichong.base.dbc;
  *     ...
  * }
  * </pre>
- *
  * }
- *
- * {@code
- * <pre>
- * ``explain:
- * {@para ...}
- * {@val ....}
- * {@actual ...}
- * {@prec ...}
- * </pre>
- * }
- *
- * ``explain:
- *  reason why NullPointerException not used
- *
- * ``explain:
- * formalize exception message, specific & precise
- * (reality/result, expected/precondition, boolean expression)
- * How to construct a specific & precise exception message?
- *
- * not available tolerated
+ * <p>
+ * Throw an {@code IllegalArgumentException} to indicate that
+ * the calling method has been passed an illegal or inappropriate argument,
+ * throw an {@code IllegalStateException} to signal that the calling method has been
+ * invoked at an illegal or inappropriate time/state for the requested operation.
+ * The reason why {@code NullPointerException} isn't used here is that ....
+ * </p>
+ * <p>
+ * The common traits of these assert methods' parameter signatures are like this:
+ * {@code (actual/reality, expected/precondition, boolean expression)}
+ * Customized variable information is inserted into the message templates offered by this class to
+ * generate specific and precise exception message.
+ * Here we use a notation similar to javadoc tags to highlight these variable information.
+ * {@code {@sig ...}} means the signature of a method parameter or a state object etc.
+ * {@code {@val ...}} means the value of a method parameter or a state object etc.
+ * {@code {@actual ...}} means the actual situation of the argument or state object.
+ * {@code {@prec ...}} means the description of preconditions.
+ * The scenarios of variable information not being available are tolerated by using
+ * string '[-]' to indicate this variable information isn't available
+ * </p>
  *
  * @author Joe Yichong
- * @version 1.0
+ * @version 1.2
  */
 
 public final class Preconditions {
@@ -91,8 +83,7 @@ public final class Preconditions {
      * a private method used by 'assertTrue' methods to generate exception messages,
      * {@code null} value and empty string("") are tolerated which indicated by using string '[-]' instead.
      *
-     * @param msg_templ a template of exception message into which {@code value} and {@code cond} are inserted,
-     *                 if not specified use default template instead
+     * @param msg_templ a template of exception message into which {@code value} and {@code cond} are inserted
      * @param value a object value, string '[-]' is used to indicate this argument isn't available
      * @param cond a string that describes the preconditions,
      *             string '[-]' is used to indicate this argument isn't available
@@ -109,8 +100,7 @@ public final class Preconditions {
      * {@code null} value and empty string("") are tolerated which indicated by using string '[-]' instead or
      * other default values.
      *
-     * @param msg_templ a template of exception message into which {@code desc_templ} and {@code cond} are inserted,
-     *                  if not specified use default template instead
+     * @param msg_templ a template of exception message into which {@code desc_templ} and {@code cond} are inserted
      * @param desc_templ a template into which {@code value} is inserted, if not specified use {@code value} instead
      * @param value a object value, string '[-]' is used to indicate this argument isn't available
      * @param cond a string that describes the preconditions,
@@ -129,8 +119,7 @@ public final class Preconditions {
      * {@code null} value and empty string("") are tolerated which indicated by using string '[-]' instead or
      * other default values.
      *
-     * @param msg_templ a template of exception message into which {@code param} is inserted,
-     *                 if not specified use default template instead
+     * @param msg_templ a template of exception message into which {@code param} is inserted
      * @param param the parameter signature of the argument to be checked,
      *              string '[-]' is used to indicate this argument isn't available
      * */
