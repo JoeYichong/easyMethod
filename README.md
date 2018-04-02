@@ -4,7 +4,7 @@
 executing the actual operations in them, e.g. as demonstrated below:
 <pre>
 public void foo(Bar bar, int size){
-	 Preconditions.assertNotNull("Bar bar", bar);
+     Preconditions.assertNotNull("Bar bar", bar);
      Preconditions.assertTrue(size, "size > 0", size > 0);
 
      // actual operations of this method
