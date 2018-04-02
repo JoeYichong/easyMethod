@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2018 Joe Yichong (@Joe_yichong)
+ * Copyright 2018 Joe Yichong
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License.  You may obtain a copy
@@ -67,14 +67,12 @@ package yichong.base.dbc;
 public final class Preconditions {
     private static final String Meta_Msg =
             "\r\n[Warning]: No Arguments or 'null' passed into the `assertXXX` method";
-    private static final String Msg_Template =
-            "\r\n[Problem]: {@?: %s} doesn't meet the {@prec: %s}";
-    private static final String NotNull_Template =
-            "\r\n[Problem]: {@param: %s} is NULL";
+    private static final String Msg_Arr_NotEmpty_Template =
+            "\r\n[Problem]: Array {@sig: %s} is Empty(or Null)";
     private static final String Msg_Arg_NotNull_Template =
-            "\r\n[Problem]: Required Argument{@param: %s} is NULL";
+            "\r\n[Problem]: Required Argument{@sig: %s} is NULL";
     private static final String Msg_State_NotNull_Template =
-            "\r\n[Problem]: Required State{@param: %s} is NULL";
+            "\r\n[Problem]: Required State{@sig: %s} is NULL";
     private static final String Msg_Arg_Template_v =
             "\r\n[Problem]: Argument {@val: %s} doesn't meet the {@prec: %s}";
     private static final String Msg_Arg_Template_d =
@@ -88,22 +86,22 @@ public final class Preconditions {
     private static final String Msg_State_NotNull =
             "\r\n[Problem]: Required State is NULL";
 
+
     /**
      * a private method used by 'assertTrue' methods to generate exception messages,
      * {@code null} value and empty string("") are tolerated which indicated by using string '[-]' instead.
      *
-     * @param template a template of exception message into which {@code value} and {@code cond} are inserted,
+     * @param msg_templ a template of exception message into which {@code value} and {@code cond} are inserted,
      *                 if not specified use default template instead
      * @param value a object value, string '[-]' is used to indicate this argument isn't available
      * @param cond a string that describes the preconditions,
      *             string '[-]' is used to indicate this argument isn't available
      * */
-    private static String errorMsg(String template, Object value, String cond) {
-        String templ = (template == null) ? Msg_Template : template;
+    private static String errorMsg(String msg_templ, Object value, String cond) {
         String val = (value == null) ? "[-]" : String.valueOf(value);
         String prec = (cond == null || "".equals(cond)) ? "[-]" : cond;
 
-        return String.format(templ, val, prec);
+        return String.format(msg_templ, val, prec);
     }
 
     /**
@@ -119,12 +117,11 @@ public final class Preconditions {
      *             string '[-]' is used to indicate this argument isn't available
      * */
     private static String errorMsg(String msg_templ, String desc_templ, Object value, String cond) {
-        String templ = (msg_templ == null) ? Msg_Template : msg_templ;
         String val = (value == null) ? "[-]" : String.valueOf(value);
         String desc = (desc_templ == null || "".equals(desc_templ)) ? val : String.format(desc_templ, val);
         String prec = (cond == null || "".equals(cond)) ? "[-]" : cond;
 
-        return String.format(templ, desc, prec);
+        return String.format(msg_templ, desc, prec);
     }
 
     /**
@@ -132,16 +129,14 @@ public final class Preconditions {
      * {@code null} value and empty string("") are tolerated which indicated by using string '[-]' instead or
      * other default values.
      *
-     * @param template a template of exception message into which {@code param} is inserted,
+     * @param msg_templ a template of exception message into which {@code param} is inserted,
      *                 if not specified use default template instead
      * @param param the parameter signature of the argument to be checked,
      *              string '[-]' is used to indicate this argument isn't available
      * */
-    private static String nullMsg(String template, String param) {
-        String templ = (template == null) ? NotNull_Template : template;
+    private static String nullMsg(String msg_templ, String param) {
         String para_n = (param == null || "".equals(param)) ? "[-]" : param;
-
-        return String.format(templ, para_n);
+        return String.format(msg_templ, para_n);
     }
 
     /**
@@ -150,18 +145,18 @@ public final class Preconditions {
      *
      * @param arr the Varargs argument array to be checked
      * */
-    private static <T> boolean checkArr(T[] arr) {
+    private static <T> boolean checkVarargs(T[] arr) {
         if(arr != null && arr.length > 0)
             return true;
         else
             throw new IllegalArgumentException(Meta_Msg); // warning: empty method calling
-        //return false;
     }
 
     /**
-     * a private method used by methods in this class to fetch a value in a specified array,
-     * a {@code null} value is returned if index out of boundary or the array provided is a {@code null} value,
-     * it could also means that the value in the specified array is {@code null}.
+     * A safe way to extract a value in an array without worrying about {@code IndexOutOfBoundsException} thrown.
+     * A private method used by methods in this class to fetch a value in a specified array.
+     * A {@code null} value is returned if index out of boundary or the array provided is a {@code null} value.
+     * Note that it could also means that the value in the specified array is {@code null}.
      *
      * @param arr the specified array from which a value to be fetched
      * @param index the index of the value to be fetched
@@ -173,7 +168,21 @@ public final class Preconditions {
         return null;
     }
 
-    /* **************************************************************************************************8 */
+
+    /* ************************************************************************************************** */
+
+    /**
+     * Asserts that the specified array is not null & empty.
+     * If it is it throws an {@link IllegalArgumentException} with the given
+     * message.
+     *
+     * @param sig a string representation of the array signature
+     * @param arr the array to be checked
+     * */
+    public static <T> void assertArrayNotEmpty(String sig, T[] arr) {
+        if(arr == null || arr.length == 0)
+            throw new IllegalArgumentException(nullMsg(Msg_Arr_NotEmpty_Template, sig));
+    }
 
     /**
      * (Similar to {@code Objects.requireNonNull(T obj)})
@@ -209,7 +218,7 @@ public final class Preconditions {
      * @throws IllegalArgumentException if null reference detected
      */
     public static void assertNotNull(Object... refs) {
-        if (checkArr(refs)) {
+        if (checkVarargs(refs)) {
             for (int i = 0; i < refs.length; i++) {
                 if (refs[i] == null)
                     throw new IllegalArgumentException(Msg_Arg_NotNull);
@@ -226,7 +235,7 @@ public final class Preconditions {
      * @throws IllegalArgumentException if null reference detected
      */
     public static void assertNotNull(String[] params, Object... refs) {
-        if (checkArr(refs)) {
+        if (checkVarargs(refs)) {
             for (int i = 0; i < refs.length; i++) {
                 if (refs[i] == null) {
                     String param = valueInArray(params, i);
@@ -276,7 +285,7 @@ public final class Preconditions {
      * @throws IllegalArgumentException if invalid argument detected
      */
     public static void assertAllTrue(Object[] vals, String[] prec_strs, Boolean... prec_exprs) {
-        if (checkArr(prec_exprs)) {
+        if (checkVarargs(prec_exprs)) {
             for (int i = 0; i < prec_exprs.length; i++) {
                 if (!prec_exprs[i]) {
                     Object val = valueInArray(vals, i);
@@ -298,7 +307,7 @@ public final class Preconditions {
      * @throws IllegalArgumentException if invalid argument detected
      */
     public static void assertAllTrue(Object[] vals, String[] desc_templs, String[] prec_strs, Boolean... prec_exprs) {
-        if (checkArr(prec_exprs)) {
+        if (checkVarargs(prec_exprs)) {
             for (int i = 0; i < prec_exprs.length; i++) {
                 if (!prec_exprs[i]) {
                     Object val = valueInArray(vals, i);
@@ -375,7 +384,7 @@ public final class Preconditions {
      * @throws IllegalStateException if null reference detected
      */
     public static void assertStateNotNull(Object... refs) {
-        if (checkArr(refs)) {
+        if (checkVarargs(refs)) {
             for (int i = 0; i < refs.length; i++) {
                 if (refs[i] == null)
                     throw new IllegalStateException(Msg_State_NotNull);
@@ -392,7 +401,7 @@ public final class Preconditions {
      * @throws IllegalStateException if null reference detected
      */
     public static void assertStateNotNull(String[] state_names, Object... refs) {
-        if (checkArr(refs)) {
+        if (checkVarargs(refs)) {
             for (int i = 0; i < refs.length; i++) {
                 if (refs[i] == null) {
                     String state_name = valueInArray(state_names, i);
@@ -443,7 +452,7 @@ public final class Preconditions {
      * @throws IllegalStateException if invalid state detected
      */
     public static void assertStateAllTrue(Object[] vals, String[] prec_strs, Boolean... prec_exprs) {
-        if (checkArr(prec_exprs)) {
+        if (checkVarargs(prec_exprs)) {
             for (int i = 0; i < prec_exprs.length; i++) {
                 if (!prec_exprs[i]) {
                     Object val = valueInArray(vals, i);
@@ -465,7 +474,7 @@ public final class Preconditions {
      * @throws IllegalStateException if invalid state detected
      */
     public static void assertStateAllTrue(Object[] vals, String[] desc_templs, String[] prec_strs, Boolean... prec_exprs) {
-        if (checkArr(prec_exprs)) {
+        if (checkVarargs(prec_exprs)) {
             for (int i = 0; i < prec_exprs.length; i++) {
                 if (!prec_exprs[i]) {
                     Object val = valueInArray(vals, i);

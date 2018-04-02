@@ -63,9 +63,9 @@ public class AutoRandomPrecTest {
     /**
      * a private method in {@code Preconditions} used by Varargs methods to
      * check that there is at least one argument passed in.
-     * @see Preconditions#checkArr(Object[])
+     * @see Preconditions#checkVarargs(Object[])
      * */
-    public static <T> boolean checkArr(T[] arr) {
+    public static <T> boolean checkVarargs(T[] arr) {
         if(arr != null && arr.length > 0)
             return true;
         else
@@ -145,10 +145,10 @@ public class AutoRandomPrecTest {
     }
 
     /**
-     * @see PreconditionsTest#testCheckArr()
+     * @see PreconditionsTest#testCheckVarargs()
      * @param times used to indicate how many times random value test will run.
      * */
-    public void testCheckArr(int times){
+    public void testCheckVarargs(int times){
         System.out.println(" - testValueInArray() start: ");
         boolean result = false;
         int index = -1;
@@ -156,7 +156,7 @@ public class AutoRandomPrecTest {
         for(int i = 0; i < times; i++){
             try{
                 arr = arrs[(index = rand.nextInt(5))];
-                result = AutoRandomPrecTest.checkArr(arr);
+                result = AutoRandomPrecTest.checkVarargs(arr);
                 printIndexAndValue(i, index, arrs_desc[index]);
                 if(result && (arr == null || arr.length == 0))
                     fail("fail to throw an IllegalArgumentException");

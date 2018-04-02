@@ -22,8 +22,8 @@ public class PreconditionsTest {
      * Random values used for testing are automatically generated.
      * */
     @org.junit.Test
-    public void testCheckArr(){
-        AutoRandomPrecTest.getInstance().testCheckArr(10);
+    public void testCheckVarargs(){
+        AutoRandomPrecTest.getInstance().testCheckVarargs(10);
     }
 
     /**
@@ -61,12 +61,12 @@ public class PreconditionsTest {
             Preconditions.assertNotNull("Object obj", null);
             fail();
         }catch (IllegalArgumentException e){
-            assertEquals("[Problem]: Required Argument{@param: Object obj} is NULL",
+            assertEquals("[Problem]: Required Argument{@sig: Object obj} is NULL",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         // non-null argument
         try{
-            Preconditions.assertNotNull("Object obj", "");;
+            Preconditions.assertNotNull("Object obj", "");
         }catch (IllegalArgumentException e){
             fail();
         }
@@ -76,7 +76,7 @@ public class PreconditionsTest {
             Preconditions.assertNotNull("", null);
             fail();
         }catch (IllegalArgumentException e){
-            assertEquals("[Problem]: Required Argument{@param: [-]} is NULL",
+            assertEquals("[Problem]: Required Argument{@sig: [-]} is NULL",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         // null argument, param not available (null value)
@@ -84,7 +84,7 @@ public class PreconditionsTest {
             Preconditions.assertNotNull((String) null, null);
             fail();
         }catch (IllegalArgumentException e){
-            assertEquals("[Problem]: Required Argument{@param: [-]} is NULL",
+            assertEquals("[Problem]: Required Argument{@sig: [-]} is NULL",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
 
@@ -151,7 +151,7 @@ public class PreconditionsTest {
                     null, "123", new Object(), false);
             fail();
         }catch (IllegalArgumentException e){
-            assertEquals("[Problem]: Required Argument{@param: String s1} is NULL",
+            assertEquals("[Problem]: Required Argument{@sig: String s1} is NULL",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         // a batch of objects to be checked, the last one is null
@@ -160,7 +160,7 @@ public class PreconditionsTest {
                     "", "123", new Object(), null);
             fail();
         }catch (IllegalArgumentException e){
-            assertEquals("[Problem]: Required Argument{@param: Boolean b} is NULL",
+            assertEquals("[Problem]: Required Argument{@sig: Boolean b} is NULL",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         // a batch of objects to be checked, the 3rd one is null
@@ -169,7 +169,7 @@ public class PreconditionsTest {
                     "", "123", null, true);
             fail();
         }catch (IllegalArgumentException e){
-            assertEquals("[Problem]: Required Argument{@param: Object o} is NULL",
+            assertEquals("[Problem]: Required Argument{@sig: Object o} is NULL",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         // a batch of objects without null value
