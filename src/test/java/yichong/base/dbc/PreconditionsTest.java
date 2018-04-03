@@ -5,30 +5,95 @@ import static org.junit.Assert.*;
 
 public class PreconditionsTest {
     /**
-     * test private method
-     * {@code private static <T> T valueInArray(T[] arr, int index)} in class {@code Preconditions},
-     * its codes has been copied into {@code AutoRandomPrecTest} class as a public method for this test.
+     * Test {@code private static <T> T valueInArray(T[] arr, int index)} in class {@code Preconditions}.
+     * Its codes has been copied into {@code PrecTestAssitant} class as a public method for this test.
      * Random values used for testing are automatically generated.
+     * @see Preconditions#valueInArray(Object[], int)
      * */
     @org.junit.Test
     public void testValueInArray(){
-        AutoRandomPrecTest.getInstance().testValueInArray(10);
+        PrecTestAssitant.getInstance().testValueInArray(10);
     }
 
     /**
-     * test private method
-     * {@code private static <T> boolean checkArr(T[] arr)} in class {@code Preconditions},
-     * its codes has been copied into {@code AutoRandomPrecTest} class as a public method for this test.
+     * Test {@code private static <T> boolean checkVarargs(T[] arr)} in class {@code Preconditions}.
+     * Its codes has been copied into {@code PrecTestAssitant} class as a public method for this test.
      * Random values used for testing are automatically generated.
+     * @see Preconditions#checkVarargs(Object[])
      * */
     @org.junit.Test
     public void testCheckVarargs(){
-        AutoRandomPrecTest.getInstance().testCheckVarargs(10);
+        PrecTestAssitant.getInstance().testCheckVarargs(10);
+
+        // Varargs method test
+        // null value passed into the method
+        try{
+            PrecTestAssitant.checkVarargs((Object[]) null);
+            fail("An IllegalArgumentException is supposed to be thrown");
+        }catch (IllegalArgumentException e){
+            assertEquals("[Warning]: No Arguments or 'null' passed into the `assertXXX` method",
+                    e.getMessage().replaceAll("[\r|\n]", ""));
+        }
+        // no argument passed into the Varargs method
+        try{
+            PrecTestAssitant.checkVarargs(new Object[0]);
+            fail("An IllegalArgumentException is supposed to be thrown");
+        }catch (IllegalArgumentException e){
+            assertEquals("[Warning]: No Arguments or 'null' passed into the `assertXXX` method",
+                    e.getMessage().replaceAll("[\r|\n]", ""));
+        }
+        try{
+            boolean result = PrecTestAssitant.checkVarargs(new Object[1]);
+            assertEquals(result, true);
+        }catch (IllegalArgumentException e){
+            fail("An IllegalArgumentException isn't supposed to be thrown");
+        }
+
     }
 
     /**
-     * test method
-     * {@code public static void assertNotNull(Object ref)}
+     * Test {@code public static <T> void assertArrayNotEmpty(String sig, T[] arr)}
+     * @see Preconditions#assertArrayNotEmpty(String, Object[])
+     * */
+    @org.junit.Test
+    public void testAssertArrayNotEmpty(){
+        // a null value passed into the method as an array
+        try{
+            Preconditions.assertArrayNotEmpty("Array arr", null);
+            fail("An IllegalArgumentException is supposed to be thrown");
+        }catch (IllegalArgumentException e){
+            assertEquals("[Problem]: Array {@sig: Array arr} is Empty(or Null)",
+                    e.getMessage().replaceAll("[\r|\n]", ""));
+        }
+        // an empty array passed into the method
+        try{
+            Preconditions.assertArrayNotEmpty("Array arr", new Object[0]);
+            fail("An IllegalArgumentException is supposed to be thrown");
+        }catch (IllegalArgumentException e){
+            assertEquals("[Problem]: Array {@sig: Array arr} is Empty(or Null)",
+                    e.getMessage().replaceAll("[\r|\n]", ""));
+        }
+        // null. null
+        try{
+            Preconditions.assertArrayNotEmpty(null, null);
+            fail("An IllegalArgumentException is supposed to be thrown");
+        }catch (IllegalArgumentException e){
+            assertEquals("[Problem]: Array {@sig: [-]} is Empty(or Null)",
+                    e.getMessage().replaceAll("[\r|\n]", ""));
+        }
+        // "", new Object[0]
+        try{
+            Preconditions.assertArrayNotEmpty("", new Object[0]);
+            fail("An IllegalArgumentException is supposed to be thrown");
+        }catch (IllegalArgumentException e){
+            assertEquals("[Problem]: Array {@sig: [-]} is Empty(or Null)",
+                    e.getMessage().replaceAll("[\r|\n]", ""));
+        }
+    }
+
+    /**
+     * Test {@code public static void assertNotNull(Object ref)}
+     * @see Preconditions#assertNotNull(Object)
      * */
     @org.junit.Test
     public void testAssertNotNull_1() {
@@ -47,12 +112,12 @@ public class PreconditionsTest {
             fail();
         }
 
-        AutoRandomPrecTest.getInstance().testAssertNotNull_1(10);
+        PrecTestAssitant.getInstance().testAssertNotNull_1(10);
     }
 
     /**
-     * test method
-     * {@code public static void assertNotNull(String param, Object ref)}
+     * Test {@code public static void assertNotNull(String param, Object ref)}
+     * @see Preconditions#assertNotNull(String, Object)
      * */
     @org.junit.Test
     public void testAssertNotNull_2() {
@@ -91,28 +156,11 @@ public class PreconditionsTest {
     }
 
     /**
-     * test method
-     * {@code public static void assertNotNull(Object... refs)}
+     * Test {@code public static void assertNotNull(Object... refs)}
+     * @see Preconditions#assertNotNull(Object...)
      * */
     @org.junit.Test
     public void testAssertNotNull_3() {
-        // Varargs method test
-        // null value passed into the Varargs method
-        try{
-            Preconditions.assertNotNull((Object[]) null);
-            fail();
-        }catch (IllegalArgumentException e){
-            assertEquals("[Warning]: No Arguments or 'null' passed into the `assertXXX` method",
-                    e.getMessage().replaceAll("[\r|\n]", ""));
-        }
-        // no argument passed into the Varargs method
-        try{
-            Preconditions.assertNotNull();
-            fail();
-        }catch (IllegalArgumentException e){
-            assertEquals("[Warning]: No Arguments or 'null' passed into the `assertXXX` method",
-                    e.getMessage().replaceAll("[\r|\n]", ""));
-        }
 
         // a batch of objects with a null value in it
         try{
@@ -140,8 +188,8 @@ public class PreconditionsTest {
     }
 
     /**
-     * test method
-     * {@code public static void assertNotNull(String[] params, Object... refs)}
+     * Test {@code public static void assertNotNull(String[] params, Object... refs)}
+     * @see Preconditions#assertNotNull(String[], Object...)
      * */
     @org.junit.Test
     public void testAssertNotNull_4() {
@@ -179,52 +227,97 @@ public class PreconditionsTest {
         }catch (IllegalArgumentException e){
             fail();
         }
+        // a batch of objects to be checked, the 3rd one is null and its corresponding sig is also null
+        try{
+            Preconditions.assertNotNull(new String[]{"String s1", "String s2", null, "Boolean b"},
+                    "", "123", null, true);
+            fail();
+        }catch (IllegalArgumentException e){
+            assertEquals("[Problem]: Required Argument{@sig: [-]} is NULL",
+                    e.getMessage().replaceAll("[\r|\n]", ""));
+        }
     }
 
     /**
-     * test method
-     * {@code }
+     * Test {@code public static void assertTrue(Object val, String prec_str, boolean prec_expr)}
+     * @see Preconditions#assertTrue(Object, String, boolean)
      * */
     @org.junit.Test
     public void assertTrue_1() {
         try{
-
+            int arg = 0;
+            Preconditions.assertTrue(arg, "arg > 0", arg > 0);
+            fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
-
+            assertEquals("[Problem]: Argument {@val: 0} doesn't meet the {@prec: arg > 0}",
+                    e.getMessage().replaceAll("[\r|\n]", ""));
         }
-
         try{
-
+            int arg = 1;
+            Preconditions.assertTrue(arg, "arg > 0", arg > 0);
         }catch (IllegalArgumentException e){
-
+            fail("An IllegalArgumentException isn't supposed to be thrown");
+        }
+        try{
+            int arg = 0;
+            Preconditions.assertTrue(null, null, arg > 0);
+            fail("An IllegalArgumentException is supposed to be thrown");
+        }catch (IllegalArgumentException e) {
+            assertEquals("[Problem]: Argument {@val: [-]} doesn't meet the {@prec: [-]}",
+                    e.getMessage().replaceAll("[\r|\n]", ""));
         }
     }
 
     /**
-     * test method
-     * {@code }
+     * Test {@code public static void assertTrue(Object val, String desc_templ, String prec_str, boolean prec_expr)}
+     * @see Preconditions#assertTrue(Object, String, String, boolean)
      * */
     @org.junit.Test
     public void assertTrue_2() {
         try{
-
+            Object[] objs = new Object[10];
+            Preconditions.assertTrue(objs.length, "The length of object array argument is %s","objs.length > 10", objs.length > 10);
+            fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
-
+            assertEquals("[Problem]: Argument {@actual: The length of object array argument is 10} doesn't meet the {@prec: objs.length > 10}",
+                    e.getMessage().replaceAll("[\r|\n]", ""));
         }
-
         try{
-
+            Object[] objs = new Object[11];
+            Preconditions.assertTrue(objs.length, "The length of object array argument is %s","objs.length > 10", objs.length > 10);
         }catch (IllegalArgumentException e){
-
+            fail("An IllegalArgumentException isn't supposed to be thrown");
         }
-
+        try{
+            Object[] objs = new Object[10];
+            Preconditions.assertTrue(null, "The length of object array argument is %s",null, objs.length > 10);
+            fail("An IllegalArgumentException is supposed to be thrown");
+        }catch (IllegalArgumentException e) {
+            assertEquals("[Problem]: Argument {@actual: The length of object array argument is [-]} doesn't meet the {@prec: [-]}",
+                    e.getMessage().replaceAll("[\r|\n]", ""));
+        }
+        try{
+            Object[] objs = new Object[10];
+            Preconditions.assertTrue(null, null,null, objs.length > 10);
+            fail("An IllegalArgumentException is supposed to be thrown");
+        }catch (IllegalArgumentException e) {
+            assertEquals("[Problem]: Argument {@actual: [-]} doesn't meet the {@prec: [-]}",
+                    e.getMessage().replaceAll("[\r|\n]", ""));
+        }
+        try{
+            Object[] objs = new Object[10];
+            Preconditions.assertTrue(10, null,null, objs.length > 10);
+            fail("An IllegalArgumentException is supposed to be thrown");
+        }catch (IllegalArgumentException e) {
+            assertEquals("[Problem]: Argument {@actual: 10} doesn't meet the {@prec: [-]}",
+                    e.getMessage().replaceAll("[\r|\n]", ""));
+        }
     }
 
     /**
      * test method
      * {@code }
      * */
-
     @org.junit.Test
     public void assertAllTrue() {
         try{
