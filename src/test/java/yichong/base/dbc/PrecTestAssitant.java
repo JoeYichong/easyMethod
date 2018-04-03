@@ -4,7 +4,7 @@ import java.util.Random;
 
 import static org.junit.Assert.*;
 
-public class AutoRandomPrecTest {
+public class PrecTestAssitant {
     public static final String Meta_Msg =
         "\r\n[Warning]: No Arguments or 'null' passed into the `assertXXX` method";
     public static final String Msg_Template =
@@ -83,22 +83,22 @@ public class AutoRandomPrecTest {
         return null;
     }
 
-    private static AutoRandomPrecTest instance = null;
+    private static PrecTestAssitant instance = null;
     private Random rand = null;
     /**
      * a private constructor to prevent instantiation using 'new' keyword
      * */
-    private AutoRandomPrecTest(){
+    private PrecTestAssitant(){
         rand = new Random();
     }
 
     /**
-     * get an instance of {@code AutoRandomPrecTest} class
+     * get an instance of {@code PrecTestAssitant} class
      * using singleton pattern & lazy instantiation strategy
      * */
-    public static AutoRandomPrecTest getInstance(){
+    public static PrecTestAssitant getInstance(){
         if (instance == null){
-            instance = new AutoRandomPrecTest();
+            instance = new PrecTestAssitant();
         }
         return instance;
     }
@@ -133,7 +133,7 @@ public class AutoRandomPrecTest {
         Object val = null;
         for(int i = 0; i < times; i++){
             try{
-                val = AutoRandomPrecTest.valueInArray(vals, (index = rand.nextInt(18)));
+                val = PrecTestAssitant.valueInArray(vals, (index = rand.nextInt(18)));
                 printIndexAndValue(i, index, val);
                 if(index > 8 && val != null)
                     fail("Value should be null if index out of boundary");
@@ -156,7 +156,7 @@ public class AutoRandomPrecTest {
         for(int i = 0; i < times; i++){
             try{
                 arr = arrs[(index = rand.nextInt(5))];
-                result = AutoRandomPrecTest.checkVarargs(arr);
+                result = PrecTestAssitant.checkVarargs(arr);
                 printIndexAndValue(i, index, arrs_desc[index]);
                 if(result && (arr == null || arr.length == 0))
                     fail("fail to throw an IllegalArgumentException");
@@ -181,10 +181,10 @@ public class AutoRandomPrecTest {
     public void testAssertNotNull_1(int times){
         Object obj = null;
         int index = 0;
-        System.out.println(" - AutoRandomPrecTest testAssertNotNull_1 start: ");
+        System.out.println(" - PrecTestAssitant testAssertNotNull_1 start: ");
         for(int i = 0; i < times; i++){
             //obj = ((index = rand.nextInt(18)) < 9) ? vals[index] : null;
-            obj = AutoRandomPrecTest.valueInArray(vals, index = rand.nextInt(18));
+            obj = PrecTestAssitant.valueInArray(vals, index = rand.nextInt(18));
             System.out.println((i + 1) + ". Index = " + index + " , value = " + String.valueOf(obj));
             try{
                 Preconditions.assertNotNull(obj);
@@ -199,7 +199,7 @@ public class AutoRandomPrecTest {
                 else fail("obj != null, IllegalArgumentException is not supposed to be thrown");
             }
         }
-        System.out.println(" - AutoRandomPrecTest testAssertNotNull_1 end.");
+        System.out.println(" - PrecTestAssitant testAssertNotNull_1 end.");
     }
 
 

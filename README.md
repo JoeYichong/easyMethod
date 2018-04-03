@@ -1,6 +1,6 @@
-# easyMethod
+# easyMethod#Preconditions
 
-  Inspired by the concept of 'Design by Contract(DBC)', the methods in Preconditions class are designed primarily for checking preconditions of the calling methods or constructors before
+  Inspired by the concept of 'Design by Contract(DBC)', the methods in <code>Preconditions</code> class are designed primarily for checking preconditions of the calling methods or constructors before
 executing the actual operations in them, e.g. as demonstrated below:
 <pre>
 public void foo(Bar bar, int size){
@@ -9,6 +9,5 @@ public void foo(Bar bar, int size){
 
      // actual operations of this method
      ...
- }
+}
 </pre>
-<p>
