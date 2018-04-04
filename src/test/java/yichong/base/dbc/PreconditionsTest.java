@@ -52,14 +52,14 @@ public class PreconditionsTest {
     }
 
     /**
-     * Test {@code public static <T> void assertArrayNotEmpty(String sig, T[] arr)}
-     * @see Preconditions#assertArrayNotEmpty(String, Object[])
+     * Test {@code public static <T> void assertNotNullAndNotEmpty(String sig, T[] arr)}
+     * @see Preconditions#assertNotNullAndNotEmpty(String, Object[])
      * */
     @org.junit.Test
-    public void testAssertArrayNotEmpty(){
+    public void testAssertNotNullAndNotEmpty_1(){
         // a null value passed into the method as an array
         try{
-            Preconditions.assertArrayNotEmpty("Array arr", null);
+            Preconditions.assertNotNullAndNotEmpty("Array arr", (Object[]) null);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
             assertEquals("[Problem]: Array {@sig: Array arr} is Empty(or Null)",
@@ -67,7 +67,7 @@ public class PreconditionsTest {
         }
         // an empty array passed into the method
         try{
-            Preconditions.assertArrayNotEmpty("Array arr", new Object[0]);
+            Preconditions.assertNotNullAndNotEmpty("Array arr", new Object[0]);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
             assertEquals("[Problem]: Array {@sig: Array arr} is Empty(or Null)",
@@ -75,7 +75,7 @@ public class PreconditionsTest {
         }
         // null. null
         try{
-            Preconditions.assertArrayNotEmpty(null, null);
+            Preconditions.assertNotNullAndNotEmpty(null, (Object[]) null);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
             assertEquals("[Problem]: Array {@sig: [-]} is Empty(or Null)",
@@ -83,10 +83,50 @@ public class PreconditionsTest {
         }
         // "", new Object[0]
         try{
-            Preconditions.assertArrayNotEmpty("", new Object[0]);
+            Preconditions.assertNotNullAndNotEmpty("", new Object[0]);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
             assertEquals("[Problem]: Array {@sig: [-]} is Empty(or Null)",
+                    e.getMessage().replaceAll("[\r|\n]", ""));
+        }
+    }
+
+    /**
+     * Test {@code public static void assertNotNullAndNotEmpty(String sig, String str)}
+     * @see Preconditions#assertNotNullAndNotEmpty(String, String)
+     * */
+    @org.junit.Test
+    public void testAssertNotNullAndNotEmpty_2(){
+        // a null value passed into the method as an string
+        try{
+            Preconditions.assertNotNullAndNotEmpty("String str", (String) null);
+            fail("An IllegalArgumentException is supposed to be thrown");
+        }catch (IllegalArgumentException e){
+            assertEquals("[Problem]: String {@sig: String str} is Empty(or Null)",
+                    e.getMessage().replaceAll("[\r|\n]", ""));
+        }
+        // an empty string passed into the method
+        try{
+            Preconditions.assertNotNullAndNotEmpty("String str", "");
+            fail("An IllegalArgumentException is supposed to be thrown");
+        }catch (IllegalArgumentException e){
+            assertEquals("[Problem]: String {@sig: String str} is Empty(or Null)",
+                    e.getMessage().replaceAll("[\r|\n]", ""));
+        }
+        // null. null
+        try{
+            Preconditions.assertNotNullAndNotEmpty(null, (String) null);
+            fail("An IllegalArgumentException is supposed to be thrown");
+        }catch (IllegalArgumentException e){
+            assertEquals("[Problem]: String {@sig: [-]} is Empty(or Null)",
+                    e.getMessage().replaceAll("[\r|\n]", ""));
+        }
+        // "", ""
+        try{
+            Preconditions.assertNotNullAndNotEmpty("", "");
+            fail("An IllegalArgumentException is supposed to be thrown");
+        }catch (IllegalArgumentException e){
+            assertEquals("[Problem]: String {@sig: [-]} is Empty(or Null)",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
     }
@@ -286,7 +326,7 @@ public class PreconditionsTest {
             Object[] objs = new Object[11];
             Preconditions.assertTrue(objs.length, "The length of object array argument is %s","objs.length > 10", objs.length > 10);
         }catch (IllegalArgumentException e){
-            fail("An IllegalArgumentException isn't supposed to be thrown");
+            fail("IllegalArgumentException isn't supposed to be thrown");
         }
         try{
             Object[] objs = new Object[10];
@@ -315,26 +355,67 @@ public class PreconditionsTest {
     }
 
     /**
-     * test method
-     * {@code }
+     * Test {@code public static void assertAllTrue(Object[] vals, String[] prec_strs, Boolean... prec_exprs)}
+     * @see Preconditions#assertAllTrue(Object[], String[], Boolean...)
      * */
     @org.junit.Test
-    public void assertAllTrue() {
+    public void assertAllTrue_1() {
         try{
-
+            int arg1 = 10;
+            String arg2 = "a String";
+            Object arg3 = new Object();
+            Object[] vals = new Object[]{arg1, arg2, arg3};
+            String[] precs = new String[]{"arg1 > 0", "arg2 != \"\"", "arg3 != null"};
+            Preconditions.assertAllTrue(vals, precs, arg1 > 0, arg2 != "", arg3 != null);
         }catch (IllegalArgumentException e){
-
+            fail("IllegalArgumentException isn't supposed to be thrown");
+        }
+        try{
+            int arg1 = 0;
+            String arg2 = "";
+            Object arg3 = null;
+            Object[] vals = new Object[]{arg1, arg2, arg3};
+            String[] precs = new String[]{"arg1 > 0", "arg2 != \"\"", "arg3 != null"};
+            Preconditions.assertAllTrue(vals, precs, arg1 > 0, arg2 != "", arg3 != null);
+            fail("An IllegalArgumentException is supposed to be thrown");
+        }catch (IllegalArgumentException e){
+            assertEquals("[Problem]: Argument {@val: 0} doesn't meet the {@prec: arg1 > 0}",
+                    e.getMessage().replaceAll("[\r|\n]", ""));
+        }
+        try{
+            int arg1 = 10;
+            String arg2 = "";
+            Character arg3 = 'a';
+            Object[] vals = new Object[]{arg1, arg2, arg3};
+            String[] precs = new String[]{"arg1 > 0", "arg2 != \"\"", "arg3 != 'a'"};
+            Preconditions.assertAllTrue(vals, precs, arg1 > 0, arg2 != "", arg3 != 'a');
+            fail("An IllegalArgumentException is supposed to be thrown");
+        }catch (IllegalArgumentException e){
+            assertEquals("[Problem]: Argument {@val: \"\"} doesn't meet the {@prec: arg2 != \"\"}",
+                    e.getMessage().replaceAll("[\r|\n]", ""));
+        }
+        try{
+            int arg1 = 10;
+            String arg2 = "a string";
+            Character arg3 = 'a';
+            Object[] vals = new Object[]{arg1, arg2, arg3};
+            String[] precs = new String[]{"arg1 > 0", "arg2 != \"\"", "arg3 != 'a'"};
+            Preconditions.assertAllTrue(vals, precs, arg1 > 0, arg2 != "", arg3 != 'a');
+            fail("An IllegalArgumentException is supposed to be thrown");
+        }catch (IllegalArgumentException e){
+            assertEquals("[Problem]: Argument {@val: 'a'} doesn't meet the {@prec: arg3 != 'a'}",
+                    e.getMessage().replaceAll("[\r|\n]", ""));
         }
 
     }
 
     /**
-     * test method
-     * {@code }
+     * Test
+     * {@code public static void assertAllTrue(Object[] vals, String[] desc_templs, String[] prec_strs, Boolean... prec_exprs)}
+     * @see Preconditions#assertAllTrue(Object[], String[], String[], Boolean...)
      * */
-
     @org.junit.Test
-    public void assertAllTrue1() {
+    public void assertAllTrue_2() {
         try{
 
         }catch (IllegalArgumentException e){

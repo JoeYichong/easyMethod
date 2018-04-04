@@ -61,6 +61,8 @@ public final class Preconditions {
             "\r\n[Warning]: No Arguments or 'null' passed into the `assertXXX` method";
     private static final String Msg_Arr_NotEmpty_Template =
             "\r\n[Problem]: Array {@sig: %s} is Empty(or Null)";
+    private static final String Msg_Str_NotEmpty_Template =
+            "\r\n[Problem]: String {@sig: %s} is Empty(or Null)";
     private static final String Msg_Arg_NotNull_Template =
             "\r\n[Problem]: Required Argument{@sig: %s} is NULL";
     private static final String Msg_State_NotNull_Template =
@@ -78,6 +80,21 @@ public final class Preconditions {
     private static final String Msg_State_NotNull =
             "\r\n[Problem]: Required State is NULL";
 
+    /**
+     * If the object is a string instance or a character instance, wrap it in "" or ''.
+     * Otherwise convert it to a string using {@code String.valueOf()}
+     * @param o an object to be wrapped as a string
+     * */
+    private static String wrapString(Object o){
+        String result;
+        if (o instanceof String)
+            result = "\"" + o + "\"";
+        else if (o instanceof Character)
+            result = "\'" + o + "\'";
+        else
+            result = String.valueOf(o);
+        return result;
+    }
 
     /**
      * a private method used by 'assertTrue' methods to generate exception messages,
@@ -89,7 +106,7 @@ public final class Preconditions {
      *             string '[-]' is used to indicate this argument isn't available
      * */
     private static String errorMsg(String msg_templ, Object value, String cond) {
-        String val = (value == null) ? "[-]" : String.valueOf(value);
+        String val = (value == null) ? "[-]" : wrapString(value);
         String prec = (cond == null || "".equals(cond)) ? "[-]" : cond;
 
         return String.format(msg_templ, val, prec);
@@ -107,7 +124,7 @@ public final class Preconditions {
      *             string '[-]' is used to indicate this argument isn't available
      * */
     private static String errorMsg(String msg_templ, String desc_templ, Object value, String cond) {
-        String val = (value == null) ? "[-]" : String.valueOf(value);
+        String val = (value == null) ? "[-]" : wrapString(value);
         String desc = (desc_templ == null || "".equals(desc_templ)) ? val : String.format(desc_templ, val);
         String prec = (cond == null || "".equals(cond)) ? "[-]" : cond;
 
@@ -168,9 +185,22 @@ public final class Preconditions {
      * @param sig a string representation of the array signature
      * @param arr the array to be checked
      * */
-    public static <T> void assertArrayNotEmpty(String sig, T[] arr) {
+    public static <T> void assertNotNullAndNotEmpty(String sig, T[] arr) {
         if(arr == null || arr.length == 0)
             throw new IllegalArgumentException(nullMsg(Msg_Arr_NotEmpty_Template, sig));
+    }
+
+    /**
+     * Asserts that the specified string is not null & empty.
+     * If it is it throws an {@link IllegalArgumentException} with the given
+     * message.
+     *
+     * @param sig a string representation of the string argument signature
+     * @param str the string to be checked
+     * */
+    public static void assertNotNullAndNotEmpty(String sig, String str) {
+        if(str == null || str.length() == 0)
+            throw new IllegalArgumentException(nullMsg(Msg_Str_NotEmpty_Template, sig));
     }
 
     /**
