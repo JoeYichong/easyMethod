@@ -1,6 +1,8 @@
 package yichong.base.dbc;
 
 
+import java.lang.reflect.Array;
+
 import static org.junit.Assert.*;
 
 public class PreconditionsTest {
@@ -417,9 +419,54 @@ public class PreconditionsTest {
     @org.junit.Test
     public void assertAllTrue_2() {
         try{
-
+            String arg1 = "Hello";
+            int[] arg2 = new int[]{1, 2, 3, 4};
+            Object[] arg3 = new Object[]{};
+            Object[] vals = new Object[]{arg1, arg2, arg3};
+            String[] desc_templs = new String[]{"String arg1's length is %s", "arg2[0] is %s", "arg3's length is %s"};
+            String[] prec_strs = new String[]{"arg1.length() >= 5", "arg2[0] == 1", "arg3.length == 0"};
+            Preconditions.assertAllTrue(vals, desc_templs, prec_strs, arg1.length() >= 5, arg2[0] == 1, arg3.length == 0);
         }catch (IllegalArgumentException e){
-
+            fail("IllegalArgumentException isn't supposed to be thrown");
+        }
+        try{
+            String arg1 = "Hello";
+            int[] arg2 = new int[]{1, 2, 3, 4};
+            Object[] arg3 = new Object[]{};
+            Object[] vals = new Object[]{arg1.length(), arg2[0], arg3.length};
+            String[] desc_templs = new String[]{"String arg1's length is %s", "arg2[0] is %s", "arg3's length is %s"};
+            String[] prec_strs = new String[]{"arg1.length() > 5", "arg2[0] == 0", "arg3.length > 0"};
+            Preconditions.assertAllTrue(vals, desc_templs, prec_strs, arg1.length() > 5, arg2[0] == 0, arg3.length > 0);
+            fail("An IllegalArgumentException is supposed to be thrown");
+        }catch (IllegalArgumentException e){
+            assertEquals("[Problem]: Argument {@actual: String arg1's length is 5} doesn't meet the {@prec: arg1.length() > 5}",
+                    e.getMessage().replaceAll("[\r|\n]", ""));
+        }
+        try{
+            String arg1 = "Hello";
+            int[] arg2 = new int[]{1, 2, 3, 4};
+            Object[] arg3 = new Object[]{};
+            Object[] vals = new Object[]{arg1.length(), arg2[0], arg3.length};
+            String[] desc_templs = new String[]{"String arg1's length is %s", "arg2[0] is %s", "arg3's length is %s"};
+            String[] prec_strs = new String[]{"arg1.length() >= 5", "arg2[0] == 0", "arg3.length > 0"};
+            Preconditions.assertAllTrue(vals, desc_templs, prec_strs, arg1.length() >= 5, arg2[0] == 0, arg3.length > 0);
+            fail("An IllegalArgumentException is supposed to be thrown");
+        }catch (IllegalArgumentException e){
+            assertEquals("[Problem]: Argument {@actual: arg2[0] is 1} doesn't meet the {@prec: arg2[0] == 0}",
+                    e.getMessage().replaceAll("[\r|\n]", ""));
+        }
+        try{
+            String arg1 = "Hello";
+            int[] arg2 = new int[]{1, 2, 3, 4};
+            Object[] arg3 = new Object[]{};
+            Object[] vals = new Object[]{arg1.length(), arg2[0], arg3.length};
+            String[] desc_templs = new String[]{"String arg1's length is %s", "arg2[0] is %s", "arg3's length is %s"};
+            String[] prec_strs = new String[]{"arg1.length() >= 5", "arg2[0] == 1", "arg3.length > 0"};
+            Preconditions.assertAllTrue(vals, desc_templs, prec_strs, arg1.length() >= 5, arg2[0] == 1, arg3.length > 0);
+            fail("An IllegalArgumentException is supposed to be thrown");
+        }catch (IllegalArgumentException e){
+            assertEquals("[Problem]: Argument {@actual: arg3's length is 0} doesn't meet the {@prec: arg3.length > 0}",
+                    e.getMessage().replaceAll("[\r|\n]", ""));
         }
 
     }
