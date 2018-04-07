@@ -28,7 +28,7 @@ public class PrecTestAssitant {
     public static final String Msg_State_NotNull =
             "\r\n[Problem]: Required State is NULL";
     /**
-     * a private method in {@code Preconditions} used by 'assertTrue' methods to generate exception messages.
+     * a private method in {@code Preconditions} used by 'argument' methods to generate exception messages.
      * @see Preconditions#errorMsg(String, Object, String)
      * */
     public static String errorMsg(String template, Object value, String cond) {
@@ -39,7 +39,7 @@ public class PrecTestAssitant {
         return String.format(templ, val, prec);
     }
     /**
-     * a private method in {@code Preconditions} used by 'assertTrue' methods to generate exception messages.
+     * a private method in {@code Preconditions} used by 'argument' methods to generate exception messages.
      * @see Preconditions#errorMsg(String, String, Object, String)
      * */
     public static String errorMsg(String msg_templ, String desc_templ, Object value, String cond) {
@@ -51,7 +51,7 @@ public class PrecTestAssitant {
         return String.format(templ, desc, prec);
     }
     /**
-     * a private method in {@code Preconditions} used by 'assertNotNull' methods to generate exception messages.
+     * a private method in {@code Preconditions} used by 'argNotNull' methods to generate exception messages.
      * @see Preconditions#nullMsg(String, String)
      * */
     public static String nullMsg(String template, String param) {
@@ -187,7 +187,7 @@ public class PrecTestAssitant {
             obj = PrecTestAssitant.valueInArray(vals, index = rand.nextInt(18));
             System.out.println((i + 1) + ". Index = " + index + " , value = " + String.valueOf(obj));
             try{
-                Preconditions.assertNotNull(obj);
+                Preconditions.argNotNull(obj);
                 if (obj == null)
                     fail("obj == null, fail to throw an IllegalArgumentException");
             }catch (IllegalArgumentException e){

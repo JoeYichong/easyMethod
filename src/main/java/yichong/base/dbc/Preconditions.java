@@ -23,8 +23,8 @@ package yichong.base.dbc;
  * {@code
  * <pre>
  * public void foo(Bar bar, int size){
- * 	   Preconditions.assertNotNull("Bar bar", bar);
- *     Preconditions.assertTrue(size, "size > 0", size > 0);
+ * 	   Preconditions.argNotNull("Bar bar", bar);
+ *     Preconditions.argument(size, "size > 0", size > 0);
  *
  *     // actual operations of this method
  *     ...
@@ -72,9 +72,9 @@ public final class Preconditions {
     private static final String Msg_Arg_Template_d =
             "\r\n[Problem]: Argument {@actual: %s} doesn't meet the {@prec: %s}";
     private static final String Msg_State_Template_v =
-            "\r\n[Problem]: State {@val: %s} doesn't meet the {@prec: %s}'";
+            "\r\n[Problem]: State {@val: %s} doesn't meet the {@prec: %s}";
     private static final String Msg_State_Template_d =
-            "\r\n[Problem]: State {@actual: %s} doesn't meet the {@prec: %s}'";
+            "\r\n[Problem]: State {@actual: %s} doesn't meet the {@prec: %s}";
     private static final String Msg_Arg_NotNull =
             "\r\n[Problem]: Required Argument is NULL";
     private static final String Msg_State_NotNull =
@@ -97,7 +97,7 @@ public final class Preconditions {
     }
 
     /**
-     * a private method used by 'assertTrue' methods to generate exception messages,
+     * a private method used by 'argument' methods to generate exception messages,
      * {@code null} value and empty string("") are tolerated which indicated by using string '[-]' instead.
      *
      * @param msg_templ a template of exception message into which {@code value} and {@code cond} are inserted
@@ -113,7 +113,7 @@ public final class Preconditions {
     }
 
     /**
-     * a private method used by 'assertTrue' methods to generate exception messages,
+     * a private method used by 'argument' methods to generate exception messages,
      * {@code null} value and empty string("") are tolerated which indicated by using string '[-]' instead or
      * other default values.
      *
@@ -132,7 +132,7 @@ public final class Preconditions {
     }
 
     /**
-     * a private method used by 'assertNotNull' methods to generate exception messages,
+     * a private method used by 'argNotNull' methods to generate exception messages,
      * {@code null} value and empty string("") are tolerated which indicated by using string '[-]' instead or
      * other default values.
      *
@@ -185,7 +185,7 @@ public final class Preconditions {
      * @param sig a string representation of the array signature
      * @param arr the array to be checked
      * */
-    public static <T> void assertNotNullAndNotEmpty(String sig, T[] arr) {
+    public static <T> void notNullAndNotEmpty(String sig, T[] arr) {
         if(arr == null || arr.length == 0)
             throw new IllegalArgumentException(nullMsg(Msg_Arr_NotEmpty_Template, sig));
     }
@@ -198,7 +198,7 @@ public final class Preconditions {
      * @param sig a string representation of the string argument signature
      * @param str the string to be checked
      * */
-    public static void assertNotNullAndNotEmpty(String sig, String str) {
+    public static void notNullAndNotEmpty(String sig, String str) {
         if(str == null || str.length() == 0)
             throw new IllegalArgumentException(nullMsg(Msg_Str_NotEmpty_Template, sig));
     }
@@ -211,7 +211,7 @@ public final class Preconditions {
      * @param ref the object reference(as argument) passed to the calling method
      * @throws IllegalArgumentException if the reference is null
      */
-    public static void assertNotNull(Object ref) {
+    public static void argNotNull(Object ref) {
         if (ref == null)
             throw new IllegalArgumentException(Msg_Arg_NotNull);
     }
@@ -224,7 +224,7 @@ public final class Preconditions {
      * @param ref the object reference(as argument) passed to the calling method
      * @throws IllegalArgumentException if the reference is null
      * */
-    public static void assertNotNull(String param, Object ref) {
+    public static void argNotNull(String param, Object ref) {
         if (ref == null)
             throw new IllegalArgumentException(nullMsg(Msg_Arg_NotNull_Template, param));
     }
@@ -236,7 +236,7 @@ public final class Preconditions {
      * @param refs the object references(as arguments) passed to the calling method
      * @throws IllegalArgumentException if null reference detected
      */
-    public static void assertNotNull(Object... refs) {
+    public static void argsNotNull(Object... refs) {
         if (checkVarargs(refs)) {
             for (int i = 0; i < refs.length; i++) {
                 if (refs[i] == null)
@@ -253,7 +253,7 @@ public final class Preconditions {
      * @param refs the object references(as arguments) passed to the calling method
      * @throws IllegalArgumentException if null reference detected
      */
-    public static void assertNotNull(String[] params, Object... refs) {
+    public static void argsNotNull(String[] params, Object... refs) {
         if (checkVarargs(refs)) {
             for (int i = 0; i < refs.length; i++) {
                 if (refs[i] == null) {
@@ -274,7 +274,7 @@ public final class Preconditions {
      * @param prec_expr a boolean expression that represents the parameter restrictions
      * @throws IllegalArgumentException if the argument is not valid
      */
-    public static void assertTrue(Object val, String prec_str, boolean prec_expr) {
+    public static void argument(Object val, String prec_str, boolean prec_expr) {
         if (!prec_expr)
             throw new IllegalArgumentException(errorMsg(Msg_Arg_Template_v, val, prec_str));
     }
@@ -289,7 +289,7 @@ public final class Preconditions {
      * @param prec_expr a boolean expression that represents the parameter restrictions
      * @throws IllegalArgumentException if the argument is not valid
      */
-    public static void assertTrue(Object val, String desc_templ, String prec_str, boolean prec_expr) {
+    public static void argument(Object val, String desc_templ, String prec_str, boolean prec_expr) {
         if (!prec_expr)
             throw new IllegalArgumentException(errorMsg(Msg_Arg_Template_d, desc_templ, val, prec_str));
     }
@@ -303,7 +303,7 @@ public final class Preconditions {
      * @param prec_exprs boolean expressions that represent the parameter restrictions
      * @throws IllegalArgumentException if invalid argument detected
      */
-    public static void assertAllTrue(Object[] vals, String[] prec_strs, Boolean... prec_exprs) {
+    public static void argumentsAll(Object[] vals, String[] prec_strs, Boolean... prec_exprs) {
         if (checkVarargs(prec_exprs)) {
             for (int i = 0; i < prec_exprs.length; i++) {
                 if (!prec_exprs[i]) {
@@ -325,7 +325,7 @@ public final class Preconditions {
      * @param prec_exprs boolean expressions that represent the parameter restrictions
      * @throws IllegalArgumentException if invalid argument detected
      */
-    public static void assertAllTrue(Object[] vals, String[] desc_templs, String[] prec_strs, Boolean... prec_exprs) {
+    public static void argumentsAll(Object[] vals, String[] desc_templs, String[] prec_strs, Boolean... prec_exprs) {
         if (checkVarargs(prec_exprs)) {
             for (int i = 0; i < prec_exprs.length; i++) {
                 if (!prec_exprs[i]) {
@@ -339,7 +339,7 @@ public final class Preconditions {
     }
 
     // Arguments: assert at least one condition is true
-    public static void assertAnyTrue(boolean... args) {
+    public static void argumentsAny(boolean... args) {
         if (args != null && args.length > 0) {
             for (int i = 0; i < args.length; i++) {
                 if (args[i])
@@ -350,7 +350,7 @@ public final class Preconditions {
     }
 
     // Arguments: assert at least one condition is true + a Exception message
-    public static void assertAnyTrue(String msg, boolean... args) {
+    public static void argumentsAny(String msg, boolean... args) {
         if (args != null && args.length > 0) {
             for (int i = 0; i < args.length; i++) {
                 if (args[i])
@@ -377,7 +377,7 @@ public final class Preconditions {
      * @param ref the reference of a state object
      * @throws IllegalStateException if the reference is null
      */
-    public static void assertStateNotNull(Object ref) {
+    public static void stateNotNull(Object ref) {
         if (ref == null)
             throw new IllegalStateException(Msg_State_NotNull);
     }
@@ -386,11 +386,11 @@ public final class Preconditions {
      * Asserts that the specified object reference is not null. If it is it throws an
      * {@link IllegalStateException} with the given message.
      *
-     * @param ref the reference of a state object
      * @param state_name a string that represents the state object's name
+     * @param ref the reference of a state object
      * @throws IllegalStateException if the reference is null
      * */
-    public static void assertStateNotNull(Object ref, String state_name) {
+    public static void stateNotNull(String state_name, Object ref) {
         if (ref == null)
             throw new IllegalStateException(nullMsg(Msg_State_NotNull_Template, state_name));
     }
@@ -402,7 +402,7 @@ public final class Preconditions {
      * @param refs the references of state objects
      * @throws IllegalStateException if null reference detected
      */
-    public static void assertStateNotNull(Object... refs) {
+    public static void statesNotNull(Object... refs) {
         if (checkVarargs(refs)) {
             for (int i = 0; i < refs.length; i++) {
                 if (refs[i] == null)
@@ -419,7 +419,7 @@ public final class Preconditions {
      * @param refs the object references passed to the calling method
      * @throws IllegalStateException if null reference detected
      */
-    public static void assertStateNotNull(String[] state_names, Object... refs) {
+    public static void statesNotNull(String[] state_names, Object... refs) {
         if (checkVarargs(refs)) {
             for (int i = 0; i < refs.length; i++) {
                 if (refs[i] == null) {
@@ -430,7 +430,6 @@ public final class Preconditions {
         }
     }
 
-
     /**
      * Asserts that the state object meets the preconditions.
      * If it doesn't, it throws an {@link IllegalStateException} with the given message.
@@ -440,7 +439,7 @@ public final class Preconditions {
      * @param prec_expr a boolean expression that represents the preconditions
      * @throws IllegalStateException if the state is not valid
      */
-    public static void assertStateTrue(Object val, String prec_str, boolean prec_expr) {
+    public static void state(Object val, String prec_str, boolean prec_expr) {
         if (!prec_expr)
             throw new IllegalStateException(errorMsg(Msg_State_Template_v, val, prec_str));
     }
@@ -455,7 +454,7 @@ public final class Preconditions {
      * @param prec_expr a boolean expression that represents the preconditions
      * @throws IllegalStateException if the state is not valid
      */
-    public static void assertStateTrue(Object val, String desc_templ, String prec_str, boolean prec_expr) {
+    public static void state(Object val, String desc_templ, String prec_str, boolean prec_expr) {
         if (!prec_expr)
             throw new IllegalStateException(errorMsg(Msg_State_Template_d, desc_templ, val, prec_str));
     }
@@ -470,7 +469,7 @@ public final class Preconditions {
      * @param prec_exprs boolean expressions that represent the preconditions
      * @throws IllegalStateException if invalid state detected
      */
-    public static void assertStateAllTrue(Object[] vals, String[] prec_strs, Boolean... prec_exprs) {
+    public static void statesAll(Object[] vals, String[] prec_strs, Boolean... prec_exprs) {
         if (checkVarargs(prec_exprs)) {
             for (int i = 0; i < prec_exprs.length; i++) {
                 if (!prec_exprs[i]) {
@@ -492,7 +491,7 @@ public final class Preconditions {
      * @param prec_exprs boolean expressions that represent the preconditions
      * @throws IllegalStateException if invalid state detected
      */
-    public static void assertStateAllTrue(Object[] vals, String[] desc_templs, String[] prec_strs, Boolean... prec_exprs) {
+    public static void statesAll(Object[] vals, String[] desc_templs, String[] prec_strs, Boolean... prec_exprs) {
         if (checkVarargs(prec_exprs)) {
             for (int i = 0; i < prec_exprs.length; i++) {
                 if (!prec_exprs[i]) {
@@ -506,7 +505,7 @@ public final class Preconditions {
     }
 
     // State: assert at least one condition is true
-    public static void assertStateAnyTrue(boolean... prec_strs) {
+    public static void statesAny(boolean... prec_strs) {
         if (prec_strs != null && prec_strs.length > 0) {
             for (int i = 0; i < prec_strs.length; i++) {
                 if (prec_strs[i])
@@ -517,7 +516,7 @@ public final class Preconditions {
     }
 
     // State: assert at least one condition is true + a Exception message
-    public static void assertStateAnyTrue(String msg, boolean... args) {
+    public static void statesAny(String msg, boolean... args) {
         if (args != null && args.length > 0) {
             for (int i = 0; i < args.length; i++) {
                 if (args[i])
