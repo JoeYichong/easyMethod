@@ -16,12 +16,11 @@
 package yichong.base.dbc;
 
 /**
- * <h1>class Preconditions</h1>
  * Inspired by the concept of 'Design by Contract(DBC)',
  * these methods are designed primarily for checking preconditions of the calling methods or constructors before
  * executing the actual operations in them, e.g. as demonstrated below:
- * {@code
  * <pre>
+ * {@code
  * public void foo(Bar bar, int size){
  * 	   Preconditions.argNotNull("Bar bar", bar);
  *     Preconditions.argument(size, "size > 0", size > 0);
@@ -29,28 +28,28 @@ package yichong.base.dbc;
  *     // actual operations of this method
  *     ...
  * }
- * </pre>
  * }
+ * </pre>
  * <p>
  * Throw an {@code IllegalArgumentException} to indicate that
  * the calling method has been passed an illegal or inappropriate argument,
  * throw an {@code IllegalStateException} to signal that the calling method has been
  * invoked at an illegal or inappropriate time/state for the requested operation.
- * The reason why {@code NullPointerException} isn't used here is that ....
+ * The reason why {@code NullPointerException} isn't used here, see {@link java.lang.NullPointerException}
  * </p>
  * <p>
  * The common traits of these assert methods' parameter signatures are like this:
  * {@code (actual/reality, expected/precondition, boolean expression)}
  * Customized variable information is inserted into the message templates offered by this class to
  * generate specific and precise exception message.
- * Here we use a notation similar to javadoc tags to highlight these variable information.
- * {@code {@sig ...}} means the signature of a method parameter or a state object etc.
- * {@code {@val ...}} means the value of a method parameter or a state object etc.
- * {@code {@actual ...}} means the actual situation of the argument or state object.
- * {@code {@prec ...}} means the description of preconditions.
- * The scenarios of variable information not being available are tolerated by using
+ * <p>Here we use a notation similar to javadoc tags to highlight these variable information.
+ * <p>{@code {@sig ...}} means the signature of a method parameter or a state object etc.
+ * <p>{@code {@val ...}} means the value of a method parameter or a state object etc.
+ * <p>{@code {@actual ...}} means the actual situation of the argument or state object.
+ * <p>{@code {@prec ...}} means the description of preconditions.
+ * <p>The scenarios of variable information not being available are tolerated by using
  * string '[-]' to indicate this variable information isn't available
- * </p>
+ *
  *
  * @author Joe Yichong
  * @version 1.2
@@ -178,12 +177,13 @@ public final class Preconditions {
     /* ************************************************************************************************** */
 
     /**
-     * Asserts that the specified array is not null & empty.
+     * Asserts that the specified array is not null and empty.
      * If it is it throws an {@link IllegalArgumentException} with the given
      * message.
      *
      * @param sig a string representation of the array signature
      * @param arr the array to be checked
+     * @param <T> the type of the array
      * */
     public static <T> void notNullAndNotEmpty(String sig, T[] arr) {
         if(arr == null || arr.length == 0)
@@ -191,7 +191,7 @@ public final class Preconditions {
     }
 
     /**
-     * Asserts that the specified string is not null & empty.
+     * Asserts that the specified string is not null and empty.
      * If it is it throws an {@link IllegalArgumentException} with the given
      * message.
      *
@@ -204,9 +204,9 @@ public final class Preconditions {
     }
 
     /**
-     * (Similar to {@code Objects.requireNonNull(T obj)})
      * Asserts that the specified object reference is not null. If it is it throws an
      * {@link IllegalArgumentException} with the given message.
+     * (Similar to {@code Objects.requireNonNull(T obj)})
      *
      * @param ref the object reference(as argument) passed to the calling method
      * @throws IllegalArgumentException if the reference is null

@@ -94,7 +94,7 @@ public class PrecTestAssitant {
 
     /**
      * get an instance of {@code PrecTestAssitant} class
-     * using singleton pattern & lazy instantiation strategy
+     * using singleton pattern and lazy instantiation strategy
      * */
     public static PrecTestAssitant getInstance(){
         if (instance == null){
@@ -124,7 +124,7 @@ public class PrecTestAssitant {
     }
 
     /**
-     * @see PreconditionsTest#testValueInArray()
+     * @see PreconditionsTest#valueInArray()
      * @param times used to indicate how many times random value test will run.
      * */
     public void testValueInArray(int times){
@@ -145,7 +145,7 @@ public class PrecTestAssitant {
     }
 
     /**
-     * @see PreconditionsTest#testCheckVarargs()
+     * @see PreconditionsTest#checkVarargs()
      * @param times used to indicate how many times random value test will run.
      * */
     public void testCheckVarargs(int times){
@@ -175,7 +175,7 @@ public class PrecTestAssitant {
 
 
     /**
-     * @see PreconditionsTest#testAssertNotNull_1()
+     * @see PreconditionsTest#argNotNull_1()
      * @param times used to indicate how many times random value test will run.
      * */
     public void testAssertNotNull_1(int times){
