@@ -450,10 +450,36 @@ public class PreconditionsTest {
     @org.junit.Test
     public void argumentAny() {
         try{
-            String[] conds = new String[]{};
+            int arg = 50;
+            String conds = "arg < 30, arg > 90, arg == 60";
+            Preconditions.argumentAny(conds, arg < 30, arg > 90, arg == 60);
+            fail("An IllegalStateException is supposed to be thrown");
         }catch (IllegalArgumentException e){
-
+            assertEquals("[Problem]: None of these specified argument conditions{@prec: arg < 30, arg > 90, arg == 60} is true",
+                    e.getMessage().replaceAll("[\r|\n]", ""));
         }
+        try{
+            int arg = 10;
+            String conds = "arg < 30, arg > 90, arg == 60";
+            Preconditions.argumentAny(conds, arg < 30, arg > 90, arg == 60);
+        }catch (IllegalArgumentException e){
+            fail("An IllegalStateException isn't supposed to be thrown");
+        }
+        try{
+            int arg = 100;
+            String conds = "arg < 30, arg > 90, arg == 60";
+            Preconditions.argumentAny(conds, arg < 30, arg > 90, arg == 60);
+        }catch (IllegalArgumentException e){
+            fail("An IllegalStateException isn't supposed to be thrown");
+        }
+        try{
+            int arg = 60;
+            String conds = "arg < 30, arg > 90, arg == 60";
+            Preconditions.argumentAny(conds, arg < 30, arg > 90, arg == 60);
+        }catch (IllegalArgumentException e){
+            fail("An IllegalStateException isn't supposed to be thrown");
+        }
+
     }
 
 
@@ -776,5 +802,37 @@ public class PreconditionsTest {
      * @see Preconditions#stateAny(String, Boolean...)
      * */
     @org.junit.Test
-    public void stateAny() {}
+    public void stateAny() {
+        try{
+            int state = 50;
+            String conds = "state < 30, state > 90, state == 60";
+            Preconditions.stateAny(conds, state < 30, state > 90, state == 60);
+            fail("An IllegalStateException is supposed to be thrown");
+        }catch (IllegalStateException e){
+            assertEquals("[Problem]: None of these specified state conditions{@prec: state < 30, state > 90, state == 60} is true",
+                    e.getMessage().replaceAll("[\r|\n]", ""));
+        }
+        try{
+            int state = 10;
+            String conds = "state < 30, state > 90, state == 60";
+            Preconditions.stateAny(conds, state < 30, state > 90, state == 60);
+        }catch (IllegalStateException e){
+            fail("An IllegalStateException isn't supposed to be thrown");
+        }
+        try{
+            int state = 100;
+            String conds = "state < 30, state > 90, state == 60";
+            Preconditions.stateAny(conds, state < 30, state > 90, state == 60);
+        }catch (IllegalStateException e){
+            fail("An IllegalStateException isn't supposed to be thrown");
+        }
+        try{
+            int state = 60;
+            String conds = "state < 30, state > 90, state == 60";
+            Preconditions.stateAny(conds, state < 30, state > 90, state == 60);
+        }catch (IllegalStateException e){
+            fail("An IllegalStateException isn't supposed to be thrown");
+        }
+        
+    }
 }

@@ -11,22 +11,7 @@ public class PrecTestAssitant {
             "\r\n[Problem]: {@?: %s} doesn't meet the {@prec: %s}";
     public static final String NotNull_Template =
             "\r\n[Problem]: {@param: %s} is NULL";
-    public static final String Msg_Arg_NotNull_Template =
-            "\r\n[Problem]: Required Argument{@param: %s} is NULL";
-    public static final String Msg_State_NotNull_Template =
-            "\r\n[Problem]: Required State{@param: %s} is NULL";
-    public static final String Msg_Arg_Template_v =
-            "\r\n[Problem]: Argument {@val: %s} doesn't meet the {@prec: %s}";
-    public static final String Msg_Arg_Template_d =
-            "\r\n[Problem]: Argument {@actual: %s} doesn't meet the {@prec: %s}";
-    public static final String Msg_State_Template_v =
-            "\r\n[Problem]: State {@val: %s} doesn't meet the {@prec: %s}'";
-    public static final String Msg_State_Template_d =
-            "\r\n[Problem]: State {@actual: %s} doesn't meet the {@prec: %s}'";
-    public static final String Msg_Arg_NotNull =
-            "\r\n[Problem]: Required Argument is NULL";
-    public static final String Msg_State_NotNull =
-            "\r\n[Problem]: Required State is NULL";
+
     /**
      * a private method in {@code Preconditions} used by 'argument' methods to generate exception messages.
      * @see Preconditions#errorMsg(String, Object, String)
