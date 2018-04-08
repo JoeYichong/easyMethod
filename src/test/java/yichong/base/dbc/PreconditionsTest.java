@@ -50,81 +50,81 @@ public class PreconditionsTest {
     }
 
     /**
-     * Test {@code public static <T> void notNullAndNotEmpty(String sig, T[] arr)}
-     * @see Preconditions#notNullAndNotEmpty(String, Object[])
+     * Test {@code public static <T> void argumentNotNullAndNotEmpty(String sig, T[] arr)}
+     * @see Preconditions#argumentNotNullAndNotEmpty(String, Object[])
      * */
     @org.junit.Test
-    public void notNullAndNotEmpty_1(){
+    public void argumentNotNullAndNotEmpty_1(){
         // a null value passed into the method as an array
         try{
-            Preconditions.notNullAndNotEmpty("Array arr", (Object[]) null);
+            Preconditions.argumentNotNullAndNotEmpty("Array arr", (Object[]) null);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
-            assertEquals("[Problem]: Array {@sig: Array arr} is Empty(or Null)",
+            assertEquals("[Problem]: Required Argument{@sig: Array arr} is NULL",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         // an empty array passed into the method
         try{
-            Preconditions.notNullAndNotEmpty("Array arr", new Object[0]);
+            Preconditions.argumentNotNullAndNotEmpty("Array arr", new Object[0]);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
-            assertEquals("[Problem]: Array {@sig: Array arr} is Empty(or Null)",
+            assertEquals("[Problem]: Array {@sig: Array arr} is Empty",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         // null. null
         try{
-            Preconditions.notNullAndNotEmpty(null, (Object[]) null);
+            Preconditions.argumentNotNullAndNotEmpty(null, (Object[]) null);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
-            assertEquals("[Problem]: Array {@sig: [-]} is Empty(or Null)",
+            assertEquals("[Problem]: Required Argument{@sig: [-]} is NULL",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         // "", new Object[0]
         try{
-            Preconditions.notNullAndNotEmpty("", new Object[0]);
+            Preconditions.argumentNotNullAndNotEmpty("", new Object[0]);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
-            assertEquals("[Problem]: Array {@sig: [-]} is Empty(or Null)",
+            assertEquals("[Problem]: Array {@sig: [-]} is Empty",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
     }
 
     /**
-     * Test {@code public static void notNullAndNotEmpty(String sig, String str)}
-     * @see Preconditions#notNullAndNotEmpty(String, String)
+     * Test {@code public static void argumentNotNullAndNotEmpty(String sig, String str)}
+     * @see Preconditions#argumentNotNullAndNotEmpty(String, String)
      * */
     @org.junit.Test
-    public void notNullAndNotEmpty_2(){
+    public void argumentNotNullAndNotEmpty_2(){
         // a null value passed into the method as an string
         try{
-            Preconditions.notNullAndNotEmpty("String str", (String) null);
+            Preconditions.argumentNotNullAndNotEmpty("String str", (String) null);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
-            assertEquals("[Problem]: String {@sig: String str} is Empty(or Null)",
+            assertEquals("[Problem]: Required Argument{@sig: String str} is NULL",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         // an empty string passed into the method
         try{
-            Preconditions.notNullAndNotEmpty("String str", "");
+            Preconditions.argumentNotNullAndNotEmpty("String str", "");
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
-            assertEquals("[Problem]: String {@sig: String str} is Empty(or Null)",
+            assertEquals("[Problem]: String {@sig: String str} is Empty",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         // null. null
         try{
-            Preconditions.notNullAndNotEmpty(null, (String) null);
+            Preconditions.argumentNotNullAndNotEmpty(null, (String) null);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
-            assertEquals("[Problem]: String {@sig: [-]} is Empty(or Null)",
+            assertEquals("[Problem]: Required Argument{@sig: [-]} is NULL",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         // "", ""
         try{
-            Preconditions.notNullAndNotEmpty("", "");
+            Preconditions.argumentNotNullAndNotEmpty("", "");
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
-            assertEquals("[Problem]: String {@sig: [-]} is Empty(or Null)",
+            assertEquals("[Problem]: String {@sig: [-]} is Empty",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
     }
@@ -352,55 +352,43 @@ public class PreconditionsTest {
     }
 
     /**
-     * Test {@code public static void argumentsAll(Object[] vals, String[] prec_strs, Boolean... prec_exprs)}
-     * @see Preconditions#argumentsAll(Object[], String[], Boolean...)
+     * Test {@code public static void argumentAll(Object val, String[] prec_strs, Boolean... prec_exprs)}
+     * @see Preconditions#argumentAll(Object, String[], Boolean...)
      * */
     @org.junit.Test
-    public void argumentsAll_1() {
+    public void argumentAll_1() {
         try{
-            int arg1 = 10;
-            String arg2 = "a String";
-            Object arg3 = new Object();
-            Object[] vals = new Object[]{arg1, arg2, arg3};
-            String[] precs = new String[]{"arg1 > 0", "arg2 != \"\"", "arg3 != null"};
-            Preconditions.argumentsAll(vals, precs, arg1 > 0, arg2 != "", arg3 != null);
+            int val = 10;
+            String[] precs = new String[]{"val > 0", "val != 50", "val < 100"};
+            Preconditions.argumentAll(val, precs, val > 0, val != 50, val < 100);
         }catch (IllegalArgumentException e){
             fail("IllegalArgumentException isn't supposed to be thrown");
         }
         try{
-            int arg1 = 0;
-            String arg2 = "";
-            Object arg3 = null;
-            Object[] vals = new Object[]{arg1, arg2, arg3};
-            String[] precs = new String[]{"arg1 > 0", "arg2 != \"\"", "arg3 != null"};
-            Preconditions.argumentsAll(vals, precs, arg1 > 0, arg2 != "", arg3 != null);
+            int val = 10;
+            String[] precs = new String[]{"val > 10", "val != 50", "val < 100"};
+            Preconditions.argumentAll(val, precs, val > 10, val != 50, val < 100);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
-            assertEquals("[Problem]: Argument {@val: 0} doesn't meet the {@prec: arg1 > 0}",
+            assertEquals("[Problem]: Argument {@val: 10} doesn't meet the {@prec: val > 10}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         try{
-            int arg1 = 10;
-            String arg2 = "";
-            Character arg3 = 'a';
-            Object[] vals = new Object[]{arg1, arg2, arg3};
-            String[] precs = new String[]{"arg1 > 0", "arg2 != \"\"", "arg3 != 'a'"};
-            Preconditions.argumentsAll(vals, precs, arg1 > 0, arg2 != "", arg3 != 'a');
+            int val = 50;
+            String[] precs = new String[]{"val > 0", "val != 50", "val < 100"};
+            Preconditions.argumentAll(val, precs, val > 0, val != 50, val < 100);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
-            assertEquals("[Problem]: Argument {@val: \"\"} doesn't meet the {@prec: arg2 != \"\"}",
+            assertEquals("[Problem]: Argument {@val: 50} doesn't meet the {@prec: val != 50}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         try{
-            int arg1 = 10;
-            String arg2 = "a string";
-            Character arg3 = 'a';
-            Object[] vals = new Object[]{arg1, arg2, arg3};
-            String[] precs = new String[]{"arg1 > 0", "arg2 != \"\"", "arg3 != 'a'"};
-            Preconditions.argumentsAll(vals, precs, arg1 > 0, arg2 != "", arg3 != 'a');
+            int val = 100;
+            String[] precs = new String[]{"val > 0", "val != 50", "val < 100"};
+            Preconditions.argumentAll(val, precs, val > 0, val != 50, val < 100);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
-            assertEquals("[Problem]: Argument {@val: 'a'} doesn't meet the {@prec: arg3 != 'a'}",
+            assertEquals("[Problem]: Argument {@val: 100} doesn't meet the {@prec: val < 100}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
 
@@ -408,77 +396,65 @@ public class PreconditionsTest {
 
     /**
      * Test
-     * {@code public static void argumentsAll(Object[] vals, String[] desc_templs, String[] prec_strs, Boolean... prec_exprs)}
-     * @see Preconditions#argumentsAll(Object[], String[], String[], Boolean...)
+     * {@code public static void argumentAll(Object val, String desc_templ, String[] prec_strs, Boolean... prec_exprs)}
+     * @see Preconditions#argumentAll(Object, String, String[], Boolean...)
      * */
     @org.junit.Test
-    public void argumentsAll_2() {
+    public void argumentAll_2() {
         try{
-            String arg1 = "Hello";
-            int[] arg2 = new int[]{1, 2, 3, 4};
-            Object[] arg3 = new Object[]{};
-            Object[] vals = new Object[]{arg1, arg2, arg3};
-            String[] desc_templs = new String[]{"String arg1's length is %s", "arg2[0] is %s", "arg3's length is %s"};
-            String[] prec_strs = new String[]{"arg1.length() >= 5", "arg2[0] == 1", "arg3.length == 0"};
-            Preconditions.argumentsAll(vals, desc_templs, prec_strs, arg1.length() >= 5, arg2[0] == 1, arg3.length == 0);
+            int[] arr = new int[]{10, 20, 30, 40};
+            String desc_templ = "arr's length is %s";
+            String[] prec_strs = new String[]{"arr.length > 0", "arr.length < 10", "arr.length != 3"};
+            Preconditions.argumentAll(arr.length, desc_templ, prec_strs, arr.length > 0, arr.length < 10, arr.length != 3);
         }catch (IllegalArgumentException e){
             fail("IllegalArgumentException isn't supposed to be thrown");
         }
         try{
-            String arg1 = "Hello";
-            int[] arg2 = new int[]{1, 2, 3, 4};
-            Object[] arg3 = new Object[]{};
-            Object[] vals = new Object[]{arg1.length(), arg2[0], arg3.length};
-            String[] desc_templs = new String[]{"String arg1's length is %s", "arg2[0] is %s", "arg3's length is %s"};
-            String[] prec_strs = new String[]{"arg1.length() > 5", "arg2[0] == 0", "arg3.length > 0"};
-            Preconditions.argumentsAll(vals, desc_templs, prec_strs, arg1.length() > 5, arg2[0] == 0, arg3.length > 0);
+            int[] arr = new int[]{};
+            String desc_templ = "arr's length is %s";
+            String[] prec_strs = new String[]{"arr.length > 0", "arr.length < 10", "arr.length != 3"};
+            Preconditions.argumentAll(arr.length, desc_templ, prec_strs, arr.length > 0, arr.length < 10, arr.length != 3);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
-            assertEquals("[Problem]: Argument {@actual: String arg1's length is 5} doesn't meet the {@prec: arg1.length() > 5}",
+            assertEquals("[Problem]: Argument {@actual: arr's length is 0} doesn't meet the {@prec: arr.length > 0}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         try{
-            String arg1 = "Hello";
-            int[] arg2 = new int[]{1, 2, 3, 4};
-            Object[] arg3 = new Object[]{};
-            Object[] vals = new Object[]{arg1.length(), arg2[0], arg3.length};
-            String[] desc_templs = new String[]{"String arg1's length is %s", "arg2[0] is %s", "arg3's length is %s"};
-            String[] prec_strs = new String[]{"arg1.length() >= 5", "arg2[0] == 0", "arg3.length > 0"};
-            Preconditions.argumentsAll(vals, desc_templs, prec_strs, arg1.length() >= 5, arg2[0] == 0, arg3.length > 0);
+            int[] arr = new int[]{10, 20, 30, 40, 50};
+            String desc_templ = "arr's length is %s";
+            String[] prec_strs = new String[]{"arr.length > 0", "arr.length < 5", "arr.length != 3"};
+            Preconditions.argumentAll(arr.length, desc_templ, prec_strs, arr.length > 0, arr.length < 5, arr.length != 3);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
-            assertEquals("[Problem]: Argument {@actual: arg2[0] is 1} doesn't meet the {@prec: arg2[0] == 0}",
+            assertEquals("[Problem]: Argument {@actual: arr's length is 5} doesn't meet the {@prec: arr.length < 5}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         try{
-            String arg1 = "Hello";
-            int[] arg2 = new int[]{1, 2, 3, 4};
-            Object[] arg3 = new Object[]{};
-            Object[] vals = new Object[]{arg1.length(), arg2[0], arg3.length};
-            String[] desc_templs = new String[]{"String arg1's length is %s", "arg2[0] is %s", "arg3's length is %s"};
-            String[] prec_strs = new String[]{"arg1.length() >= 5", "arg2[0] == 1", "arg3.length > 0"};
-            Preconditions.argumentsAll(vals, desc_templs, prec_strs, arg1.length() >= 5, arg2[0] == 1, arg3.length > 0);
+            int[] arr = new int[]{10, 20, 30, 40};
+            String desc_templ = "arr's length is %s";
+            String[] prec_strs = new String[]{"arr.length > 0", "arr.length < 10", "arr.length != 4"};
+            Preconditions.argumentAll(arr.length, desc_templ, prec_strs, arr.length > 0, arr.length < 10, arr.length != 4);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
-            assertEquals("[Problem]: Argument {@actual: arg3's length is 0} doesn't meet the {@prec: arg3.length > 0}",
+            assertEquals("[Problem]: Argument {@actual: arr's length is 4} doesn't meet the {@prec: arr.length != 4}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
 
     }
 
-    /**
-     * Test {@code public static void argumentAny(Boolean... exprs)}
-     * @see Preconditions#argumentAny(Boolean...)
-     * */
-    @org.junit.Test
-    public void argumentAny_1() {}
 
     /**
      * Test {@code public static void argumentAny(String conditions, Boolean... exprs)}
      * @see Preconditions#argumentAny(String, Boolean...)
      * */
     @org.junit.Test
-    public void argumentAny_2() {}
+    public void argumentAny() {
+        try{
+            String[] conds = new String[]{};
+        }catch (IllegalArgumentException e){
+
+        }
+    }
 
 
         /**
@@ -706,130 +682,99 @@ public class PreconditionsTest {
     }
 
     /**
-     * Test {@code public static void statesAll(Object[] vals, String[] prec_strs, Boolean... prec_exprs)}
-     * @see Preconditions#statesAll(Object[], String[], Boolean...)
+     * Test {@code public static void stateAll(Object[] vals, String[] prec_strs, Boolean... prec_exprs)}
+     * @see Preconditions#stateAll(Object, String[], Boolean...)
      * */
     @org.junit.Test
     public void statesAll_1() {
         try{
-            int state1 = 10;
-            String state2 = "a String";
-            Object state3 = new Object();
-            Object[] vals = new Object[]{state1, state2, state3};
-            String[] precs = new String[]{"state1 > 0", "state2 != \"\"", "state3 != null"};
-            Preconditions.statesAll(vals, precs, state1 > 0, state2 != "", state3 != null);
+            int val = 10;
+            String[] precs = new String[]{"val > 0", "val != 50", "val < 100"};
+            Preconditions.stateAll(val, precs, val > 0, val != 50, val < 100);
         }catch (IllegalStateException e){
             fail("IllegalStateException isn't supposed to be thrown");
         }
         try{
-            int state1 = 0;
-            String state2 = "";
-            Object state3 = null;
-            Object[] vals = new Object[]{state1, state2, state3};
-            String[] precs = new String[]{"state1 > 0", "state2 != \"\"", "state3 != null"};
-            Preconditions.statesAll(vals, precs, state1 > 0, state2 != "", state3 != null);
+            int val = 10;
+            String[] precs = new String[]{"val > 10", "val != 50", "val < 100"};
+            Preconditions.stateAll(val, precs, val > 10, val != 50, val < 100);
             fail("An IllegalStateException is supposed to be thrown");
         }catch (IllegalStateException e){
-            assertEquals("[Problem]: State {@val: 0} doesn't meet the {@prec: state1 > 0}",
+            assertEquals("[Problem]: State {@val: 10} doesn't meet the {@prec: val > 10}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         try{
-            int state1 = 10;
-            String state2 = "";
-            Character state3 = 'a';
-            Object[] vals = new Object[]{state1, state2, state3};
-            String[] precs = new String[]{"state1 > 0", "state2 != \"\"", "state3 != 'a'"};
-            Preconditions.statesAll(vals, precs, state1 > 0, state2 != "", state3 != 'a');
+            int val = 50;
+            String[] precs = new String[]{"val > 0", "val != 50", "val < 100"};
+            Preconditions.stateAll(val, precs, val > 0, val != 50, val < 100);
             fail("An IllegalStateException is supposed to be thrown");
         }catch (IllegalStateException e){
-            assertEquals("[Problem]: State {@val: \"\"} doesn't meet the {@prec: state2 != \"\"}",
+            assertEquals("[Problem]: State {@val: 50} doesn't meet the {@prec: val != 50}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         try{
-            int state1 = 10;
-            String state2 = "a string";
-            Character state3 = 'a';
-            Object[] vals = new Object[]{state1, state2, state3};
-            String[] precs = new String[]{"state1 > 0", "state2 != \"\"", "state3 != 'a'"};
-            Preconditions.statesAll(vals, precs, state1 > 0, state2 != "", state3 != 'a');
+            int val = 100;
+            String[] precs = new String[]{"val > 0", "val != 50", "val < 100"};
+            Preconditions.stateAll(val, precs, val > 0, val != 50, val < 100);
             fail("An IllegalStateException is supposed to be thrown");
         }catch (IllegalStateException e){
-            assertEquals("[Problem]: State {@val: 'a'} doesn't meet the {@prec: state3 != 'a'}",
+            assertEquals("[Problem]: State {@val: 100} doesn't meet the {@prec: val < 100}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
-
+        
     }
 
     /**
-     * Test {@code public static void statesAll(Object[] vals, String[] desc_templs, String[] prec_strs, Boolean... prec_exprs)}
-     * @see Preconditions#statesAll(Object[], String[], String[], Boolean...)
+     * Test {@code public static void stateAll(Object[] vals, String[] desc_templs, String[] prec_strs, Boolean... prec_exprs)}
+     * @see Preconditions#stateAll(Object, String, String[], Boolean...)
      * */
     @org.junit.Test
     public void statesAll_2() {
         try{
-            String state1 = "Hello";
-            int[] state2 = new int[]{1, 2, 3, 4};
-            Object[] state3 = new Object[]{};
-            Object[] vals = new Object[]{state1, state2, state3};
-            String[] desc_templs = new String[]{"String state1's length is %s", "state2[0] is %s", "state3's length is %s"};
-            String[] prec_strs = new String[]{"state1.length() >= 5", "state2[0] == 1", "state3.length == 0"};
-            Preconditions.statesAll(vals, desc_templs, prec_strs, state1.length() >= 5, state2[0] == 1, state3.length == 0);
+            int[] arr = new int[]{10, 20, 30, 40};
+            String desc_templ = "arr's length is %s";
+            String[] prec_strs = new String[]{"arr.length > 0", "arr.length < 10", "arr.length != 3"};
+            Preconditions.stateAll(arr.length, desc_templ, prec_strs, arr.length > 0, arr.length < 10, arr.length != 3);
         }catch (IllegalStateException e){
             fail("IllegalStateException isn't supposed to be thrown");
         }
         try{
-            String state1 = "Hello";
-            int[] state2 = new int[]{1, 2, 3, 4};
-            Object[] state3 = new Object[]{};
-            Object[] vals = new Object[]{state1.length(), state2[0], state3.length};
-            String[] desc_templs = new String[]{"String state1's length is %s", "state2[0] is %s", "state3's length is %s"};
-            String[] prec_strs = new String[]{"state1.length() > 5", "state2[0] == 0", "state3.length > 0"};
-            Preconditions.statesAll(vals, desc_templs, prec_strs, state1.length() > 5, state2[0] == 0, state3.length > 0);
+            int[] arr = new int[]{};
+            String desc_templ = "arr's length is %s";
+            String[] prec_strs = new String[]{"arr.length > 0", "arr.length < 10", "arr.length != 3"};
+            Preconditions.stateAll(arr.length, desc_templ, prec_strs, arr.length > 0, arr.length < 10, arr.length != 3);
             fail("An IllegalStateException is supposed to be thrown");
         }catch (IllegalStateException e){
-            assertEquals("[Problem]: State {@actual: String state1's length is 5} doesn't meet the {@prec: state1.length() > 5}",
+            assertEquals("[Problem]: State {@actual: arr's length is 0} doesn't meet the {@prec: arr.length > 0}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         try{
-            String state1 = "Hello";
-            int[] state2 = new int[]{1, 2, 3, 4};
-            Object[] state3 = new Object[]{};
-            Object[] vals = new Object[]{state1.length(), state2[0], state3.length};
-            String[] desc_templs = new String[]{"String state1's length is %s", "state2[0] is %s", "state3's length is %s"};
-            String[] prec_strs = new String[]{"state1.length() >= 5", "state2[0] == 0", "state3.length > 0"};
-            Preconditions.statesAll(vals, desc_templs, prec_strs, state1.length() >= 5, state2[0] == 0, state3.length > 0);
+            int[] arr = new int[]{10, 20, 30, 40, 50};
+            String desc_templ = "arr's length is %s";
+            String[] prec_strs = new String[]{"arr.length > 0", "arr.length < 5", "arr.length != 3"};
+            Preconditions.stateAll(arr.length, desc_templ, prec_strs, arr.length > 0, arr.length < 5, arr.length != 3);
             fail("An IllegalStateException is supposed to be thrown");
         }catch (IllegalStateException e){
-            assertEquals("[Problem]: State {@actual: state2[0] is 1} doesn't meet the {@prec: state2[0] == 0}",
+            assertEquals("[Problem]: State {@actual: arr's length is 5} doesn't meet the {@prec: arr.length < 5}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         try{
-            String state1 = "Hello";
-            int[] state2 = new int[]{1, 2, 3, 4};
-            Object[] state3 = new Object[]{};
-            Object[] vals = new Object[]{state1.length(), state2[0], state3.length};
-            String[] desc_templs = new String[]{"String state1's length is %s", "state2[0] is %s", "state3's length is %s"};
-            String[] prec_strs = new String[]{"state1.length() >= 5", "state2[0] == 1", "state3.length > 0"};
-            Preconditions.statesAll(vals, desc_templs, prec_strs, state1.length() >= 5, state2[0] == 1, state3.length > 0);
+            int[] arr = new int[]{10, 20, 30, 40};
+            String desc_templ = "arr's length is %s";
+            String[] prec_strs = new String[]{"arr.length > 0", "arr.length < 10", "arr.length != 4"};
+            Preconditions.stateAll(arr.length, desc_templ, prec_strs, arr.length > 0, arr.length < 10, arr.length != 4);
             fail("An IllegalStateException is supposed to be thrown");
         }catch (IllegalStateException e){
-            assertEquals("[Problem]: State {@actual: state3's length is 0} doesn't meet the {@prec: state3.length > 0}",
+            assertEquals("[Problem]: State {@actual: arr's length is 4} doesn't meet the {@prec: arr.length != 4}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
 
     }
-
-    /**
-     * Test {@code public static void stateAny(Boolean... exprs)}
-     * @see Preconditions#stateAny(Boolean...)
-     * */
-    @org.junit.Test
-    public void stateAny_1() {}
 
     /**
      * Test {@code public static void stateAny(String conditions, Boolean... exprs)}
      * @see Preconditions#stateAny(String, Boolean...)
      * */
     @org.junit.Test
-    public void stateAny_2() {}
+    public void stateAny() {}
 }

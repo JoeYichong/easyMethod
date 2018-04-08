@@ -59,9 +59,9 @@ public final class Preconditions {
     private static final String Meta_Msg =
             "\r\n[Warning]: 0 Argument or 'null' passed into the `Preconditions` method";
     private static final String Msg_Arr_NotEmpty_Template =
-            "\r\n[Problem]: Array {@sig: %s} is Empty(or Null)";
+            "\r\n[Problem]: Array {@sig: %s} is Empty";
     private static final String Msg_Str_NotEmpty_Template =
-            "\r\n[Problem]: String {@sig: %s} is Empty(or Null)";
+            "\r\n[Problem]: String {@sig: %s} is Empty";
     private static final String Msg_Arg_NotNull_Template =
             "\r\n[Problem]: Required Argument{@sig: %s} is NULL";
     private static final String Msg_State_NotNull_Template =
@@ -78,12 +78,8 @@ public final class Preconditions {
             "\r\n[Problem]: Required Argument is NULL";
     private static final String Msg_State_NotNull =
             "\r\n[Problem]: Required State is NULL";
-    private static final String Msg_Arg_Template_any =
-            "\r\n[Problem]: None of these specified argument conditions is true";
     private static final String Msg_Arg_Template_any_d   =
             "\r\n[Problem]: None of these specified argument conditions{@prec: %s} is true";
-    private static final String Msg_State_Template_any =
-            "\r\n[Problem]: None of these specified state conditions is true";
     private static final String Msg_State_Template_any_d   =
             "\r\n[Problem]: None of these specified state conditions{@prec: %s} is true";
 
@@ -191,8 +187,10 @@ public final class Preconditions {
      * @param arr the array to be checked
      * @param <T> the type of the array
      * */
-    public static <T> void notNullAndNotEmpty(String sig, T[] arr) {
-        if(arr == null || arr.length == 0)
+    public static <T> void argumentNotNullAndNotEmpty(String sig, T[] arr) {
+        if (arr == null)
+            throw new IllegalArgumentException(nullMsg(Msg_Arg_NotNull_Template, sig));
+        if (arr.length == 0)
             throw new IllegalArgumentException(nullMsg(Msg_Arr_NotEmpty_Template, sig));
     }
 
@@ -204,8 +202,10 @@ public final class Preconditions {
      * @param sig a string representation of the string argument signature
      * @param str the string to be checked
      * */
-    public static void notNullAndNotEmpty(String sig, String str) {
-        if(str == null || str.length() == 0)
+    public static void argumentNotNullAndNotEmpty(String sig, String str) {
+        if (str == null)
+            throw new IllegalArgumentException(nullMsg(Msg_Arg_NotNull_Template, sig));
+        if (str == null || str.length() == 0)
             throw new IllegalArgumentException(nullMsg(Msg_Str_NotEmpty_Template, sig));
     }
 
@@ -302,16 +302,15 @@ public final class Preconditions {
      * Asserts that a batch of arguments passed to the calling method meet the preconditions.
      * If they don't it throws an {@link IllegalArgumentException} with the given message.
      *
-     * @param vals the arguments to be checked
+     * @param val the argument to be checked
      * @param prec_strs strings that represent the parameter restrictions
      * @param prec_exprs boolean expressions that represent the parameter restrictions
      * @throws IllegalArgumentException if invalid argument detected
      */
-    public static void argumentsAll(Object[] vals, String[] prec_strs, Boolean... prec_exprs) {
+    public static void argumentAll(Object val, String[] prec_strs, Boolean... prec_exprs) {
         checkVarargs(prec_exprs);
         for (int i = 0; i < prec_exprs.length; i++) {
             if (!prec_exprs[i]) {
-                Object val = valueInArray(vals, i);
                 String prec_str = valueInArray(prec_strs, i);
                 throw new IllegalArgumentException(errorMsg(Msg_Arg_Template_v, val, prec_str));
             }
@@ -322,36 +321,20 @@ public final class Preconditions {
      * Asserts that a batch of arguments passed to the calling method meet the preconditions.
      * If they don't it throws an {@link IllegalArgumentException} with the given message.
      *
-     * @param vals values or attributes of the arguments to be checked
-     * @param desc_templs templates that describe the reality of the arguments to be checked
+     * @param val the value or attribute of the arguments to be checked
+     * @param desc_templ the template that describe the reality of the arguments to be checked
      * @param prec_strs strings that represent the parameter restrictions
      * @param prec_exprs boolean expressions that represent the parameter restrictions
      * @throws IllegalArgumentException if invalid argument detected
      */
-    public static void argumentsAll(Object[] vals, String[] desc_templs, String[] prec_strs, Boolean... prec_exprs) {
+    public static void argumentAll(Object val, String desc_templ, String[] prec_strs, Boolean... prec_exprs) {
         checkVarargs(prec_exprs);
         for (int i = 0; i < prec_exprs.length; i++) {
             if (!prec_exprs[i]) {
-                Object val = valueInArray(vals, i);
-                String desc_templ = valueInArray(desc_templs, i);
                 String prec_str = valueInArray(prec_strs, i);
                 throw new IllegalArgumentException(errorMsg(Msg_Arg_Template_d, desc_templ, val, prec_str));
             }
         }
-    }
-
-    /**
-     * Asserts that at least one of many specified conditions is true
-     *
-     * @param exprs the boolean expressions of the specified conditions
-     * */
-    public static void argumentAny(Boolean... exprs) {
-        checkVarargs(exprs);
-        for (int i = 0; i < exprs.length; i++) {
-            if (exprs[i])
-                return;
-        }
-        throw new IllegalArgumentException(Msg_Arg_Template_any);
     }
 
     /**
@@ -370,14 +353,6 @@ public final class Preconditions {
     }
 
     /* **************************************************************************************************8 */
-
-    /*
-     * IllegalStateException
-     *
-     * Signals that a method has been invoked at an illegal or inappropriate time.
-     * In other words, the Java environment or Java application is not in an
-     * appropriate state for the requested operation.
-     */
 
     /**
      * Asserts that the specified object reference is not null. If it is it throws an
@@ -471,16 +446,15 @@ public final class Preconditions {
      * Asserts that a batch of state objects meet the preconditions.
      * If they don't, it throws an {@link IllegalStateException} with the given message.
      *
-     * @param vals the state objects to be checked
+     * @param val the state objects to be checked
      * @param prec_strs strings that represent the preconditions
      * @param prec_exprs boolean expressions that represent the preconditions
      * @throws IllegalStateException if invalid state detected
      */
-    public static void statesAll(Object[] vals, String[] prec_strs, Boolean... prec_exprs) {
+    public static void stateAll(Object val, String[] prec_strs, Boolean... prec_exprs) {
         checkVarargs(prec_exprs);
         for (int i = 0; i < prec_exprs.length; i++) {
             if (!prec_exprs[i]) {
-                Object val = valueInArray(vals, i);
                 String prec_str = valueInArray(prec_strs, i);
                 throw new IllegalStateException(errorMsg(Msg_State_Template_v, val, prec_str));
             }
@@ -491,36 +465,20 @@ public final class Preconditions {
      * Asserts that a batch of state objects meet the preconditions.
      * If they don't, it throws an {@link IllegalStateException} with the given message.
      *
-     * @param vals values or attributes of the state objects to be checked
-     * @param desc_templs templates that describe the reality of the state objects to be checked
+     * @param val values or attributes of the state objects to be checked
+     * @param desc_templ templates that describe the reality of the state objects to be checked
      * @param prec_strs strings that represent the preconditions
      * @param prec_exprs boolean expressions that represent the preconditions
      * @throws IllegalStateException if invalid state detected
      */
-    public static void statesAll(Object[] vals, String[] desc_templs, String[] prec_strs, Boolean... prec_exprs) {
+    public static void stateAll(Object val, String desc_templ, String[] prec_strs, Boolean... prec_exprs) {
         checkVarargs(prec_exprs);
         for (int i = 0; i < prec_exprs.length; i++) {
             if (!prec_exprs[i]) {
-                Object val = valueInArray(vals, i);
-                String desc_templ = valueInArray(desc_templs, i);
                 String prec_str = valueInArray(prec_strs, i);
                 throw new IllegalStateException(errorMsg(Msg_State_Template_d, desc_templ, val, prec_str));
             }
         }
-    }
-
-    /**
-     * Asserts that at least one of many specified conditions is true
-     *
-     * @param exprs the boolean expressions of the specified conditions
-     * */
-    public static void stateAny(Boolean... exprs) {
-        checkVarargs(exprs);
-        for (int i = 0; i < exprs.length; i++) {
-            if (exprs[i])
-                return;
-        }
-        throw new IllegalStateException();
     }
 
     /**
@@ -535,7 +493,7 @@ public final class Preconditions {
             if (exprs[i])
                 return;
         }
-        throw new IllegalStateException(conditions);
+        throw new IllegalStateException(nullMsg(Msg_State_Template_any_d, conditions));
     }
 
 }
