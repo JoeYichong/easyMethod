@@ -6,7 +6,7 @@ import static org.junit.Assert.*;
 
 public class PrecTestAssitant {
     public static final String Meta_Msg =
-        "\r\n[Warning]: No Arguments or 'null' passed into the `assertXXX` method";
+        "\r\n[Warning]: 0 Argument or 'null' passed into the `Preconditions` method";
     public static final String Msg_Template =
             "\r\n[Problem]: {@?: %s} doesn't meet the {@prec: %s}";
     public static final String NotNull_Template =
@@ -65,12 +65,9 @@ public class PrecTestAssitant {
      * check that there is at least one argument passed in.
      * @see Preconditions#checkVarargs(Object[])
      * */
-    public static <T> boolean checkVarargs(T[] arr) {
-        if(arr != null && arr.length > 0)
-            return true;
-        else
+    public static <T> void checkVarargs(T[] arr) {
+        if(arr == null || arr.length == 0)
             throw new IllegalArgumentException(Meta_Msg); // warning: empty method calling
-        //return false;
     }
     /**
      * a private method used in {@code Preconditions} to fetch a value in a specified array.
@@ -150,24 +147,22 @@ public class PrecTestAssitant {
      * */
     public void testCheckVarargs(int times){
         System.out.println(" - testValueInArray() start: ");
-        boolean result = false;
         int index = -1;
         Object[] arr;
         for(int i = 0; i < times; i++){
             try{
                 arr = arrs[(index = rand.nextInt(5))];
-                result = PrecTestAssitant.checkVarargs(arr);
+                PrecTestAssitant.checkVarargs(arr);
                 printIndexAndValue(i, index, arrs_desc[index]);
-                if(result && (arr == null || arr.length == 0))
+                if(arr == null || arr.length == 0)
                     fail("fail to throw an IllegalArgumentException");
             }catch (IllegalArgumentException e){
                 printIndexAndValue(i, index, arrs_desc[index]);
-                assertEquals("[Warning]: No Arguments or 'null' passed into the `assertXXX` method",
+                assertEquals("[Warning]: 0 Argument or 'null' passed into the `Preconditions` method",
                         e.getMessage().replaceAll("[\r|\n]", ""));
                 System.out.println((i + 1) + ". IllegalArgumentException caught, assertEquals(..) called");
             }
             index = -1;
-            result = false;
         }
         System.out.println(" - testValueInArray() end.");
     }

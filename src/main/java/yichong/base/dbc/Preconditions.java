@@ -57,7 +57,7 @@ package yichong.base.dbc;
 
 public final class Preconditions {
     private static final String Meta_Msg =
-            "\r\n[Warning]: No Arguments or 'null' passed into the `assertXXX` method";
+            "\r\n[Warning]: 0 Argument or 'null' passed into the `Preconditions` method";
     private static final String Msg_Arr_NotEmpty_Template =
             "\r\n[Problem]: Array {@sig: %s} is Empty(or Null)";
     private static final String Msg_Str_NotEmpty_Template =
@@ -150,10 +150,8 @@ public final class Preconditions {
      *
      * @param arr the Varargs argument array to be checked
      * */
-    private static <T> boolean checkVarargs(T[] arr) {
-        if(arr != null && arr.length > 0)
-            return true;
-        else
+    private static <T> void checkVarargs(T[] arr) {
+        if(arr == null || arr.length == 0)
             throw new IllegalArgumentException(Meta_Msg); // warning: empty method calling
     }
 
@@ -237,11 +235,10 @@ public final class Preconditions {
      * @throws IllegalArgumentException if null reference detected
      */
     public static void argsNotNull(Object... refs) {
-        if (checkVarargs(refs)) {
-            for (int i = 0; i < refs.length; i++) {
-                if (refs[i] == null)
-                    throw new IllegalArgumentException(Msg_Arg_NotNull);
-            }
+        checkVarargs(refs);
+        for (int i = 0; i < refs.length; i++) {
+            if (refs[i] == null)
+                throw new IllegalArgumentException(Msg_Arg_NotNull);
         }
     }
 
@@ -254,12 +251,11 @@ public final class Preconditions {
      * @throws IllegalArgumentException if null reference detected
      */
     public static void argsNotNull(String[] params, Object... refs) {
-        if (checkVarargs(refs)) {
-            for (int i = 0; i < refs.length; i++) {
-                if (refs[i] == null) {
-                    String param = valueInArray(params, i);
-                    throw new IllegalArgumentException(nullMsg(Msg_Arg_NotNull_Template, param));
-                }
+        checkVarargs(refs);
+        for (int i = 0; i < refs.length; i++) {
+            if (refs[i] == null) {
+                String param = valueInArray(params, i);
+                throw new IllegalArgumentException(nullMsg(Msg_Arg_NotNull_Template, param));
             }
         }
     }
@@ -304,13 +300,12 @@ public final class Preconditions {
      * @throws IllegalArgumentException if invalid argument detected
      */
     public static void argumentsAll(Object[] vals, String[] prec_strs, Boolean... prec_exprs) {
-        if (checkVarargs(prec_exprs)) {
-            for (int i = 0; i < prec_exprs.length; i++) {
-                if (!prec_exprs[i]) {
-                    Object val = valueInArray(vals, i);
-                    String prec_str = valueInArray(prec_strs, i);
-                    throw new IllegalArgumentException(errorMsg(Msg_Arg_Template_v, val, prec_str));
-                }
+        checkVarargs(prec_exprs);
+        for (int i = 0; i < prec_exprs.length; i++) {
+            if (!prec_exprs[i]) {
+                Object val = valueInArray(vals, i);
+                String prec_str = valueInArray(prec_strs, i);
+                throw new IllegalArgumentException(errorMsg(Msg_Arg_Template_v, val, prec_str));
             }
         }
     }
@@ -326,14 +321,13 @@ public final class Preconditions {
      * @throws IllegalArgumentException if invalid argument detected
      */
     public static void argumentsAll(Object[] vals, String[] desc_templs, String[] prec_strs, Boolean... prec_exprs) {
-        if (checkVarargs(prec_exprs)) {
-            for (int i = 0; i < prec_exprs.length; i++) {
-                if (!prec_exprs[i]) {
-                    Object val = valueInArray(vals, i);
-                    String desc_templ = valueInArray(desc_templs, i);
-                    String prec_str = valueInArray(prec_strs, i);
-                    throw new IllegalArgumentException(errorMsg(Msg_Arg_Template_d, desc_templ, val, prec_str));
-                }
+        checkVarargs(prec_exprs);
+        for (int i = 0; i < prec_exprs.length; i++) {
+            if (!prec_exprs[i]) {
+                Object val = valueInArray(vals, i);
+                String desc_templ = valueInArray(desc_templs, i);
+                String prec_str = valueInArray(prec_strs, i);
+                throw new IllegalArgumentException(errorMsg(Msg_Arg_Template_d, desc_templ, val, prec_str));
             }
         }
     }
@@ -403,11 +397,10 @@ public final class Preconditions {
      * @throws IllegalStateException if null reference detected
      */
     public static void statesNotNull(Object... refs) {
-        if (checkVarargs(refs)) {
-            for (int i = 0; i < refs.length; i++) {
-                if (refs[i] == null)
-                    throw new IllegalStateException(Msg_State_NotNull);
-            }
+        checkVarargs(refs);
+        for (int i = 0; i < refs.length; i++) {
+            if (refs[i] == null)
+                throw new IllegalStateException(Msg_State_NotNull);
         }
     }
 
@@ -420,12 +413,11 @@ public final class Preconditions {
      * @throws IllegalStateException if null reference detected
      */
     public static void statesNotNull(String[] state_names, Object... refs) {
-        if (checkVarargs(refs)) {
-            for (int i = 0; i < refs.length; i++) {
-                if (refs[i] == null) {
-                    String state_name = valueInArray(state_names, i);
-                    throw new IllegalStateException(nullMsg(Msg_State_NotNull_Template, state_name));
-                }
+        checkVarargs(refs);
+        for (int i = 0; i < refs.length; i++) {
+            if (refs[i] == null) {
+                String state_name = valueInArray(state_names, i);
+                throw new IllegalStateException(nullMsg(Msg_State_NotNull_Template, state_name));
             }
         }
     }
@@ -470,13 +462,12 @@ public final class Preconditions {
      * @throws IllegalStateException if invalid state detected
      */
     public static void statesAll(Object[] vals, String[] prec_strs, Boolean... prec_exprs) {
-        if (checkVarargs(prec_exprs)) {
-            for (int i = 0; i < prec_exprs.length; i++) {
-                if (!prec_exprs[i]) {
-                    Object val = valueInArray(vals, i);
-                    String prec_str = valueInArray(prec_strs, i);
-                    throw new IllegalStateException(errorMsg(Msg_State_Template_v, val, prec_str));
-                }
+        checkVarargs(prec_exprs);
+        for (int i = 0; i < prec_exprs.length; i++) {
+            if (!prec_exprs[i]) {
+                Object val = valueInArray(vals, i);
+                String prec_str = valueInArray(prec_strs, i);
+                throw new IllegalStateException(errorMsg(Msg_State_Template_v, val, prec_str));
             }
         }
     }
@@ -492,14 +483,13 @@ public final class Preconditions {
      * @throws IllegalStateException if invalid state detected
      */
     public static void statesAll(Object[] vals, String[] desc_templs, String[] prec_strs, Boolean... prec_exprs) {
-        if (checkVarargs(prec_exprs)) {
-            for (int i = 0; i < prec_exprs.length; i++) {
-                if (!prec_exprs[i]) {
-                    Object val = valueInArray(vals, i);
-                    String desc_templ = valueInArray(desc_templs, i);
-                    String prec_str = valueInArray(prec_strs, i);
-                    throw new IllegalStateException(errorMsg(Msg_State_Template_d, desc_templ, val, prec_str));
-                }
+        checkVarargs(prec_exprs);
+        for (int i = 0; i < prec_exprs.length; i++) {
+            if (!prec_exprs[i]) {
+                Object val = valueInArray(vals, i);
+                String desc_templ = valueInArray(desc_templs, i);
+                String prec_str = valueInArray(prec_strs, i);
+                throw new IllegalStateException(errorMsg(Msg_State_Template_d, desc_templ, val, prec_str));
             }
         }
     }

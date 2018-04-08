@@ -30,7 +30,7 @@ public class PreconditionsTest {
             PrecTestAssitant.checkVarargs((Object[]) null);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
-            assertEquals("[Warning]: No Arguments or 'null' passed into the `assertXXX` method",
+            assertEquals("[Warning]: 0 Argument or 'null' passed into the `Preconditions` method",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         // no argument passed into the Varargs method
@@ -38,12 +38,11 @@ public class PreconditionsTest {
             PrecTestAssitant.checkVarargs(new Object[0]);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
-            assertEquals("[Warning]: No Arguments or 'null' passed into the `assertXXX` method",
+            assertEquals("[Warning]: 0 Argument or 'null' passed into the `Preconditions` method",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         try{
-            boolean result = PrecTestAssitant.checkVarargs(new Object[1]);
-            assertEquals(result, true);
+            PrecTestAssitant.checkVarargs(new Object[1]);
         }catch (IllegalArgumentException e){
             fail("An IllegalArgumentException isn't supposed to be thrown");
         }
