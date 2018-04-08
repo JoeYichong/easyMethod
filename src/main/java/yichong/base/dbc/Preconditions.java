@@ -58,6 +58,10 @@ package yichong.base.dbc;
 public final class Preconditions {
     private static final String Meta_Msg =
             "\r\n[Warning]: 0 Argument or 'null' passed into the `Preconditions` method";
+    private static final String Msg_Arg_NotNull =
+            "\r\n[Problem]: Required Argument is NULL";
+    private static final String Msg_State_NotNull =
+            "\r\n[Problem]: Required State is NULL";
     private static final String Msg_Arr_NotEmpty_Template =
             "\r\n[Problem]: Array {@sig: %s} is Empty";
     private static final String Msg_Str_NotEmpty_Template =
@@ -74,14 +78,14 @@ public final class Preconditions {
             "\r\n[Problem]: State {@val: %s} doesn't meet the {@prec: %s}";
     private static final String Msg_State_Template_d =
             "\r\n[Problem]: State {@actual: %s} doesn't meet the {@prec: %s}";
-    private static final String Msg_Arg_NotNull =
-            "\r\n[Problem]: Required Argument is NULL";
-    private static final String Msg_State_NotNull =
-            "\r\n[Problem]: Required State is NULL";
+    private static final String Msg_Arg_Template_any_v   =
+            "\r\n[Problem]: Argument {@val: %s} doesn't meet any of these specified conditions{@prec: %s}";
     private static final String Msg_Arg_Template_any_d   =
-            "\r\n[Problem]: None of these specified argument conditions{@prec: %s} is true";
+            "\r\n[Problem]: Argument {@actual: %s} doesn't meet any of these specified conditions{@prec: %s}";
+    private static final String Msg_State_Template_any_v   =
+            "\r\n[Problem]: State {@val: %s} doesn't meet any of these specified conditions{@prec: %s}";
     private static final String Msg_State_Template_any_d   =
-            "\r\n[Problem]: None of these specified state conditions{@prec: %s} is true";
+            "\r\n[Problem]: State {@actual: %s} doesn't meet any of these specified conditions{@prec: %s}";
 
     /**
      * If the object is a string instance or a character instance, wrap it in "" or ''.
@@ -299,7 +303,7 @@ public final class Preconditions {
     }
 
     /**
-     * Asserts that a batch of arguments passed to the calling method meet the preconditions.
+     * Asserts that argument passed to the calling method meet the preconditions.
      * If they don't it throws an {@link IllegalArgumentException} with the given message.
      *
      * @param val the argument to be checked
@@ -318,11 +322,11 @@ public final class Preconditions {
     }
 
     /**
-     * Asserts that a batch of arguments passed to the calling method meet the preconditions.
+     * Asserts that the argument passed to the calling method meet the preconditions.
      * If they don't it throws an {@link IllegalArgumentException} with the given message.
      *
-     * @param val the value or attribute of the arguments to be checked
-     * @param desc_templ the template that describe the reality of the arguments to be checked
+     * @param val the value or attribute of the argument to be checked
+     * @param desc_templ the template that describe the reality of the argument to be checked
      * @param prec_strs strings that represent the parameter restrictions
      * @param prec_exprs boolean expressions that represent the parameter restrictions
      * @throws IllegalArgumentException if invalid argument detected
@@ -340,16 +344,36 @@ public final class Preconditions {
     /**
      * Asserts that at least one of many specified conditions is true
      *
+     * @param val the argument to be checked
      * @param conditions the strings that represent the specified conditions
      * @param exprs the boolean expressions of the specified conditions
+     * @throws IllegalArgumentException if invalid argument detected
      * */
-    public static void argumentAny(String conditions, Boolean... exprs) {
+    public static void argumentAny(Object val, String conditions, Boolean... exprs) {
         checkVarargs(exprs);
         for (int i = 0; i < exprs.length; i++) {
             if (exprs[i])
                 return;
         }
-        throw new IllegalArgumentException(nullMsg(Msg_Arg_Template_any_d, conditions));
+        throw new IllegalArgumentException(errorMsg(Msg_Arg_Template_any_v, val, conditions));
+    }
+
+    /**
+     * Asserts that at least one of many specified conditions is true
+     *
+     * @param val the value or attribute of the argument to be checked
+     * @param desc_templ the template that describe the reality of the argument to be checked
+     * @param conditions the string that represent the specified conditions
+     * @param exprs the boolean expressions of the specified conditions
+     * @throws IllegalArgumentException if invalid argument detected
+     * */
+    public static void argumentAny(Object val, String desc_templ, String conditions, Boolean... exprs) {
+        checkVarargs(exprs);
+        for (int i = 0; i < exprs.length; i++) {
+            if (exprs[i])
+                return;
+        }
+        throw new IllegalArgumentException(errorMsg(Msg_Arg_Template_any_d, desc_templ, val, conditions));
     }
 
     /* **************************************************************************************************8 */
@@ -443,12 +467,12 @@ public final class Preconditions {
 
 
     /**
-     * Asserts that a batch of state objects meet the preconditions.
+     * Asserts that the state object meet the preconditions.
      * If they don't, it throws an {@link IllegalStateException} with the given message.
      *
-     * @param val the state objects to be checked
-     * @param prec_strs strings that represent the preconditions
-     * @param prec_exprs boolean expressions that represent the preconditions
+     * @param val the state object to be checked
+     * @param prec_strs the strings that represent the preconditions
+     * @param prec_exprs the boolean expressions that represent the preconditions
      * @throws IllegalStateException if invalid state detected
      */
     public static void stateAll(Object val, String[] prec_strs, Boolean... prec_exprs) {
@@ -462,13 +486,13 @@ public final class Preconditions {
     }
 
     /**
-     * Asserts that a batch of state objects meet the preconditions.
+     * Asserts that the state object meet the preconditions.
      * If they don't, it throws an {@link IllegalStateException} with the given message.
      *
-     * @param val values or attributes of the state objects to be checked
-     * @param desc_templ templates that describe the reality of the state objects to be checked
-     * @param prec_strs strings that represent the preconditions
-     * @param prec_exprs boolean expressions that represent the preconditions
+     * @param val the value or attribute of the state objects to be checked
+     * @param desc_templ the template that describe the reality of the state objects to be checked
+     * @param prec_strs the strings that represent the preconditions
+     * @param prec_exprs the boolean expressions that represent the preconditions
      * @throws IllegalStateException if invalid state detected
      */
     public static void stateAll(Object val, String desc_templ, String[] prec_strs, Boolean... prec_exprs) {
@@ -484,16 +508,36 @@ public final class Preconditions {
     /**
      * Asserts that at least one of many specified conditions is true
      *
-     * @param conditions the strings that represent the specified conditions
+     * @param val the state object to be checked
+     * @param conditions the string that represent the specified conditions
      * @param exprs the boolean expressions of the specified conditions
+     * @throws IllegalStateException if invalid state detected
      * */
-    public static void stateAny(String conditions, Boolean... exprs) {
+    public static void stateAny(Object val, String conditions, Boolean... exprs) {
         checkVarargs(exprs);
         for (int i = 0; i < exprs.length; i++) {
             if (exprs[i])
                 return;
         }
-        throw new IllegalStateException(nullMsg(Msg_State_Template_any_d, conditions));
+        throw new IllegalStateException(errorMsg(Msg_State_Template_any_v, val, conditions));
+    }
+
+    /**
+     * Asserts that at least one of many specified conditions is true
+     *
+     * @param val the state object to be checked
+     * @param desc_templ the template that describe the reality of the state object to be checked
+     * @param conditions the string that represent the specified conditions
+     * @param exprs the boolean expressions of the specified conditions
+     * @throws IllegalStateException if invalid state detected
+     * */
+    public static void stateAny(Object val, String desc_templ, String conditions, Boolean... exprs) {
+        checkVarargs(exprs);
+        for (int i = 0; i < exprs.length; i++) {
+            if (exprs[i])
+                return;
+        }
+        throw new IllegalStateException(errorMsg(Msg_State_Template_any_d, desc_templ, val, conditions));
     }
 
 }

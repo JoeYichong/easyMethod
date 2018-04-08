@@ -444,40 +444,83 @@ public class PreconditionsTest {
 
 
     /**
-     * Test {@code public static void argumentAny(String conditions, Boolean... exprs)}
-     * @see Preconditions#argumentAny(String, Boolean...)
+     * Test {@code public static void argumentAny(Object val, String conditions, Boolean... exprs)}
+     * @see Preconditions#argumentAny(Object, String, Boolean...)
      * */
     @org.junit.Test
-    public void argumentAny() {
+    public void argumentAny_1() {
         try{
             int arg = 50;
             String conds = "arg < 30, arg > 90, arg == 60";
-            Preconditions.argumentAny(conds, arg < 30, arg > 90, arg == 60);
-            fail("An IllegalStateException is supposed to be thrown");
+            Preconditions.argumentAny(arg, conds, arg < 30, arg > 90, arg == 60);
+            fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
-            assertEquals("[Problem]: None of these specified argument conditions{@prec: arg < 30, arg > 90, arg == 60} is true",
+            assertEquals("[Problem]: Argument {@val: 50} doesn't meet any of these specified conditions{@prec: arg < 30, arg > 90, arg == 60}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         try{
             int arg = 10;
             String conds = "arg < 30, arg > 90, arg == 60";
-            Preconditions.argumentAny(conds, arg < 30, arg > 90, arg == 60);
+            Preconditions.argumentAny(arg, conds, arg < 30, arg > 90, arg == 60);
         }catch (IllegalArgumentException e){
-            fail("An IllegalStateException isn't supposed to be thrown");
+            fail("An IllegalArgumentException isn't supposed to be thrown");
         }
         try{
             int arg = 100;
             String conds = "arg < 30, arg > 90, arg == 60";
-            Preconditions.argumentAny(conds, arg < 30, arg > 90, arg == 60);
+            Preconditions.argumentAny(arg, conds, arg < 30, arg > 90, arg == 60);
         }catch (IllegalArgumentException e){
-            fail("An IllegalStateException isn't supposed to be thrown");
+            fail("An IllegalArgumentException isn't supposed to be thrown");
         }
         try{
             int arg = 60;
             String conds = "arg < 30, arg > 90, arg == 60";
-            Preconditions.argumentAny(conds, arg < 30, arg > 90, arg == 60);
+            Preconditions.argumentAny(arg, conds, arg < 30, arg > 90, arg == 60);
         }catch (IllegalArgumentException e){
-            fail("An IllegalStateException isn't supposed to be thrown");
+            fail("An IllegalArgumentException isn't supposed to be thrown");
+        }
+
+    }
+
+    /**
+     * Test {@code public static void argumentAny(Object val, String desc_templ, String conditions, Boolean... exprs)}
+     * @see Preconditions#argumentAny(Object, String, String, Boolean...)
+     * */
+    @org.junit.Test
+    public void argumentAny_2() {
+        try{
+            int[] arg = new int[]{10, 20, 30, 40, 50};
+            String desc_templ = "arg's length is %s";
+            String conds = "arg.length == 2, arg.length == 4, arg.length == 6";
+            Preconditions.argumentAny(arg.length, desc_templ, conds, arg.length == 2, arg.length == 4, arg.length == 6);
+            fail("An IllegalArgumentException is supposed to be thrown");
+        }catch (IllegalArgumentException e){
+            assertEquals("[Problem]: Argument {@actual: arg's length is 5} doesn't meet any of these specified conditions{@prec: arg.length == 2, arg.length == 4, arg.length == 6}",
+                    e.getMessage().replaceAll("[\r|\n]", ""));
+        }
+        try{
+            int[] arg = new int[]{10, 20};
+            String desc_templ = "arg's length is %s";
+            String conds = "arg.length == 2, arg.length == 4, arg.length == 6";
+            Preconditions.argumentAny(arg.length, desc_templ, conds, arg.length == 2, arg.length == 4, arg.length == 6);
+        }catch (IllegalArgumentException e){
+            fail("An IllegalArgumentException isn't supposed to be thrown");
+        }
+        try{
+            int[] arg = new int[]{10, 20, 30, 40};
+            String desc_templ = "arg's length is %s";
+            String conds = "arg.length == 2, arg.length == 4, arg.length == 6";
+            Preconditions.argumentAny(arg.length, desc_templ, conds, arg.length == 2, arg.length == 4, arg.length == 6);
+        }catch (IllegalArgumentException e){
+            fail("An IllegalArgumentException isn't supposed to be thrown");
+        }
+        try{
+            int[] arg = new int[]{10, 20, 30, 40, 50, 60};
+            String desc_templ = "arg's length is %s";
+            String conds = "arg.length == 2, arg.length == 4, arg.length == 6";
+            Preconditions.argumentAny(arg.length, desc_templ, conds, arg.length == 2, arg.length == 4, arg.length == 6);
+        }catch (IllegalArgumentException e){
+            fail("An IllegalArgumentException isn't supposed to be thrown");
         }
 
     }
@@ -798,41 +841,84 @@ public class PreconditionsTest {
     }
 
     /**
-     * Test {@code public static void stateAny(String conditions, Boolean... exprs)}
-     * @see Preconditions#stateAny(String, Boolean...)
+     * Test {@code public static void stateAny(Object val, String conditions, Boolean... exprs)}
+     * @see Preconditions#stateAny(Object, String, Boolean...)
      * */
     @org.junit.Test
-    public void stateAny() {
+    public void stateAny_1() {
         try{
             int state = 50;
             String conds = "state < 30, state > 90, state == 60";
-            Preconditions.stateAny(conds, state < 30, state > 90, state == 60);
+            Preconditions.stateAny(state, conds, state < 30, state > 90, state == 60);
             fail("An IllegalStateException is supposed to be thrown");
         }catch (IllegalStateException e){
-            assertEquals("[Problem]: None of these specified state conditions{@prec: state < 30, state > 90, state == 60} is true",
+            assertEquals("[Problem]: State {@val: 50} doesn't meet any of these specified conditions{@prec: state < 30, state > 90, state == 60}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         try{
             int state = 10;
             String conds = "state < 30, state > 90, state == 60";
-            Preconditions.stateAny(conds, state < 30, state > 90, state == 60);
+            Preconditions.stateAny(state, conds, state < 30, state > 90, state == 60);
         }catch (IllegalStateException e){
             fail("An IllegalStateException isn't supposed to be thrown");
         }
         try{
             int state = 100;
             String conds = "state < 30, state > 90, state == 60";
-            Preconditions.stateAny(conds, state < 30, state > 90, state == 60);
+            Preconditions.stateAny(state, conds, state < 30, state > 90, state == 60);
         }catch (IllegalStateException e){
             fail("An IllegalStateException isn't supposed to be thrown");
         }
         try{
             int state = 60;
             String conds = "state < 30, state > 90, state == 60";
-            Preconditions.stateAny(conds, state < 30, state > 90, state == 60);
+            Preconditions.stateAny(state, conds, state < 30, state > 90, state == 60);
         }catch (IllegalStateException e){
             fail("An IllegalStateException isn't supposed to be thrown");
         }
         
+    }
+
+    /**
+     * Test {@code public static void stateAny(Object val, String desc_templ, String conditions, Boolean... exprs)}
+     * @see Preconditions#stateAny(Object, String, String, Boolean...)
+     * */
+    @org.junit.Test
+    public void stateAny_2() {
+        try{
+            int[] state = new int[]{10, 20, 30, 40, 50};
+            String desc_templ = "state's length is %s";
+            String conds = "state.length == 2, state.length == 4, state.length == 6";
+            Preconditions.stateAny(state.length, desc_templ, conds, state.length == 2, state.length == 4, state.length == 6);
+            fail("An IllegalStateException is supposed to be thrown");
+        }catch (IllegalStateException e){
+            assertEquals("[Problem]: State {@actual: state's length is 5} doesn't meet any of these specified conditions{@prec: state.length == 2, state.length == 4, state.length == 6}",
+                    e.getMessage().replaceAll("[\r|\n]", ""));
+        }
+        try{
+            int[] state = new int[]{10, 20};
+            String desc_templ = "state's length is %s";
+            String conds = "state.length == 2, state.length == 4, state.length == 6";
+            Preconditions.stateAny(state.length, desc_templ, conds, state.length == 2, state.length == 4, state.length == 6);
+        }catch (IllegalStateException e){
+            fail("An IllegalStateException isn't supposed to be thrown");
+        }
+        try{
+            int[] state = new int[]{10, 20, 30, 40};
+            String desc_templ = "state's length is %s";
+            String conds = "state.length == 2, state.length == 4, state.length == 6";
+            Preconditions.stateAny(state.length, desc_templ, conds, state.length == 2, state.length == 4, state.length == 6);
+        }catch (IllegalStateException e){
+            fail("An IllegalStateException isn't supposed to be thrown");
+        }
+        try{
+            int[] state = new int[]{10, 20, 30, 40, 50, 60};
+            String desc_templ = "state's length is %s";
+            String conds = "state.length == 2, state.length == 4, state.length == 6";
+            Preconditions.stateAny(state.length, desc_templ, conds, state.length == 2, state.length == 4, state.length == 6);
+        }catch (IllegalStateException e){
+            fail("An IllegalStateException isn't supposed to be thrown");
+        }
+
     }
 }
