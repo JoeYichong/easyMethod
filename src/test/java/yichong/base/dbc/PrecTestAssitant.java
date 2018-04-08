@@ -51,7 +51,7 @@ public class PrecTestAssitant {
         return String.format(templ, desc, prec);
     }
     /**
-     * a private method in {@code Preconditions} used by 'argNotNull' methods to generate exception messages.
+     * a private method in {@code Preconditions} used by 'argumentNotNull' methods to generate exception messages.
      * @see Preconditions#nullMsg(String, String)
      * */
     public static String nullMsg(String template, String param) {
@@ -182,7 +182,7 @@ public class PrecTestAssitant {
             obj = PrecTestAssitant.valueInArray(vals, index = rand.nextInt(18));
             System.out.println((i + 1) + ". Index = " + index + " , value = " + String.valueOf(obj));
             try{
-                Preconditions.argNotNull(obj);
+                Preconditions.argumentNotNull(obj);
                 if (obj == null)
                     fail("obj == null, fail to throw an IllegalArgumentException");
             }catch (IllegalArgumentException e){

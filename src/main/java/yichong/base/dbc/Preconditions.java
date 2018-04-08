@@ -22,7 +22,7 @@ package yichong.base.dbc;
  * <pre>
  * {@code
  * public void foo(Bar bar, int size){
- * 	   Preconditions.argNotNull("Bar bar", bar);
+ * 	   Preconditions.argumentNotNull("Bar bar", bar);
  *     Preconditions.argument(size, "size > 0", size > 0);
  *
  *     // actual operations of this method
@@ -78,6 +78,14 @@ public final class Preconditions {
             "\r\n[Problem]: Required Argument is NULL";
     private static final String Msg_State_NotNull =
             "\r\n[Problem]: Required State is NULL";
+    private static final String Msg_Arg_Template_any =
+            "\r\n[Problem]: None of these specified argument conditions is true";
+    private static final String Msg_Arg_Template_any_d   =
+            "\r\n[Problem]: None of these specified argument conditions{@prec: %s} is true";
+    private static final String Msg_State_Template_any =
+            "\r\n[Problem]: None of these specified state conditions is true";
+    private static final String Msg_State_Template_any_d   =
+            "\r\n[Problem]: None of these specified state conditions{@prec: %s} is true";
 
     /**
      * If the object is a string instance or a character instance, wrap it in "" or ''.
@@ -96,7 +104,7 @@ public final class Preconditions {
     }
 
     /**
-     * a private method used by 'argument' methods to generate exception messages,
+     * a private method used to generate exception messages,
      * {@code null} value and empty string("") are tolerated which indicated by using string '[-]' instead.
      *
      * @param msg_templ a template of exception message into which {@code value} and {@code cond} are inserted
@@ -112,7 +120,7 @@ public final class Preconditions {
     }
 
     /**
-     * a private method used by 'argument' methods to generate exception messages,
+     * a private method used to generate exception messages,
      * {@code null} value and empty string("") are tolerated which indicated by using string '[-]' instead or
      * other default values.
      *
@@ -131,7 +139,7 @@ public final class Preconditions {
     }
 
     /**
-     * a private method used by 'argNotNull' methods to generate exception messages,
+     * a private method used to generate exception messages,
      * {@code null} value and empty string("") are tolerated which indicated by using string '[-]' instead or
      * other default values.
      *
@@ -209,7 +217,7 @@ public final class Preconditions {
      * @param ref the object reference(as argument) passed to the calling method
      * @throws IllegalArgumentException if the reference is null
      */
-    public static void argNotNull(Object ref) {
+    public static void argumentNotNull(Object ref) {
         if (ref == null)
             throw new IllegalArgumentException(Msg_Arg_NotNull);
     }
@@ -222,7 +230,7 @@ public final class Preconditions {
      * @param ref the object reference(as argument) passed to the calling method
      * @throws IllegalArgumentException if the reference is null
      * */
-    public static void argNotNull(String param, Object ref) {
+    public static void argumentNotNull(String param, Object ref) {
         if (ref == null)
             throw new IllegalArgumentException(nullMsg(Msg_Arg_NotNull_Template, param));
     }
@@ -234,7 +242,7 @@ public final class Preconditions {
      * @param refs the object references(as arguments) passed to the calling method
      * @throws IllegalArgumentException if null reference detected
      */
-    public static void argsNotNull(Object... refs) {
+    public static void argumentsNotNull(Object... refs) {
         checkVarargs(refs);
         for (int i = 0; i < refs.length; i++) {
             if (refs[i] == null)
@@ -250,7 +258,7 @@ public final class Preconditions {
      * @param refs the object references(as arguments) passed to the calling method
      * @throws IllegalArgumentException if null reference detected
      */
-    public static void argsNotNull(String[] params, Object... refs) {
+    public static void argumentsNotNull(String[] params, Object... refs) {
         checkVarargs(refs);
         for (int i = 0; i < refs.length; i++) {
             if (refs[i] == null) {
@@ -332,26 +340,33 @@ public final class Preconditions {
         }
     }
 
-    // Arguments: assert at least one condition is true
-    public static void argumentsAny(boolean... args) {
-        if (args != null && args.length > 0) {
-            for (int i = 0; i < args.length; i++) {
-                if (args[i])
-                    return;
-            }
-            throw new IllegalArgumentException();
+    /**
+     * Asserts that at least one of many specified conditions is true
+     *
+     * @param exprs the boolean expressions of the specified conditions
+     * */
+    public static void argumentAny(Boolean... exprs) {
+        checkVarargs(exprs);
+        for (int i = 0; i < exprs.length; i++) {
+            if (exprs[i])
+                return;
         }
+        throw new IllegalArgumentException(Msg_Arg_Template_any);
     }
 
-    // Arguments: assert at least one condition is true + a Exception message
-    public static void argumentsAny(String msg, boolean... args) {
-        if (args != null && args.length > 0) {
-            for (int i = 0; i < args.length; i++) {
-                if (args[i])
-                    return;
-            }
-            throw new IllegalArgumentException(msg);
+    /**
+     * Asserts that at least one of many specified conditions is true
+     *
+     * @param conditions the strings that represent the specified conditions
+     * @param exprs the boolean expressions of the specified conditions
+     * */
+    public static void argumentAny(String conditions, Boolean... exprs) {
+        checkVarargs(exprs);
+        for (int i = 0; i < exprs.length; i++) {
+            if (exprs[i])
+                return;
         }
+        throw new IllegalArgumentException(nullMsg(Msg_Arg_Template_any_d, conditions));
     }
 
     /* **************************************************************************************************8 */
@@ -494,26 +509,33 @@ public final class Preconditions {
         }
     }
 
-    // State: assert at least one condition is true
-    public static void statesAny(boolean... prec_strs) {
-        if (prec_strs != null && prec_strs.length > 0) {
-            for (int i = 0; i < prec_strs.length; i++) {
-                if (prec_strs[i])
-                    return;
-            }
-            throw new IllegalStateException();
+    /**
+     * Asserts that at least one of many specified conditions is true
+     *
+     * @param exprs the boolean expressions of the specified conditions
+     * */
+    public static void stateAny(Boolean... exprs) {
+        checkVarargs(exprs);
+        for (int i = 0; i < exprs.length; i++) {
+            if (exprs[i])
+                return;
         }
+        throw new IllegalStateException();
     }
 
-    // State: assert at least one condition is true + a Exception message
-    public static void statesAny(String msg, boolean... args) {
-        if (args != null && args.length > 0) {
-            for (int i = 0; i < args.length; i++) {
-                if (args[i])
-                    return;
-            }
-            throw new IllegalStateException(msg);
+    /**
+     * Asserts that at least one of many specified conditions is true
+     *
+     * @param conditions the strings that represent the specified conditions
+     * @param exprs the boolean expressions of the specified conditions
+     * */
+    public static void stateAny(String conditions, Boolean... exprs) {
+        checkVarargs(exprs);
+        for (int i = 0; i < exprs.length; i++) {
+            if (exprs[i])
+                return;
         }
+        throw new IllegalStateException(conditions);
     }
 
 }

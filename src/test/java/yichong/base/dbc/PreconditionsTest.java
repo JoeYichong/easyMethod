@@ -130,14 +130,14 @@ public class PreconditionsTest {
     }
 
     /**
-     * Test {@code public static void argNotNull(Object ref)}
-     * @see Preconditions#argNotNull(Object)
+     * Test {@code public static void argumentNotNull(Object ref)}
+     * @see Preconditions#argumentNotNull(Object)
      * */
     @org.junit.Test
     public void argNotNull_1() {
         // null argument
         try{
-            Preconditions.argNotNull((Object) null);
+            Preconditions.argumentNotNull((Object) null);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
             assertEquals("[Problem]: Required Argument is NULL",
@@ -145,7 +145,7 @@ public class PreconditionsTest {
         }
         // non-null argument
         try{
-            Preconditions.argNotNull("");
+            Preconditions.argumentNotNull("");
         }catch (IllegalArgumentException e){
             fail("IllegalArgumentException isn't supposed to be thrown");
         }
@@ -154,14 +154,14 @@ public class PreconditionsTest {
     }
 
     /**
-     * Test {@code public static void argNotNull(String param, Object ref)}
-     * @see Preconditions#argNotNull(String, Object)
+     * Test {@code public static void argumentNotNull(String param, Object ref)}
+     * @see Preconditions#argumentNotNull(String, Object)
      * */
     @org.junit.Test
     public void argNotNull_2() {
         // null argument
         try{
-            Preconditions.argNotNull("Object obj", null);
+            Preconditions.argumentNotNull("Object obj", null);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
             assertEquals("[Problem]: Required Argument{@sig: Object obj} is NULL",
@@ -169,14 +169,14 @@ public class PreconditionsTest {
         }
         // non-null argument
         try{
-            Preconditions.argNotNull("Object obj", "");
+            Preconditions.argumentNotNull("Object obj", "");
         }catch (IllegalArgumentException e){
             fail("IllegalArgumentException isn't supposed to be thrown");
         }
 
         // null argument, param not available ("" empty string)
         try{
-            Preconditions.argNotNull("", null);
+            Preconditions.argumentNotNull("", null);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
             assertEquals("[Problem]: Required Argument{@sig: [-]} is NULL",
@@ -184,7 +184,7 @@ public class PreconditionsTest {
         }
         // null argument, param not available (null value)
         try{
-            Preconditions.argNotNull((String) null, null);
+            Preconditions.argumentNotNull((String) null, null);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
             assertEquals("[Problem]: Required Argument{@sig: [-]} is NULL",
@@ -194,14 +194,14 @@ public class PreconditionsTest {
     }
 
     /**
-     * Test {@code public static void argNotNull(Object... refs)}
-     * @see Preconditions#argsNotNull(Object...)
+     * Test {@code public static void argumentNotNull(Object... refs)}
+     * @see Preconditions#argumentsNotNull(Object...)
      * */
     @org.junit.Test
     public void argNotNull_3() {
         // a batch of objects with a null value in it
         try{
-            Preconditions.argsNotNull("", "123", null, true);
+            Preconditions.argumentsNotNull("", "123", null, true);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
             assertEquals("[Problem]: Required Argument is NULL",
@@ -209,7 +209,7 @@ public class PreconditionsTest {
         }
         // a batch of objects with 2 null values in it
         try{
-            Preconditions.argsNotNull("", "123", null, null);
+            Preconditions.argumentsNotNull("", "123", null, null);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
             assertEquals("[Problem]: Required Argument is NULL",
@@ -217,7 +217,7 @@ public class PreconditionsTest {
         }
         // a batch of objects without null value in it
         try{
-            Preconditions.argsNotNull("", "123", 100, true);
+            Preconditions.argumentsNotNull("", "123", 100, true);
         }catch (IllegalArgumentException e){
             fail("IllegalArgumentException isn't supposed to be thrown");
         }
@@ -225,14 +225,14 @@ public class PreconditionsTest {
     }
 
     /**
-     * Test {@code public static void argNotNull(String[] params, Object... refs)}
-     * @see Preconditions#argsNotNull(String[], Object...)
+     * Test {@code public static void argumentNotNull(String[] params, Object... refs)}
+     * @see Preconditions#argumentsNotNull(String[], Object...)
      * */
     @org.junit.Test
     public void argNotNull_4() {
         // a batch of objects to be checked, the first one is null
         try{
-            Preconditions.argsNotNull(new String[]{"String s1", "String s2", "Object o", "Boolean b"},
+            Preconditions.argumentsNotNull(new String[]{"String s1", "String s2", "Object o", "Boolean b"},
                     null, "123", new Object(), false);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
@@ -241,7 +241,7 @@ public class PreconditionsTest {
         }
         // a batch of objects to be checked, the last one is null
         try{
-            Preconditions.argsNotNull(new String[]{"String s1", "String s2", "Object o", "Boolean b"},
+            Preconditions.argumentsNotNull(new String[]{"String s1", "String s2", "Object o", "Boolean b"},
                     "", "123", new Object(), null);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
@@ -250,7 +250,7 @@ public class PreconditionsTest {
         }
         // a batch of objects to be checked, the 3rd one is null
         try{
-            Preconditions.argsNotNull(new String[]{"String s1", "String s2", "Object o", "Boolean b"},
+            Preconditions.argumentsNotNull(new String[]{"String s1", "String s2", "Object o", "Boolean b"},
                     "", "123", null, true);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
@@ -259,14 +259,14 @@ public class PreconditionsTest {
         }
         // a batch of objects without null value
         try{
-            Preconditions.argsNotNull(new String[]{"String s1", "String s2", "Object o", "Boolean b"},
+            Preconditions.argumentsNotNull(new String[]{"String s1", "String s2", "Object o", "Boolean b"},
                     "", "123", 100, true);
         }catch (IllegalArgumentException e){
             fail("IllegalArgumentException isn't supposed to be thrown");
         }
         // a batch of objects to be checked, the 3rd one is null and its corresponding sig is also null
         try{
-            Preconditions.argsNotNull(new String[]{"String s1", "String s2", null, "Boolean b"},
+            Preconditions.argumentsNotNull(new String[]{"String s1", "String s2", null, "Boolean b"},
                     "", "123", null, true);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
@@ -467,9 +467,24 @@ public class PreconditionsTest {
     }
 
     /**
-     * Test {@code public static void stateNotNull(Object ref)}
-     * @see Preconditions#stateNotNull(Object)
+     * Test {@code public static void argumentAny(Boolean... exprs)}
+     * @see Preconditions#argumentAny(Boolean...)
      * */
+    @org.junit.Test
+    public void argumentAny_1() {}
+
+    /**
+     * Test {@code public static void argumentAny(String conditions, Boolean... exprs)}
+     * @see Preconditions#argumentAny(String, Boolean...)
+     * */
+    @org.junit.Test
+    public void argumentAny_2() {}
+
+
+        /**
+         * Test {@code public static void stateNotNull(Object ref)}
+         * @see Preconditions#stateNotNull(Object)
+         * */
     @org.junit.Test
     public void stateNotNull_1() {
         // null argument
@@ -803,4 +818,18 @@ public class PreconditionsTest {
         }
 
     }
+
+    /**
+     * Test {@code public static void stateAny(Boolean... exprs)}
+     * @see Preconditions#stateAny(Boolean...)
+     * */
+    @org.junit.Test
+    public void stateAny_1() {}
+
+    /**
+     * Test {@code public static void stateAny(String conditions, Boolean... exprs)}
+     * @see Preconditions#stateAny(String, Boolean...)
+     * */
+    @org.junit.Test
+    public void stateAny_2() {}
 }
