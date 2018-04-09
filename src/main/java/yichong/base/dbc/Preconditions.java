@@ -155,16 +155,16 @@ public final class Preconditions {
         return String.format(msg_templ, para_n);
     }
 
-    /**
+    /*
      * a private method used by Varargs methods in this class to check that there is at least one argument passed in,
      * it also could be used by regular arrays.
      *
      * @param arr the Varargs argument array to be checked
      * */
-    private static <T> void checkVarargs(T[] arr) {
-        if(arr == null || arr.length == 0)
-            throw new IllegalArgumentException(Meta_Msg); // warning: empty method calling
-    }
+//    private static <T> void checkVarargs(T[] arr) {
+//        if(arr == null || arr.length == 0)
+//            throw new IllegalArgumentException(Meta_Msg); // warning: empty method calling
+//    }
 
     /**
      * A safe way to extract a value in an array without worrying about {@code IndexOutOfBoundsException} thrown.
@@ -250,7 +250,7 @@ public final class Preconditions {
      * @throws IllegalArgumentException if null reference detected
      */
     public static void argumentsNotNull(Object... refs) {
-        checkVarargs(refs);
+        //checkVarargs(refs);
         for (int i = 0; i < refs.length; i++) {
             if (refs[i] == null)
                 throw new IllegalArgumentException(Msg_Arg_NotNull);
@@ -266,7 +266,7 @@ public final class Preconditions {
      * @throws IllegalArgumentException if null reference detected
      */
     public static void argumentsNotNull(String[] params, Object... refs) {
-        checkVarargs(refs);
+        //checkVarargs(refs);
         for (int i = 0; i < refs.length; i++) {
             if (refs[i] == null) {
                 String param = valueInArray(params, i);
@@ -315,7 +315,7 @@ public final class Preconditions {
      * @throws IllegalArgumentException if invalid argument detected
      */
     public static void argumentAll(Object val, String[] prec_strs, Boolean... prec_exprs) {
-        checkVarargs(prec_exprs);
+        //checkVarargs(prec_exprs);
         for (int i = 0; i < prec_exprs.length; i++) {
             if (!prec_exprs[i]) {
                 String prec_str = valueInArray(prec_strs, i);
@@ -335,7 +335,7 @@ public final class Preconditions {
      * @throws IllegalArgumentException if invalid argument detected
      */
     public static void argumentAll(Object val, String desc_templ, String[] prec_strs, Boolean... prec_exprs) {
-        checkVarargs(prec_exprs);
+        //checkVarargs(prec_exprs);
         for (int i = 0; i < prec_exprs.length; i++) {
             if (!prec_exprs[i]) {
                 String prec_str = valueInArray(prec_strs, i);
@@ -353,7 +353,7 @@ public final class Preconditions {
      * @throws IllegalArgumentException if invalid argument detected
      * */
     public static void argumentAny(Object val, String conditions, Boolean... exprs) {
-        checkVarargs(exprs);
+        //checkVarargs(exprs);
         for (int i = 0; i < exprs.length; i++) {
             if (exprs[i])
                 return;
@@ -371,7 +371,7 @@ public final class Preconditions {
      * @throws IllegalArgumentException if invalid argument detected
      * */
     public static void argumentAny(Object val, String desc_templ, String conditions, Boolean... exprs) {
-        checkVarargs(exprs);
+        //checkVarargs(exprs);
         for (int i = 0; i < exprs.length; i++) {
             if (exprs[i])
                 return;
@@ -414,7 +414,7 @@ public final class Preconditions {
      * @throws IllegalStateException if null reference detected
      */
     public static void statesNotNull(Object... refs) {
-        checkVarargs(refs);
+        //checkVarargs(refs);
         for (int i = 0; i < refs.length; i++) {
             if (refs[i] == null)
                 throw new IllegalStateException(Msg_State_NotNull);
@@ -430,7 +430,7 @@ public final class Preconditions {
      * @throws IllegalStateException if null reference detected
      */
     public static void statesNotNull(String[] state_names, Object... refs) {
-        checkVarargs(refs);
+        //checkVarargs(refs);
         for (int i = 0; i < refs.length; i++) {
             if (refs[i] == null) {
                 String state_name = valueInArray(state_names, i);
@@ -479,7 +479,7 @@ public final class Preconditions {
      * @throws IllegalStateException if invalid state detected
      */
     public static void stateAll(Object val, String[] prec_strs, Boolean... prec_exprs) {
-        checkVarargs(prec_exprs);
+        //checkVarargs(prec_exprs);
         for (int i = 0; i < prec_exprs.length; i++) {
             if (!prec_exprs[i]) {
                 String prec_str = valueInArray(prec_strs, i);
@@ -499,7 +499,7 @@ public final class Preconditions {
      * @throws IllegalStateException if invalid state detected
      */
     public static void stateAll(Object val, String desc_templ, String[] prec_strs, Boolean... prec_exprs) {
-        checkVarargs(prec_exprs);
+        //checkVarargs(prec_exprs);
         for (int i = 0; i < prec_exprs.length; i++) {
             if (!prec_exprs[i]) {
                 String prec_str = valueInArray(prec_strs, i);
@@ -517,7 +517,7 @@ public final class Preconditions {
      * @throws IllegalStateException if invalid state detected
      * */
     public static void stateAny(Object val, String conditions, Boolean... exprs) {
-        checkVarargs(exprs);
+        //checkVarargs(exprs);
         for (int i = 0; i < exprs.length; i++) {
             if (exprs[i])
                 return;
@@ -535,7 +535,7 @@ public final class Preconditions {
      * @throws IllegalStateException if invalid state detected
      * */
     public static void stateAny(Object val, String desc_templ, String conditions, Boolean... exprs) {
-        checkVarargs(exprs);
+        //checkVarargs(exprs);
         for (int i = 0; i < exprs.length; i++) {
             if (exprs[i])
                 return;
