@@ -13,17 +13,28 @@ public class OtherPrecTests {
 
         this.month = month;
     }
+
     public float divide(float left, float right){
         Preconditions.argument(right, "right != 0", right != 0);
 
         return left / right;
     }
 
+    public void process(byte[] bytes){
+        Preconditions.argumentNotNull("byte[] bytes", bytes);
+        Preconditions.argumentAny(bytes.length, "%s bytes input", "2 bytes or 4 bytes only",
+                bytes.length == 2, bytes.length == 4);
+        String result = new String(bytes);
+        System.out.println(result);
+    }
+
 
     @org.junit.Test
     public void test(){
-        new OtherPrecTests().getLength(null);
+        //new OtherPrecTests().getLength(null);
         //new OtherPrecTests().setMonth(0);
         //new OtherPrecTests().divide(100, 0);
+        new OtherPrecTests().process(new byte[3]);
+
     }
 }

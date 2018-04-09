@@ -53,3 +53,24 @@ java.lang.IllegalArgumentException:
 	at yichong.base.dbc.OtherPrecTests.setMonth(OtherPrecTests.java:6)
 	at yichong.base.dbc.OtherPrecTests.test(OtherPrecTests.java:14)
 </pre>
+<h3>Example 4</h3>
+<pre>
+public void process(byte[] bytes){
+    Preconditions.argumentNotNull("byte[] bytes", bytes);
+    Preconditions.argumentAny(bytes.length, "%s bytes input", "2 bytes or 4 bytes only",
+            bytes.length == 2, bytes.length == 4);
+    String result = new String(bytes);
+    System.out.println(result);
+}
+new OtherPrecTests().process(new byte[3]);
+</pre>
+Test output:
+<pre>
+java.lang.IllegalArgumentException: 
+[Problem]: Argument{@actual: 3 bytes input} doesn't meet any of these specified conditions{@prec: 2 bytes or 4 bytes only}
+
+	at yichong.base.dbc.Preconditions.argumentAny(Preconditions.java:377)
+	at yichong.base.dbc.OtherPrecTests.process(OtherPrecTests.java:24)
+	at yichong.base.dbc.OtherPrecTests.test(OtherPrecTests.java:36)
+
+</pre>

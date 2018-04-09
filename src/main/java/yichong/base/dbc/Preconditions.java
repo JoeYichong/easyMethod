@@ -64,29 +64,29 @@ public final class Preconditions {
     private static final String Msg_State_NotNull =
             "\r\n[Problem]: Required State is NULL";
     private static final String Msg_Arr_NotEmpty_Template =
-            "\r\n[Problem]: Array {@sig: %s} is Empty";
+            "\r\n[Problem]: Array{@sig: %s} is Empty";
     private static final String Msg_Str_NotEmpty_Template =
-            "\r\n[Problem]: String {@sig: %s} is Empty";
+            "\r\n[Problem]: String{@sig: %s} is Empty";
     private static final String Msg_Arg_NotNull_Template =
             "\r\n[Problem]: Required Argument{@sig: %s} is NULL";
     private static final String Msg_State_NotNull_Template =
             "\r\n[Problem]: Required State{@sig: %s} is NULL";
     private static final String Msg_Arg_Template_v =
-            "\r\n[Problem]: Argument {@val: %s} doesn't meet the {@prec: %s}";
+            "\r\n[Problem]: Argument{@val: %s} doesn't meet the {@prec: %s}";
     private static final String Msg_Arg_Template_d =
-            "\r\n[Problem]: Argument {@actual: %s} doesn't meet the {@prec: %s}";
+            "\r\n[Problem]: Argument{@actual: %s} doesn't meet the {@prec: %s}";
     private static final String Msg_State_Template_v =
-            "\r\n[Problem]: State {@val: %s} doesn't meet the {@prec: %s}";
+            "\r\n[Problem]: State{@val: %s} doesn't meet the {@prec: %s}";
     private static final String Msg_State_Template_d =
-            "\r\n[Problem]: State {@actual: %s} doesn't meet the {@prec: %s}";
+            "\r\n[Problem]: State{@actual: %s} doesn't meet the {@prec: %s}";
     private static final String Msg_Arg_Template_any_v   =
-            "\r\n[Problem]: Argument {@val: %s} doesn't meet any of these specified conditions{@prec: %s}";
+            "\r\n[Problem]: Argument{@val: %s} doesn't meet any of these specified conditions{@prec: %s}";
     private static final String Msg_Arg_Template_any_d   =
-            "\r\n[Problem]: Argument {@actual: %s} doesn't meet any of these specified conditions{@prec: %s}";
+            "\r\n[Problem]: Argument{@actual: %s} doesn't meet any of these specified conditions{@prec: %s}";
     private static final String Msg_State_Template_any_v   =
-            "\r\n[Problem]: State {@val: %s} doesn't meet any of these specified conditions{@prec: %s}";
+            "\r\n[Problem]: State{@val: %s} doesn't meet any of these specified conditions{@prec: %s}";
     private static final String Msg_State_Template_any_d   =
-            "\r\n[Problem]: State {@actual: %s} doesn't meet any of these specified conditions{@prec: %s}";
+            "\r\n[Problem]: State{@actual: %s} doesn't meet any of these specified conditions{@prec: %s}";
 
     /**
      * If the object is a string instance or a character instance, wrap it in "" or ''.

@@ -68,7 +68,7 @@ public class PreconditionsTest {
             Preconditions.argumentNotNullAndNotEmpty("Array arr", new Object[0]);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
-            assertEquals("[Problem]: Array {@sig: Array arr} is Empty",
+            assertEquals("[Problem]: Array{@sig: Array arr} is Empty",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         // null. null
@@ -84,7 +84,7 @@ public class PreconditionsTest {
             Preconditions.argumentNotNullAndNotEmpty("", new Object[0]);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
-            assertEquals("[Problem]: Array {@sig: [-]} is Empty",
+            assertEquals("[Problem]: Array{@sig: [-]} is Empty",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
     }
@@ -108,7 +108,7 @@ public class PreconditionsTest {
             Preconditions.argumentNotNullAndNotEmpty("String str", "");
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
-            assertEquals("[Problem]: String {@sig: String str} is Empty",
+            assertEquals("[Problem]: String{@sig: String str} is Empty",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         // null. null
@@ -124,7 +124,7 @@ public class PreconditionsTest {
             Preconditions.argumentNotNullAndNotEmpty("", "");
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
-            assertEquals("[Problem]: String {@sig: [-]} is Empty",
+            assertEquals("[Problem]: String{@sig: [-]} is Empty",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
     }
@@ -286,7 +286,7 @@ public class PreconditionsTest {
             Preconditions.argument(arg, "arg > 0", arg > 0);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
-            assertEquals("[Problem]: Argument {@val: 0} doesn't meet the {@prec: arg > 0}",
+            assertEquals("[Problem]: Argument{@val: 0} doesn't meet the {@prec: arg > 0}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         try{
@@ -300,7 +300,7 @@ public class PreconditionsTest {
             Preconditions.argument(null, null, arg > 0);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e) {
-            assertEquals("[Problem]: Argument {@val: [-]} doesn't meet the {@prec: [-]}",
+            assertEquals("[Problem]: Argument{@val: [-]} doesn't meet the {@prec: [-]}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
     }
@@ -316,7 +316,7 @@ public class PreconditionsTest {
             Preconditions.argument(objs.length, "The length of object array argument is %s","objs.length > 10", objs.length > 10);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
-            assertEquals("[Problem]: Argument {@actual: The length of object array argument is 10} doesn't meet the {@prec: objs.length > 10}",
+            assertEquals("[Problem]: Argument{@actual: The length of object array argument is 10} doesn't meet the {@prec: objs.length > 10}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         try{
@@ -330,7 +330,7 @@ public class PreconditionsTest {
             Preconditions.argument(null, "The length of object array argument is %s",null, objs.length > 10);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e) {
-            assertEquals("[Problem]: Argument {@actual: The length of object array argument is [-]} doesn't meet the {@prec: [-]}",
+            assertEquals("[Problem]: Argument{@actual: The length of object array argument is [-]} doesn't meet the {@prec: [-]}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         try{
@@ -338,7 +338,7 @@ public class PreconditionsTest {
             Preconditions.argument(null, null,null, objs.length > 10);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e) {
-            assertEquals("[Problem]: Argument {@actual: [-]} doesn't meet the {@prec: [-]}",
+            assertEquals("[Problem]: Argument{@actual: [-]} doesn't meet the {@prec: [-]}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         try{
@@ -346,7 +346,7 @@ public class PreconditionsTest {
             Preconditions.argument(10, null,null, objs.length > 10);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e) {
-            assertEquals("[Problem]: Argument {@actual: 10} doesn't meet the {@prec: [-]}",
+            assertEquals("[Problem]: Argument{@actual: 10} doesn't meet the {@prec: [-]}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
     }
@@ -370,7 +370,7 @@ public class PreconditionsTest {
             Preconditions.argumentAll(val, precs, val > 10, val != 50, val < 100);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
-            assertEquals("[Problem]: Argument {@val: 10} doesn't meet the {@prec: val > 10}",
+            assertEquals("[Problem]: Argument{@val: 10} doesn't meet the {@prec: val > 10}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         try{
@@ -379,7 +379,7 @@ public class PreconditionsTest {
             Preconditions.argumentAll(val, precs, val > 0, val != 50, val < 100);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
-            assertEquals("[Problem]: Argument {@val: 50} doesn't meet the {@prec: val != 50}",
+            assertEquals("[Problem]: Argument{@val: 50} doesn't meet the {@prec: val != 50}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         try{
@@ -388,7 +388,7 @@ public class PreconditionsTest {
             Preconditions.argumentAll(val, precs, val > 0, val != 50, val < 100);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
-            assertEquals("[Problem]: Argument {@val: 100} doesn't meet the {@prec: val < 100}",
+            assertEquals("[Problem]: Argument{@val: 100} doesn't meet the {@prec: val < 100}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
 
@@ -416,7 +416,7 @@ public class PreconditionsTest {
             Preconditions.argumentAll(arr.length, desc_templ, prec_strs, arr.length > 0, arr.length < 10, arr.length != 3);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
-            assertEquals("[Problem]: Argument {@actual: arr's length is 0} doesn't meet the {@prec: arr.length > 0}",
+            assertEquals("[Problem]: Argument{@actual: arr's length is 0} doesn't meet the {@prec: arr.length > 0}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         try{
@@ -426,7 +426,7 @@ public class PreconditionsTest {
             Preconditions.argumentAll(arr.length, desc_templ, prec_strs, arr.length > 0, arr.length < 5, arr.length != 3);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
-            assertEquals("[Problem]: Argument {@actual: arr's length is 5} doesn't meet the {@prec: arr.length < 5}",
+            assertEquals("[Problem]: Argument{@actual: arr's length is 5} doesn't meet the {@prec: arr.length < 5}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         try{
@@ -436,7 +436,7 @@ public class PreconditionsTest {
             Preconditions.argumentAll(arr.length, desc_templ, prec_strs, arr.length > 0, arr.length < 10, arr.length != 4);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
-            assertEquals("[Problem]: Argument {@actual: arr's length is 4} doesn't meet the {@prec: arr.length != 4}",
+            assertEquals("[Problem]: Argument{@actual: arr's length is 4} doesn't meet the {@prec: arr.length != 4}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
 
@@ -455,7 +455,7 @@ public class PreconditionsTest {
             Preconditions.argumentAny(arg, conds, arg < 30, arg > 90, arg == 60);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
-            assertEquals("[Problem]: Argument {@val: 50} doesn't meet any of these specified conditions{@prec: arg < 30, arg > 90, arg == 60}",
+            assertEquals("[Problem]: Argument{@val: 50} doesn't meet any of these specified conditions{@prec: arg < 30, arg > 90, arg == 60}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         try{
@@ -495,7 +495,7 @@ public class PreconditionsTest {
             Preconditions.argumentAny(arg.length, desc_templ, conds, arg.length == 2, arg.length == 4, arg.length == 6);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
-            assertEquals("[Problem]: Argument {@actual: arg's length is 5} doesn't meet any of these specified conditions{@prec: arg.length == 2, arg.length == 4, arg.length == 6}",
+            assertEquals("[Problem]: Argument{@actual: arg's length is 5} doesn't meet any of these specified conditions{@prec: arg.length == 2, arg.length == 4, arg.length == 6}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         try{
@@ -683,7 +683,7 @@ public class PreconditionsTest {
             Preconditions.state(arg, "arg > 0", arg > 0);
             fail("An IllegalStateException is supposed to be thrown");
         }catch (IllegalStateException e){
-            assertEquals("[Problem]: State {@val: 0} doesn't meet the {@prec: arg > 0}",
+            assertEquals("[Problem]: State{@val: 0} doesn't meet the {@prec: arg > 0}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         try{
@@ -697,7 +697,7 @@ public class PreconditionsTest {
             Preconditions.state(null, null, arg > 0);
             fail("An IllegalStateException is supposed to be thrown");
         }catch (IllegalStateException e) {
-            assertEquals("[Problem]: State {@val: [-]} doesn't meet the {@prec: [-]}",
+            assertEquals("[Problem]: State{@val: [-]} doesn't meet the {@prec: [-]}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
 
@@ -714,7 +714,7 @@ public class PreconditionsTest {
             Preconditions.state(objs.length, "The length of object array State is %s","objs.length > 10", objs.length > 10);
             fail("An IllegalStateException is supposed to be thrown");
         }catch (IllegalStateException e){
-            assertEquals("[Problem]: State {@actual: The length of object array State is 10} doesn't meet the {@prec: objs.length > 10}",
+            assertEquals("[Problem]: State{@actual: The length of object array State is 10} doesn't meet the {@prec: objs.length > 10}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         try{
@@ -728,7 +728,7 @@ public class PreconditionsTest {
             Preconditions.state(null, "The length of object array State is %s",null, objs.length > 10);
             fail("An IllegalStateException is supposed to be thrown");
         }catch (IllegalStateException e) {
-            assertEquals("[Problem]: State {@actual: The length of object array State is [-]} doesn't meet the {@prec: [-]}",
+            assertEquals("[Problem]: State{@actual: The length of object array State is [-]} doesn't meet the {@prec: [-]}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         try{
@@ -736,7 +736,7 @@ public class PreconditionsTest {
             Preconditions.state(null, null,null, objs.length > 10);
             fail("An IllegalStateException is supposed to be thrown");
         }catch (IllegalStateException e) {
-            assertEquals("[Problem]: State {@actual: [-]} doesn't meet the {@prec: [-]}",
+            assertEquals("[Problem]: State{@actual: [-]} doesn't meet the {@prec: [-]}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         try{
@@ -744,7 +744,7 @@ public class PreconditionsTest {
             Preconditions.state(10, null,null, objs.length > 10);
             fail("An IllegalStateException is supposed to be thrown");
         }catch (IllegalStateException e) {
-            assertEquals("[Problem]: State {@actual: 10} doesn't meet the {@prec: [-]}",
+            assertEquals("[Problem]: State{@actual: 10} doesn't meet the {@prec: [-]}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
 
@@ -769,7 +769,7 @@ public class PreconditionsTest {
             Preconditions.stateAll(val, precs, val > 10, val != 50, val < 100);
             fail("An IllegalStateException is supposed to be thrown");
         }catch (IllegalStateException e){
-            assertEquals("[Problem]: State {@val: 10} doesn't meet the {@prec: val > 10}",
+            assertEquals("[Problem]: State{@val: 10} doesn't meet the {@prec: val > 10}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         try{
@@ -778,7 +778,7 @@ public class PreconditionsTest {
             Preconditions.stateAll(val, precs, val > 0, val != 50, val < 100);
             fail("An IllegalStateException is supposed to be thrown");
         }catch (IllegalStateException e){
-            assertEquals("[Problem]: State {@val: 50} doesn't meet the {@prec: val != 50}",
+            assertEquals("[Problem]: State{@val: 50} doesn't meet the {@prec: val != 50}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         try{
@@ -787,7 +787,7 @@ public class PreconditionsTest {
             Preconditions.stateAll(val, precs, val > 0, val != 50, val < 100);
             fail("An IllegalStateException is supposed to be thrown");
         }catch (IllegalStateException e){
-            assertEquals("[Problem]: State {@val: 100} doesn't meet the {@prec: val < 100}",
+            assertEquals("[Problem]: State{@val: 100} doesn't meet the {@prec: val < 100}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         
@@ -814,7 +814,7 @@ public class PreconditionsTest {
             Preconditions.stateAll(arr.length, desc_templ, prec_strs, arr.length > 0, arr.length < 10, arr.length != 3);
             fail("An IllegalStateException is supposed to be thrown");
         }catch (IllegalStateException e){
-            assertEquals("[Problem]: State {@actual: arr's length is 0} doesn't meet the {@prec: arr.length > 0}",
+            assertEquals("[Problem]: State{@actual: arr's length is 0} doesn't meet the {@prec: arr.length > 0}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         try{
@@ -824,7 +824,7 @@ public class PreconditionsTest {
             Preconditions.stateAll(arr.length, desc_templ, prec_strs, arr.length > 0, arr.length < 5, arr.length != 3);
             fail("An IllegalStateException is supposed to be thrown");
         }catch (IllegalStateException e){
-            assertEquals("[Problem]: State {@actual: arr's length is 5} doesn't meet the {@prec: arr.length < 5}",
+            assertEquals("[Problem]: State{@actual: arr's length is 5} doesn't meet the {@prec: arr.length < 5}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         try{
@@ -834,7 +834,7 @@ public class PreconditionsTest {
             Preconditions.stateAll(arr.length, desc_templ, prec_strs, arr.length > 0, arr.length < 10, arr.length != 4);
             fail("An IllegalStateException is supposed to be thrown");
         }catch (IllegalStateException e){
-            assertEquals("[Problem]: State {@actual: arr's length is 4} doesn't meet the {@prec: arr.length != 4}",
+            assertEquals("[Problem]: State{@actual: arr's length is 4} doesn't meet the {@prec: arr.length != 4}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
 
@@ -852,7 +852,7 @@ public class PreconditionsTest {
             Preconditions.stateAny(state, conds, state < 30, state > 90, state == 60);
             fail("An IllegalStateException is supposed to be thrown");
         }catch (IllegalStateException e){
-            assertEquals("[Problem]: State {@val: 50} doesn't meet any of these specified conditions{@prec: state < 30, state > 90, state == 60}",
+            assertEquals("[Problem]: State{@val: 50} doesn't meet any of these specified conditions{@prec: state < 30, state > 90, state == 60}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         try{
@@ -892,7 +892,7 @@ public class PreconditionsTest {
             Preconditions.stateAny(state.length, desc_templ, conds, state.length == 2, state.length == 4, state.length == 6);
             fail("An IllegalStateException is supposed to be thrown");
         }catch (IllegalStateException e){
-            assertEquals("[Problem]: State {@actual: state's length is 5} doesn't meet any of these specified conditions{@prec: state.length == 2, state.length == 4, state.length == 6}",
+            assertEquals("[Problem]: State{@actual: state's length is 5} doesn't meet any of these specified conditions{@prec: state.length == 2, state.length == 4, state.length == 6}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         try{
