@@ -6,7 +6,6 @@
 <pre>
 public int getLength(String target){
      Preconditions.argumentNotNull("String target", target);
-
      return target.length();
 }
 new OtherPrecTests().getLength(null);
@@ -24,7 +23,6 @@ java.lang.IllegalArgumentException:
 <pre>
 public float divide(float left, float right){
     Preconditions.argument(right, "right != 0", right != 0);
-
     return left / right;
 }
 new OtherPrecTests().divide(100, 0);
@@ -42,7 +40,6 @@ java.lang.IllegalArgumentException:
 <pre>
 public void setMonth(int month){
     Preconditions.argumentAll(month, new String[]{"month > 0", "month < 13"}, month > 0, month < 13);
-    
     this.month = month;
 }
 new OtherPrecTests().setMonth(0);
