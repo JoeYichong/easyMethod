@@ -63,9 +63,9 @@ public final class Preconditions {
             "\r\n[Problem]: Required Argument is NULL";
     private static final String Msg_State_NotNull =
             "\r\n[Problem]: Required State is NULL";
-    private static final String Msg_Arr_NotEmpty_Template =
+    private static final String Msg_Arg_Arr_NotEmpty_Template =
             "\r\n[Problem]: Array{@sig: %s} is Empty";
-    private static final String Msg_Str_NotEmpty_Template =
+    private static final String Msg_Arg_Str_NotEmpty_Template =
             "\r\n[Problem]: String{@sig: %s} is Empty";
     private static final String Msg_Arg_NotNull_Template =
             "\r\n[Problem]: Required Argument{@sig: %s} is NULL";
@@ -196,7 +196,7 @@ public final class Preconditions {
         if (arr == null)
             throw new IllegalArgumentException(nullMsg(Msg_Arg_NotNull_Template, sig));
         if (arr.length == 0)
-            throw new IllegalArgumentException(nullMsg(Msg_Arr_NotEmpty_Template, sig));
+            throw new IllegalArgumentException(nullMsg(Msg_Arg_Arr_NotEmpty_Template, sig));
     }
 
     /**
@@ -210,8 +210,8 @@ public final class Preconditions {
     public static void argumentNotNullAndNotEmpty(String sig, String str) {
         if (str == null)
             throw new IllegalArgumentException(nullMsg(Msg_Arg_NotNull_Template, sig));
-        if (str == null || str.length() == 0)
-            throw new IllegalArgumentException(nullMsg(Msg_Str_NotEmpty_Template, sig));
+        if (str.length() == 0)
+            throw new IllegalArgumentException(nullMsg(Msg_Arg_Str_NotEmpty_Template, sig));
     }
 
     /**
