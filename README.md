@@ -1,13 +1,13 @@
 # easyMethod#Preconditions
 
-  Inspired by the concept of 'Design by Contract(DBC)', the methods in <code>Preconditions</code> class are designed primarily for checking preconditions of the calling methods or constructors before their actual operations begin to execute, e.g. as demonstrated below:
+  Inspired by the concept of 'Design by Contract(DBC)' and coding practice, the methods in <code>Preconditions</code> class are designed primarily for checking preconditions of the calling methods or constructors before their actual operations begin to execute, e.g. as demonstrated below:
 
 Example 1:
 <pre>
 public int getLength(String target){
      Preconditions.argumentNotNull("String target", target);
 
-     return str.length();
+     return target.length();
 }
 new OtherPrecTests().getLength(null);
 </pre>

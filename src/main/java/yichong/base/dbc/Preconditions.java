@@ -16,9 +16,10 @@
 package yichong.base.dbc;
 
 /**
- * Inspired by the concept of 'Design by Contract(DBC)',
- * these methods are designed primarily for checking preconditions of the calling methods or constructors before
- * executing the actual operations in them, e.g. as demonstrated below:
+ * Inspired by the concept of 'Design by Contract(DBC)' and coding practice,
+ * the methods in <code>Preconditions</code> class are designed primarily for
+ * checking preconditions of the calling methods or constructors before
+ * their actual operations begin to execute, e.g. as demonstrated below:
  * <pre>
  * {@code
  * public void foo(Bar bar, int size){
