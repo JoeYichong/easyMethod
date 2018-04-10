@@ -50,8 +50,8 @@ package yichong.base.dbc;
  * <p>{@code {@prec ...}} means the description of preconditions.
  * <p>The scenarios of variable information not being available are tolerated by using
  * string '[-]' to indicate this variable information isn't available.
- * Varargs in the methods of this class should be passed at least one value,
- * empty calling or pass null to these methods may introduce unnecessary performance overhead or
+ * Varargs in the methods of this class should be passed at least one non-null value,
+ * empty calling or pass null to the Varargs of these methods may introduce unnecessary performance overhead or
  * cause an exception to be thrown.
  *
  * @author Joe Yichong
@@ -219,7 +219,6 @@ public final class Preconditions {
     /**
      * Asserts that the specified object reference is not null. If it is it throws an
      * {@link IllegalArgumentException} with the given message.
-     * (Similar to {@code Objects.requireNonNull(T obj)})
      *
      * @param ref the object reference(as argument) passed to the calling method
      * @throws IllegalArgumentException if the reference is null
