@@ -30,7 +30,7 @@ new OtherPrecTests().divide(100, 0);
 Test output:
 <pre>
 java.lang.IllegalArgumentException: 
-[Problem]: Argument {@val: 0.0} doesn't meet the {@prec: right != 0}
+[Problem]: Argument{@val: 0.0} doesn't meet the {@prec: right != 0}
 
 	at yichong.base.dbc.Preconditions.argument(Preconditions.java:287)
 	at yichong.base.dbc.OtherPrecTests.divide(OtherPrecTests.java:11)
@@ -47,7 +47,7 @@ new OtherPrecTests().setMonth(0);
 Test output:
 <pre>
 java.lang.IllegalArgumentException: 
-[Problem]: Argument {@val: 0} doesn't meet the {@prec: month > 0}
+[Problem]: Argument{@val: 0} doesn't meet the {@prec: month > 0}
 
 	at yichong.base.dbc.Preconditions.argumentAll(Preconditions.java:319)
 	at yichong.base.dbc.OtherPrecTests.setMonth(OtherPrecTests.java:6)
