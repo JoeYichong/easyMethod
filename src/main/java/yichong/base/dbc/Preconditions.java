@@ -36,7 +36,7 @@ package yichong.base.dbc;
  * the calling method has been passed an illegal or inappropriate argument,
  * throw an {@code IllegalStateException} to signal that the calling method has been
  * invoked at an illegal or inappropriate time/state for the requested operation.
- * The reason why {@code NullPointerException} isn't used here, see {@link java.lang.NullPointerException}
+ * {@code NullPointerException} isn't used here.
  * </p>
  * <p>
  * The common traits of these assert methods' parameter signatures are like this:
@@ -49,8 +49,10 @@ package yichong.base.dbc;
  * <p>{@code {@actual ...}} means the actual situation of the argument or state object.
  * <p>{@code {@prec ...}} means the description of preconditions.
  * <p>The scenarios of variable information not being available are tolerated by using
- * string '[-]' to indicate this variable information isn't available
- *
+ * string '[-]' to indicate this variable information isn't available.
+ * Varargs in the methods of this class should be passed at least one value,
+ * empty calling or pass null to these methods may introduce unnecessary performance overhead or
+ * cause an exception to be thrown.
  *
  * @author Joe Yichong
  * @version 1.2
