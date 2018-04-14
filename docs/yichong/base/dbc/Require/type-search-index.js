@@ -1,0 +1,1 @@
+typeSearchIndex = [{"p":"yichong.base.dbc","l":"Require"}]
