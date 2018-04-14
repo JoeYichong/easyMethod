@@ -5,29 +5,27 @@ import static org.junit.Assert.*;
 public class RequireTest {
     /**
      * Test {@code private static <T> T valueInArray(T[] arr, int index)} in class {@code Require}.
-     * Its codes has been copied into {@code PrecTestAssitant} class as a public method for this test.
      * Random values used for testing are automatically generated.
      * @see Require#valueInArray(Object[], int)
      * */
     @org.junit.Test
     public void valueInArray(){
-        PrecTestAssitant.getInstance().testValueInArray(10);
+        RequireTestAssitant.getInstance().testValueInArray_random(10);
     }
 
     /*
      * Test {@code private static <T> boolean checkVarargs(T[] arr)} in class {@code Require}.
-     * Its codes has been copied into {@code PrecTestAssitant} class as a public method for this test.
      * Random values used for testing are automatically generated.
      * @see Require#checkVarargs(Object[])
      * */
 //    @org.junit.Test
 //    public void checkVarargs(){
-//        PrecTestAssitant.getInstance().testCheckVarargs(10);
+//        RequireTestAssitant.getInstance().testCheckVarargs(10);
 //
 //        // Varargs method test
 //        // null value passed into the method
 //        try{
-//            PrecTestAssitant.checkVarargs((Object[]) null);
+//            RequireTestAssitant.checkVarargs((Object[]) null);
 //            fail("An IllegalArgumentException is supposed to be thrown");
 //        }catch (IllegalArgumentException e){
 //            assertEquals("[Warning]: 0 Argument or 'null' passed into the `Require` method",
@@ -35,14 +33,14 @@ public class RequireTest {
 //        }
 //        // no argument passed into the Varargs method
 //        try{
-//            PrecTestAssitant.checkVarargs(new Object[0]);
+//            RequireTestAssitant.checkVarargs(new Object[0]);
 //            fail("An IllegalArgumentException is supposed to be thrown");
 //        }catch (IllegalArgumentException e){
 //            assertEquals("[Warning]: 0 Argument or 'null' passed into the `Require` method",
 //                    e.getMessage().replaceAll("[\r|\n]", ""));
 //        }
 //        try{
-//            PrecTestAssitant.checkVarargs(new Object[1]);
+//            RequireTestAssitant.checkVarargs(new Object[1]);
 //        }catch (IllegalArgumentException e){
 //            fail("An IllegalArgumentException isn't supposed to be thrown");
 //        }
@@ -150,7 +148,7 @@ public class RequireTest {
             fail("IllegalArgumentException isn't supposed to be thrown");
         }
 
-        PrecTestAssitant.getInstance().testAssertNotNull_1(10);
+        RequireTestAssitant.getInstance().testAssertNotNull_1_random(10);
     }
 
     /**

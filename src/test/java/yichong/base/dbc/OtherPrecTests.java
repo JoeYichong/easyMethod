@@ -30,11 +30,11 @@ public class OtherPrecTests {
 
 
     @org.junit.Test
-    public void test(){
+    public void test() {
         //new OtherPrecTests().getLength(null);
         //new OtherPrecTests().setMonth(0);
         //new OtherPrecTests().divide(100, 0);
-        new OtherPrecTests().process(new byte[3]);
+        //new OtherPrecTests().process(new byte[3]);
 
     }
 }

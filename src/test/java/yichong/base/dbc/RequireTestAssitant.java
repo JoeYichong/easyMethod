@@ -1,86 +1,119 @@
 package yichong.base.dbc;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Random;
 
 import static org.junit.Assert.*;
 
-public class PrecTestAssitant {
-//    public static final String Meta_Msg =
-//        "\r\n[Warning]: 0 Argument or 'null' passed into the `Require` method";
-    public static final String Msg_Template =
-            "\r\n[Problem]: {@?: %s} doesn't meet the {@prec: %s}";
-    public static final String NotNull_Template =
-            "\r\n[Problem]: {@param: %s} is NULL";
+public class RequireTestAssitant {
 
     /**
-     * a private method in {@code Require} used by 'argument' methods to generate exception messages.
+     * Use Reflection to gain access a private method in {@code Require}.
      * @see Require#errorMsg(String, Object, String)
      * */
     public static String errorMsg(String template, Object value, String cond) {
-        String templ = (template == null) ? Msg_Template : template;
-        String val = (value == null) ? "[-]" : String.valueOf(value);
-        String prec = (cond == null || "".equals(cond)) ? "[-]" : cond;
-
-        return String.format(templ, val, prec);
+        try {
+            Method method = Require.class.getDeclaredMethod("errorMsg",
+                    new Class[]{String.class, Object.class, String.class});
+            method.setAccessible(true);
+            return (String) method.invoke(Require.class, template, value, cond);
+        } catch (NoSuchMethodException e) {
+            fail("NoSuchMethodException thrown");
+        } catch (IllegalAccessException e) {
+            fail("IllegalAccessException thrown");
+        } catch (InvocationTargetException e) {
+            fail("InvocationTargetException thrown");
+        }
+        fail("No Return");
+        return null;
     }
     /**
-     * a private method in {@code Require} used by 'argument' methods to generate exception messages.
+     * Use Reflection to gain access a private method in {@code Require}.
      * @see Require#errorMsg(String, String, Object, String)
      * */
     public static String errorMsg(String msg_templ, String desc_templ, Object value, String cond) {
-        String templ = (msg_templ == null) ? Msg_Template : msg_templ;
-        String val = (value == null) ? "[-]" : String.valueOf(value);
-        String desc = (desc_templ == null || "".equals(desc_templ)) ? val : String.format(desc_templ, val);
-        String prec = (cond == null || "".equals(cond)) ? "[-]" : cond;
-
-        return String.format(templ, desc, prec);
+        try {
+            Method method = Require.class.getDeclaredMethod("errorMsg",
+                    new Class[]{String.class, String.class, Object.class, String.class});
+            method.setAccessible(true);
+            return (String) method.invoke(Require.class, msg_templ, desc_templ, value, cond);
+        } catch (NoSuchMethodException e) {
+            fail("NoSuchMethodException thrown");
+        } catch (IllegalAccessException e) {
+            fail("IllegalAccessException thrown");
+        } catch (InvocationTargetException e) {
+            fail("InvocationTargetException thrown");
+        }
+        fail("No Return");
+        return null;
     }
     /**
-     * a private method in {@code Require} used by 'argumentNotNull' methods to generate exception messages.
+     * Use Reflection to gain access a private method in {@code Require}.
      * @see Require#nullMsg(String, String)
      * */
     public static String nullMsg(String template, String param) {
-        String templ = (template == null) ? NotNull_Template : template;
-        String para_n = (param == null || "".equals(param)) ? "[-]" : param;
-
-        return String.format(templ, para_n);
+        try {
+            Method method = Require.class.getDeclaredMethod("nullMsg",
+                    new Class[]{String.class, String.class});
+            method.setAccessible(true);
+            return (String) method.invoke(Require.class, template, param);
+        } catch (NoSuchMethodException e) {
+            fail("NoSuchMethodException thrown");
+        } catch (IllegalAccessException e) {
+            fail("IllegalAccessException thrown");
+        } catch (InvocationTargetException e) {
+            fail("InvocationTargetException thrown");
+        }
+        fail("No Return");
+        return null;
     }
+
     /*
      * a private method in {@code Require} used by Varargs methods to
      * check that there is at least one argument passed in.
      * @see Require#checkVarargs(Object[])
      * */
 //    public static <T> void checkVarargs(T[] arr) {
-//        if(arr == null || arr.length == 0)
-//            throw new IllegalArgumentException(Meta_Msg); // warning: empty method calling
 //    }
+
     /**
-     * a private method used in {@code Require} to fetch a value in a specified array.
+     * Use Reflection to gain access a private method in {@code Require}.
      * @see Require#valueInArray(Object[], int)
      * */
     public static <T> T valueInArray(T[] arr, int index) {
-        if(arr != null && arr.length > index) {
-            return arr[index];
+        try {
+            Method method = Require.class.getDeclaredMethod("valueInArray",
+                    new Class[]{Object[].class, int.class});
+            method.setAccessible(true);
+            return (T) method.invoke(Require.class, arr, index);
+        } catch (NoSuchMethodException e) {
+            fail("NoSuchMethodException thrown");
+        } catch (IllegalAccessException e) {
+            fail("IllegalAccessException thrown");
+        } catch (InvocationTargetException e) {
+            fail("InvocationTargetException thrown");
         }
+        fail("No Return");
         return null;
     }
 
-    private static PrecTestAssitant instance = null;
+    private static RequireTestAssitant instance = null;
     private Random rand = null;
     /**
      * a private constructor to prevent instantiation using 'new' keyword
      * */
-    private PrecTestAssitant(){
+    private RequireTestAssitant(){
         rand = new Random();
     }
 
     /**
-     * get an instance of {@code PrecTestAssitant} class
+     * get an instance of {@code RequireTestAssitant} class
      * using singleton pattern and lazy instantiation strategy
      * */
-    public static PrecTestAssitant getInstance(){
+    public static RequireTestAssitant getInstance(){
         if (instance == null){
-            instance = new PrecTestAssitant();
+            instance = new RequireTestAssitant();
         }
         return instance;
     }
@@ -109,13 +142,13 @@ public class PrecTestAssitant {
      * @see RequireTest#valueInArray()
      * @param times used to indicate how many times random value test will run.
      * */
-    public void testValueInArray(int times){
-        System.out.println(" - testValueInArray() start: ");
+    public void testValueInArray_random(int times){
+        System.out.println(" - testValueInArray_random() start: ");
         int index = 0;
         Object val = null;
         for(int i = 0; i < times; i++){
             try{
-                val = PrecTestAssitant.valueInArray(vals, (index = rand.nextInt(18)));
+                val = RequireTestAssitant.valueInArray(vals, (index = rand.nextInt(18)));
                 printIndexAndValue(i, index, val);
                 if(index > 8 && val != null)
                     fail("Value should be null if index out of boundary");
@@ -123,7 +156,7 @@ public class PrecTestAssitant {
                 fail("IndexOutOfBoundsException is not supposed to be thrown");
             }
         }
-        System.out.println(" - testValueInArray() end.");
+        System.out.println(" - testValueInArray_random() end.");
     }
 
     /**
@@ -132,13 +165,13 @@ public class PrecTestAssitant {
      * */
 //    @Deprecated
 //    public void testCheckVarargs(int times){
-//        System.out.println(" - testValueInArray() start: ");
+//        System.out.println(" - testValueInArray_random() start: ");
 //        int index = -1;
 //        Object[] arr;
 //        for(int i = 0; i < times; i++){
 //            try{
 //                arr = arrs[(index = rand.nextInt(5))];
-//                PrecTestAssitant.checkVarargs(arr);
+//                RequireTestAssitant.checkVarargs(arr);
 //                printIndexAndValue(i, index, arrs_desc[index]);
 //                if(arr == null || arr.length == 0)
 //                    fail("fail to throw an IllegalArgumentException");
@@ -150,7 +183,7 @@ public class PrecTestAssitant {
 //            }
 //            index = -1;
 //        }
-//        System.out.println(" - testValueInArray() end.");
+//        System.out.println(" - testValueInArray_random() end.");
 //    }
 
 
@@ -159,13 +192,13 @@ public class PrecTestAssitant {
      * @see RequireTest#argNotNull_1()
      * @param times used to indicate how many times random value test will run.
      * */
-    public void testAssertNotNull_1(int times){
+    public void testAssertNotNull_1_random(int times){
         Object obj = null;
         int index = 0;
-        System.out.println(" - PrecTestAssitant testAssertNotNull_1 start: ");
+        System.out.println(" - RequireTestAssitant testAssertNotNull_1_random start: ");
         for(int i = 0; i < times; i++){
             //obj = ((index = rand.nextInt(18)) < 9) ? vals[index] : null;
-            obj = PrecTestAssitant.valueInArray(vals, index = rand.nextInt(18));
+            obj = RequireTestAssitant.valueInArray(vals, index = rand.nextInt(18));
             System.out.println((i + 1) + ". Index = " + index + " , value = " + String.valueOf(obj));
             try{
                 Require.argumentNotNull(obj);
@@ -180,7 +213,7 @@ public class PrecTestAssitant {
                 else fail("obj != null, IllegalArgumentException is not supposed to be thrown");
             }
         }
-        System.out.println(" - PrecTestAssitant testAssertNotNull_1 end.");
+        System.out.println(" - RequireTestAssitant testAssertNotNull_1_random end.");
     }
 
 

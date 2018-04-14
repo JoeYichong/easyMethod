@@ -1,6 +1,6 @@
 <h1>easyMethod#Require</h1>
 
-  Inspired by the concept of 'Design by Contract(DBC)' and coding practice, the methods in <code>Require</code> class are designed primarily for checking Require of the calling methods or constructors before their actual operations begin to execute, e.g. as demonstrated below:
+  Inspired by the concept of 'Design by Contract(DBC)' and coding practice, the methods in <code>Require</code> class are designed primarily for checking the preconditions of calling methods or constructors before their actual operations begin to execute, e.g. as demonstrated below:
 
 <h3>Example 1</h3>
 <pre>

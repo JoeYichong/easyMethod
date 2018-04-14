@@ -18,7 +18,7 @@ package yichong.base.dbc;
 /**
  * Inspired by the concept of 'Design by Contract(DBC)' and coding practice,
  * the methods in <code>Require</code> class are designed primarily for
- * checking preconditions of the calling methods or constructors before
+ * checking the preconditions of calling methods or constructors before
  * their actual operations begin to execute, e.g. as demonstrated below:
  * <pre>
  * {@code
