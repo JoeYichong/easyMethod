@@ -17,14 +17,14 @@ package yichong.base.dbc;
 
 /**
  * Inspired by the concept of 'Design by Contract(DBC)' and coding practice,
- * the methods in <code>Preconditions</code> class are designed primarily for
+ * the methods in <code>Require</code> class are designed primarily for
  * checking preconditions of the calling methods or constructors before
  * their actual operations begin to execute, e.g. as demonstrated below:
  * <pre>
  * {@code
  * public void foo(Bar bar, int size){
- * 	   Preconditions.argumentNotNull("Bar bar", bar);
- *     Preconditions.argument(size, "size > 0", size > 0);
+ * 	   Require.argumentNotNull("Bar bar", bar);
+ *     Require.argument(size, "size > 0", size > 0);
  *
  *     // actual operations of this method
  *     ...
@@ -50,7 +50,7 @@ package yichong.base.dbc;
  * <p>{@code {@prec ...}} means the description of preconditions.
  * <p>The scenarios of variable information not being available are tolerated by using
  * string '[-]' to indicate this variable information isn't available.
- * Varargs in the methods of this class should be passed at least one non-null value,
+ * <p>Varargs in the methods of this class should be passed at least one non-null value,
  * empty calling or pass null to the Varargs of these methods may introduce unnecessary performance overhead or
  * cause an exception to be thrown.
  *
@@ -58,9 +58,9 @@ package yichong.base.dbc;
  * @version 1.2
  */
 
-public final class Preconditions {
-    private static final String Meta_Msg =
-            "\r\n[Warning]: 0 Argument or 'null' passed into the `Preconditions` method";
+public final class Require {
+//    private static final String Meta_Msg =
+//            "\r\n[Warning]: 0 Argument or 'null' passed into the `Require` method";
     private static final String Msg_Arg_NotNull =
             "\r\n[Problem]: Required Argument is NULL";
     private static final String Msg_State_NotNull =
@@ -107,7 +107,7 @@ public final class Preconditions {
     }
 
     /**
-     * a private method used to generate exception messages,
+     * A private method used to generate exception messages,
      * {@code null} value and empty string("") are tolerated which indicated by using string '[-]' instead.
      *
      * @param msg_templ a template of exception message into which {@code value} and {@code cond} are inserted
@@ -123,7 +123,7 @@ public final class Preconditions {
     }
 
     /**
-     * a private method used to generate exception messages,
+     * A private method used to generate exception messages,
      * {@code null} value and empty string("") are tolerated which indicated by using string '[-]' instead or
      * other default values.
      *
@@ -142,7 +142,7 @@ public final class Preconditions {
     }
 
     /**
-     * a private method used to generate exception messages,
+     * A private method used to generate exception messages,
      * {@code null} value and empty string("") are tolerated which indicated by using string '[-]' instead or
      * other default values.
      *
@@ -156,7 +156,7 @@ public final class Preconditions {
     }
 
     /*
-     * a private method used by Varargs methods in this class to check that there is at least one argument passed in,
+     * A private method used by Varargs methods in this class to check that there is at least one argument passed in,
      * it also could be used by regular arrays.
      *
      * @param arr the Varargs argument array to be checked

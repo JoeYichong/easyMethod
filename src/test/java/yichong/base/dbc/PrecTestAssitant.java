@@ -5,16 +5,16 @@ import java.util.Random;
 import static org.junit.Assert.*;
 
 public class PrecTestAssitant {
-    public static final String Meta_Msg =
-        "\r\n[Warning]: 0 Argument or 'null' passed into the `Preconditions` method";
+//    public static final String Meta_Msg =
+//        "\r\n[Warning]: 0 Argument or 'null' passed into the `Require` method";
     public static final String Msg_Template =
             "\r\n[Problem]: {@?: %s} doesn't meet the {@prec: %s}";
     public static final String NotNull_Template =
             "\r\n[Problem]: {@param: %s} is NULL";
 
     /**
-     * a private method in {@code Preconditions} used by 'argument' methods to generate exception messages.
-     * @see Preconditions#errorMsg(String, Object, String)
+     * a private method in {@code Require} used by 'argument' methods to generate exception messages.
+     * @see Require#errorMsg(String, Object, String)
      * */
     public static String errorMsg(String template, Object value, String cond) {
         String templ = (template == null) ? Msg_Template : template;
@@ -24,8 +24,8 @@ public class PrecTestAssitant {
         return String.format(templ, val, prec);
     }
     /**
-     * a private method in {@code Preconditions} used by 'argument' methods to generate exception messages.
-     * @see Preconditions#errorMsg(String, String, Object, String)
+     * a private method in {@code Require} used by 'argument' methods to generate exception messages.
+     * @see Require#errorMsg(String, String, Object, String)
      * */
     public static String errorMsg(String msg_templ, String desc_templ, Object value, String cond) {
         String templ = (msg_templ == null) ? Msg_Template : msg_templ;
@@ -36,8 +36,8 @@ public class PrecTestAssitant {
         return String.format(templ, desc, prec);
     }
     /**
-     * a private method in {@code Preconditions} used by 'argumentNotNull' methods to generate exception messages.
-     * @see Preconditions#nullMsg(String, String)
+     * a private method in {@code Require} used by 'argumentNotNull' methods to generate exception messages.
+     * @see Require#nullMsg(String, String)
      * */
     public static String nullMsg(String template, String param) {
         String templ = (template == null) ? NotNull_Template : template;
@@ -45,18 +45,18 @@ public class PrecTestAssitant {
 
         return String.format(templ, para_n);
     }
-    /**
-     * a private method in {@code Preconditions} used by Varargs methods to
+    /*
+     * a private method in {@code Require} used by Varargs methods to
      * check that there is at least one argument passed in.
-     * @see Preconditions#checkVarargs(Object[])
+     * @see Require#checkVarargs(Object[])
      * */
-    public static <T> void checkVarargs(T[] arr) {
-        if(arr == null || arr.length == 0)
-            throw new IllegalArgumentException(Meta_Msg); // warning: empty method calling
-    }
+//    public static <T> void checkVarargs(T[] arr) {
+//        if(arr == null || arr.length == 0)
+//            throw new IllegalArgumentException(Meta_Msg); // warning: empty method calling
+//    }
     /**
-     * a private method used in {@code Preconditions} to fetch a value in a specified array.
-     * @see Preconditions#valueInArray(Object[], int)
+     * a private method used in {@code Require} to fetch a value in a specified array.
+     * @see Require#valueInArray(Object[], int)
      * */
     public static <T> T valueInArray(T[] arr, int index) {
         if(arr != null && arr.length > index) {
@@ -106,7 +106,7 @@ public class PrecTestAssitant {
     }
 
     /**
-     * @see PreconditionsTest#valueInArray()
+     * @see RequireTest#valueInArray()
      * @param times used to indicate how many times random value test will run.
      * */
     public void testValueInArray(int times){
@@ -127,35 +127,36 @@ public class PrecTestAssitant {
     }
 
     /**
-     * @see PreconditionsTest#checkVarargs()
+     * @see RequireTest#checkVarargs()
      * @param times used to indicate how many times random value test will run.
      * */
-    public void testCheckVarargs(int times){
-        System.out.println(" - testValueInArray() start: ");
-        int index = -1;
-        Object[] arr;
-        for(int i = 0; i < times; i++){
-            try{
-                arr = arrs[(index = rand.nextInt(5))];
-                PrecTestAssitant.checkVarargs(arr);
-                printIndexAndValue(i, index, arrs_desc[index]);
-                if(arr == null || arr.length == 0)
-                    fail("fail to throw an IllegalArgumentException");
-            }catch (IllegalArgumentException e){
-                printIndexAndValue(i, index, arrs_desc[index]);
-                assertEquals("[Warning]: 0 Argument or 'null' passed into the `Preconditions` method",
-                        e.getMessage().replaceAll("[\r|\n]", ""));
-                System.out.println((i + 1) + ". IllegalArgumentException caught, assertEquals(..) called");
-            }
-            index = -1;
-        }
-        System.out.println(" - testValueInArray() end.");
-    }
+//    @Deprecated
+//    public void testCheckVarargs(int times){
+//        System.out.println(" - testValueInArray() start: ");
+//        int index = -1;
+//        Object[] arr;
+//        for(int i = 0; i < times; i++){
+//            try{
+//                arr = arrs[(index = rand.nextInt(5))];
+//                PrecTestAssitant.checkVarargs(arr);
+//                printIndexAndValue(i, index, arrs_desc[index]);
+//                if(arr == null || arr.length == 0)
+//                    fail("fail to throw an IllegalArgumentException");
+//            }catch (IllegalArgumentException e){
+//                printIndexAndValue(i, index, arrs_desc[index]);
+//                assertEquals("[Warning]: 0 Argument or 'null' passed into the `Require` method",
+//                        e.getMessage().replaceAll("[\r|\n]", ""));
+//                System.out.println((i + 1) + ". IllegalArgumentException caught, assertEquals(..) called");
+//            }
+//            index = -1;
+//        }
+//        System.out.println(" - testValueInArray() end.");
+//    }
 
 
 
     /**
-     * @see PreconditionsTest#argNotNull_1()
+     * @see RequireTest#argNotNull_1()
      * @param times used to indicate how many times random value test will run.
      * */
     public void testAssertNotNull_1(int times){
@@ -167,7 +168,7 @@ public class PrecTestAssitant {
             obj = PrecTestAssitant.valueInArray(vals, index = rand.nextInt(18));
             System.out.println((i + 1) + ". Index = " + index + " , value = " + String.valueOf(obj));
             try{
-                Preconditions.argumentNotNull(obj);
+                Require.argumentNotNull(obj);
                 if (obj == null)
                     fail("obj == null, fail to throw an IllegalArgumentException");
             }catch (IllegalArgumentException e){
