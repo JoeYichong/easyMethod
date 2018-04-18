@@ -59,36 +59,24 @@ package yichong.base.dbc;
  */
 
 public final class Require {
-//    private static final String Meta_Msg =
-//            "\r\n[Warning]: 0 Argument or 'null' passed into the `Require` method";
-    private static final String Msg_Arg_NotNull =
-            "\r\n[Problem]: Required Argument is NULL";
-    private static final String Msg_State_NotNull =
-            "\r\n[Problem]: Required State is NULL";
-    private static final String Msg_Arg_Arr_NotEmpty_Template =
+    private static final String Msg_NotNull =
+            "\r\n[Problem]: Required Object is NULL";
+    private static final String Msg_NotNull_Template =
+            "\r\n[Problem]: Required Object{@sig: %s} is NULL";
+    private static final String Msg_NotNull_Template_m =
+            "\r\n[Problem]: Required Object{@sig: %s} is NULL, which indicates {@that %s}";
+    private static final String Msg_ArrNotEmpty_Template =
             "\r\n[Problem]: Array{@sig: %s} is Empty";
-    private static final String Msg_Arg_Str_NotEmpty_Template =
+    private static final String Msg_StrNotEmpty_Template =
             "\r\n[Problem]: String{@sig: %s} is Empty";
-    private static final String Msg_Arg_NotNull_Template =
-            "\r\n[Problem]: Required Argument{@sig: %s} is NULL";
-    private static final String Msg_State_NotNull_Template =
-            "\r\n[Problem]: Required State{@sig: %s} is NULL";
-    private static final String Msg_Arg_Template_v =
-            "\r\n[Problem]: Argument{@val: %s} doesn't meet the {@prec: %s}";
-    private static final String Msg_Arg_Template_d =
-            "\r\n[Problem]: Argument{@actual: %s} doesn't meet the {@prec: %s}";
-    private static final String Msg_State_Template_v =
-            "\r\n[Problem]: State{@val: %s} doesn't meet the {@prec: %s}";
-    private static final String Msg_State_Template_d =
-            "\r\n[Problem]: State{@actual: %s} doesn't meet the {@prec: %s}";
-    private static final String Msg_Arg_Template_any_v   =
-            "\r\n[Problem]: Argument{@val: %s} doesn't meet any of these specified conditions{@prec: %s}";
-    private static final String Msg_Arg_Template_any_d   =
-            "\r\n[Problem]: Argument{@actual: %s} doesn't meet any of these specified conditions{@prec: %s}";
-    private static final String Msg_State_Template_any_v   =
-            "\r\n[Problem]: State{@val: %s} doesn't meet any of these specified conditions{@prec: %s}";
-    private static final String Msg_State_Template_any_d   =
-            "\r\n[Problem]: State{@actual: %s} doesn't meet any of these specified conditions{@prec: %s}";
+    private static final String Msg_Template_v =
+            "\r\n[Problem]: {@val: %s} doesn't meet the {@prec: %s}";
+    private static final String Msg_Template_d =
+            "\r\n[Problem]: {@actual: %s} doesn't meet the {@prec: %s}";
+    private static final String Msg_Template_any_v   =
+            "\r\n[Problem]: {@val: %s} doesn't meet any of these specified conditions{@prec: %s}";
+    private static final String Msg_Template_any_d   =
+            "\r\n[Problem]: {@actual: %s} doesn't meet any of these specified conditions{@prec: %s}";
 
     /**
      * If the object is a string instance or a character instance, wrap it in "" or ''.
@@ -155,17 +143,6 @@ public final class Require {
         return String.format(msg_templ, para_n);
     }
 
-    /*
-     * A private method used by Varargs methods in this class to check that there is at least one argument passed in,
-     * it also could be used by regular arrays.
-     *
-     * @param arr the Varargs argument array to be checked
-     * */
-//    private static <T> void checkVarargs(T[] arr) {
-//        if(arr == null || arr.length == 0)
-//            throw new IllegalArgumentException(Meta_Msg); // warning: empty method calling
-//    }
-
     /**
      * A safe way to extract a value in an array without worrying about {@code IndexOutOfBoundsException} thrown.
      * A private method used by methods in this class to fetch a value in a specified array.
@@ -196,9 +173,9 @@ public final class Require {
      * */
     public static <T> void argumentNotNullAndNotEmpty(String sig, T[] arr) {
         if (arr == null)
-            throw new IllegalArgumentException(nullMsg(Msg_Arg_NotNull_Template, sig));
+            throw new IllegalArgumentException(nullMsg(Msg_NotNull_Template, sig));
         if (arr.length == 0)
-            throw new IllegalArgumentException(nullMsg(Msg_Arg_Arr_NotEmpty_Template, sig));
+            throw new IllegalArgumentException(nullMsg(Msg_ArrNotEmpty_Template, sig));
     }
 
     /**
@@ -211,9 +188,9 @@ public final class Require {
      * */
     public static void argumentNotNullAndNotEmpty(String sig, String str) {
         if (str == null)
-            throw new IllegalArgumentException(nullMsg(Msg_Arg_NotNull_Template, sig));
+            throw new IllegalArgumentException(nullMsg(Msg_NotNull_Template, sig));
         if (str.length() == 0)
-            throw new IllegalArgumentException(nullMsg(Msg_Arg_Str_NotEmpty_Template, sig));
+            throw new IllegalArgumentException(nullMsg(Msg_StrNotEmpty_Template, sig));
     }
 
     /**
@@ -225,7 +202,7 @@ public final class Require {
      */
     public static void argumentNotNull(Object ref) {
         if (ref == null)
-            throw new IllegalArgumentException(Msg_Arg_NotNull);
+            throw new IllegalArgumentException(Msg_NotNull);
     }
 
     /**
@@ -238,7 +215,7 @@ public final class Require {
      * */
     public static void argumentNotNull(String param, Object ref) {
         if (ref == null)
-            throw new IllegalArgumentException(nullMsg(Msg_Arg_NotNull_Template, param));
+            throw new IllegalArgumentException(nullMsg(Msg_NotNull_Template, param));
     }
 
     /**
@@ -252,7 +229,7 @@ public final class Require {
         //checkVarargs(refs);
         for (int i = 0; i < refs.length; i++) {
             if (refs[i] == null)
-                throw new IllegalArgumentException(Msg_Arg_NotNull);
+                throw new IllegalArgumentException(Msg_NotNull);
         }
     }
 
@@ -269,7 +246,7 @@ public final class Require {
         for (int i = 0; i < refs.length; i++) {
             if (refs[i] == null) {
                 String param = valueInArray(params, i);
-                throw new IllegalArgumentException(nullMsg(Msg_Arg_NotNull_Template, param));
+                throw new IllegalArgumentException(nullMsg(Msg_NotNull_Template, param));
             }
         }
     }
@@ -286,7 +263,7 @@ public final class Require {
      */
     public static void argument(Object val, String prec_str, boolean prec_expr) {
         if (!prec_expr)
-            throw new IllegalArgumentException(errorMsg(Msg_Arg_Template_v, val, prec_str));
+            throw new IllegalArgumentException(errorMsg(Msg_Template_v, val, prec_str));
     }
 
     /**
@@ -301,7 +278,7 @@ public final class Require {
      */
     public static void argument(Object val, String desc_templ, String prec_str, boolean prec_expr) {
         if (!prec_expr)
-            throw new IllegalArgumentException(errorMsg(Msg_Arg_Template_d, desc_templ, val, prec_str));
+            throw new IllegalArgumentException(errorMsg(Msg_Template_d, desc_templ, val, prec_str));
     }
 
     /**
@@ -318,7 +295,7 @@ public final class Require {
         for (int i = 0; i < prec_exprs.length; i++) {
             if (!prec_exprs[i]) {
                 String prec_str = valueInArray(prec_strs, i);
-                throw new IllegalArgumentException(errorMsg(Msg_Arg_Template_v, val, prec_str));
+                throw new IllegalArgumentException(errorMsg(Msg_Template_v, val, prec_str));
             }
         }
     }
@@ -338,7 +315,7 @@ public final class Require {
         for (int i = 0; i < prec_exprs.length; i++) {
             if (!prec_exprs[i]) {
                 String prec_str = valueInArray(prec_strs, i);
-                throw new IllegalArgumentException(errorMsg(Msg_Arg_Template_d, desc_templ, val, prec_str));
+                throw new IllegalArgumentException(errorMsg(Msg_Template_d, desc_templ, val, prec_str));
             }
         }
     }
@@ -357,7 +334,7 @@ public final class Require {
             if (exprs[i])
                 return;
         }
-        throw new IllegalArgumentException(errorMsg(Msg_Arg_Template_any_v, val, conditions));
+        throw new IllegalArgumentException(errorMsg(Msg_Template_any_v, val, conditions));
     }
 
     /**
@@ -375,7 +352,7 @@ public final class Require {
             if (exprs[i])
                 return;
         }
-        throw new IllegalArgumentException(errorMsg(Msg_Arg_Template_any_d, desc_templ, val, conditions));
+        throw new IllegalArgumentException(errorMsg(Msg_Template_any_d, desc_templ, val, conditions));
     }
 
     /* **************************************************************************************************8 */
@@ -389,7 +366,7 @@ public final class Require {
      */
     public static void stateNotNull(Object ref) {
         if (ref == null)
-            throw new IllegalStateException(Msg_State_NotNull);
+            throw new IllegalStateException(Msg_NotNull);
     }
 
     /**
@@ -402,7 +379,7 @@ public final class Require {
      * */
     public static void stateNotNull(String state_name, Object ref) {
         if (ref == null)
-            throw new IllegalStateException(nullMsg(Msg_State_NotNull_Template, state_name));
+            throw new IllegalStateException(nullMsg(Msg_NotNull_Template, state_name));
     }
 
     /**
@@ -416,7 +393,7 @@ public final class Require {
         //checkVarargs(refs);
         for (int i = 0; i < refs.length; i++) {
             if (refs[i] == null)
-                throw new IllegalStateException(Msg_State_NotNull);
+                throw new IllegalStateException(Msg_NotNull);
         }
     }
 
@@ -433,7 +410,7 @@ public final class Require {
         for (int i = 0; i < refs.length; i++) {
             if (refs[i] == null) {
                 String state_name = valueInArray(state_names, i);
-                throw new IllegalStateException(nullMsg(Msg_State_NotNull_Template, state_name));
+                throw new IllegalStateException(nullMsg(Msg_NotNull_Template, state_name));
             }
         }
     }
@@ -449,7 +426,7 @@ public final class Require {
      */
     public static void state(Object val, String prec_str, boolean prec_expr) {
         if (!prec_expr)
-            throw new IllegalStateException(errorMsg(Msg_State_Template_v, val, prec_str));
+            throw new IllegalStateException(errorMsg(Msg_Template_v, val, prec_str));
     }
 
     /**
@@ -464,7 +441,7 @@ public final class Require {
      */
     public static void state(Object val, String desc_templ, String prec_str, boolean prec_expr) {
         if (!prec_expr)
-            throw new IllegalStateException(errorMsg(Msg_State_Template_d, desc_templ, val, prec_str));
+            throw new IllegalStateException(errorMsg(Msg_Template_d, desc_templ, val, prec_str));
     }
 
 
@@ -482,7 +459,7 @@ public final class Require {
         for (int i = 0; i < prec_exprs.length; i++) {
             if (!prec_exprs[i]) {
                 String prec_str = valueInArray(prec_strs, i);
-                throw new IllegalStateException(errorMsg(Msg_State_Template_v, val, prec_str));
+                throw new IllegalStateException(errorMsg(Msg_Template_v, val, prec_str));
             }
         }
     }
@@ -502,7 +479,7 @@ public final class Require {
         for (int i = 0; i < prec_exprs.length; i++) {
             if (!prec_exprs[i]) {
                 String prec_str = valueInArray(prec_strs, i);
-                throw new IllegalStateException(errorMsg(Msg_State_Template_d, desc_templ, val, prec_str));
+                throw new IllegalStateException(errorMsg(Msg_Template_d, desc_templ, val, prec_str));
             }
         }
     }
@@ -521,7 +498,7 @@ public final class Require {
             if (exprs[i])
                 return;
         }
-        throw new IllegalStateException(errorMsg(Msg_State_Template_any_v, val, conditions));
+        throw new IllegalStateException(errorMsg(Msg_Template_any_v, val, conditions));
     }
 
     /**
@@ -539,7 +516,7 @@ public final class Require {
             if (exprs[i])
                 return;
         }
-        throw new IllegalStateException(errorMsg(Msg_State_Template_any_d, desc_templ, val, conditions));
+        throw new IllegalStateException(errorMsg(Msg_Template_any_d, desc_templ, val, conditions));
     }
 
 }

@@ -13,7 +13,7 @@ new OtherPrecTests().getLength(null);
 Test output:
 <pre>
 java.lang.IllegalArgumentException: 
-[Problem]: Required Argument{@sig: String target} is NULL
+[Problem]: Required Object{@sig: String target} is NULL
 
 	at yichong.base.dbc.Require.argumentNotNull(Require.java:239)
 	at yichong.base.dbc.OtherPrecTests.getLength(OtherPrecTests.java:5)
@@ -30,7 +30,7 @@ new OtherPrecTests().divide(100, 0);
 Test output:
 <pre>
 java.lang.IllegalArgumentException: 
-[Problem]: Argument{@val: 0.0} doesn't meet the {@prec: right != 0}
+[Problem]: {@val: 0.0} doesn't meet the {@prec: right != 0}
 
 	at yichong.base.dbc.Require.argument(Require.java:287)
 	at yichong.base.dbc.OtherPrecTests.divide(OtherPrecTests.java:11)
@@ -47,7 +47,7 @@ new OtherPrecTests().setMonth(0);
 Test output:
 <pre>
 java.lang.IllegalArgumentException: 
-[Problem]: Argument{@val: 0} doesn't meet the {@prec: month > 0}
+[Problem]: {@val: 0} doesn't meet the {@prec: month > 0}
 
 	at yichong.base.dbc.Require.argumentAll(Require.java:319)
 	at yichong.base.dbc.OtherPrecTests.setMonth(OtherPrecTests.java:6)
@@ -57,7 +57,7 @@ java.lang.IllegalArgumentException:
 <pre>
 public void process(byte[] bytes){
     Require.argumentNotNull("byte[] bytes", bytes);
-    Require.argumentAny(bytes.length, "%s bytes input", "2 bytes or 4 bytes only",
+    Require.argumentAny(bytes.length, "%s bytes input", "2 bytes or 4 bytes",
             bytes.length == 2, bytes.length == 4);
     String result = new String(bytes);
     System.out.println(result);
@@ -67,7 +67,7 @@ new OtherPrecTests().process(new byte[3]);
 Test output:
 <pre>
 java.lang.IllegalArgumentException: 
-[Problem]: Argument{@actual: 3 bytes input} doesn't meet any of these specified conditions{@prec: 2 bytes or 4 bytes only}
+[Problem]: {@actual: 3 bytes input} doesn't meet any of these specified conditions{@prec: 2 bytes or 4 bytes}
 
 	at yichong.base.dbc.Require.argumentAny(Require.java:377)
 	at yichong.base.dbc.OtherPrecTests.process(OtherPrecTests.java:24)

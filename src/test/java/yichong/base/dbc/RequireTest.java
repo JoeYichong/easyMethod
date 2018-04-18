@@ -13,40 +13,6 @@ public class RequireTest {
         RequireTestAssitant.getInstance().testValueInArray_random(10);
     }
 
-    /*
-     * Test {@code private static <T> boolean checkVarargs(T[] arr)} in class {@code Require}.
-     * Random values used for testing are automatically generated.
-     * @see Require#checkVarargs(Object[])
-     * */
-//    @org.junit.Test
-//    public void checkVarargs(){
-//        RequireTestAssitant.getInstance().testCheckVarargs(10);
-//
-//        // Varargs method test
-//        // null value passed into the method
-//        try{
-//            RequireTestAssitant.checkVarargs((Object[]) null);
-//            fail("An IllegalArgumentException is supposed to be thrown");
-//        }catch (IllegalArgumentException e){
-//            assertEquals("[Warning]: 0 Argument or 'null' passed into the `Require` method",
-//                    e.getMessage().replaceAll("[\r|\n]", ""));
-//        }
-//        // no argument passed into the Varargs method
-//        try{
-//            RequireTestAssitant.checkVarargs(new Object[0]);
-//            fail("An IllegalArgumentException is supposed to be thrown");
-//        }catch (IllegalArgumentException e){
-//            assertEquals("[Warning]: 0 Argument or 'null' passed into the `Require` method",
-//                    e.getMessage().replaceAll("[\r|\n]", ""));
-//        }
-//        try{
-//            RequireTestAssitant.checkVarargs(new Object[1]);
-//        }catch (IllegalArgumentException e){
-//            fail("An IllegalArgumentException isn't supposed to be thrown");
-//        }
-//
-//    }
-
     /**
      * Test {@code public static <T> void argumentNotNullAndNotEmpty(String sig, T[] arr)}
      * @see Require#argumentNotNullAndNotEmpty(String, Object[])
@@ -58,7 +24,7 @@ public class RequireTest {
             Require.argumentNotNullAndNotEmpty("Array arr", (Object[]) null);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
-            assertEquals("[Problem]: Required Argument{@sig: Array arr} is NULL",
+            assertEquals("[Problem]: Required Object{@sig: Array arr} is NULL",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         // an empty array passed into the method
@@ -74,7 +40,7 @@ public class RequireTest {
             Require.argumentNotNullAndNotEmpty(null, (Object[]) null);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
-            assertEquals("[Problem]: Required Argument{@sig: [-]} is NULL",
+            assertEquals("[Problem]: Required Object{@sig: [-]} is NULL",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         // "", new Object[0]
@@ -98,7 +64,7 @@ public class RequireTest {
             Require.argumentNotNullAndNotEmpty("String str", (String) null);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
-            assertEquals("[Problem]: Required Argument{@sig: String str} is NULL",
+            assertEquals("[Problem]: Required Object{@sig: String str} is NULL",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         // an empty string passed into the method
@@ -114,7 +80,7 @@ public class RequireTest {
             Require.argumentNotNullAndNotEmpty(null, (String) null);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
-            assertEquals("[Problem]: Required Argument{@sig: [-]} is NULL",
+            assertEquals("[Problem]: Required Object{@sig: [-]} is NULL",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         // "", ""
@@ -135,10 +101,10 @@ public class RequireTest {
     public void argNotNull_1() {
         // null argument
         try{
-            Require.argumentNotNull((Object) null);
+            Require.argumentNotNull(null);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
-            assertEquals("[Problem]: Required Argument is NULL",
+            assertEquals("[Problem]: Required Object is NULL",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         // non-null argument
@@ -162,7 +128,7 @@ public class RequireTest {
             Require.argumentNotNull("Object obj", null);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
-            assertEquals("[Problem]: Required Argument{@sig: Object obj} is NULL",
+            assertEquals("[Problem]: Required Object{@sig: Object obj} is NULL",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         // non-null argument
@@ -177,15 +143,15 @@ public class RequireTest {
             Require.argumentNotNull("", null);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
-            assertEquals("[Problem]: Required Argument{@sig: [-]} is NULL",
+            assertEquals("[Problem]: Required Object{@sig: [-]} is NULL",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         // null argument, param not available (null value)
         try{
-            Require.argumentNotNull((String) null, null);
+            Require.argumentNotNull(null, null);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
-            assertEquals("[Problem]: Required Argument{@sig: [-]} is NULL",
+            assertEquals("[Problem]: Required Object{@sig: [-]} is NULL",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
 
@@ -202,7 +168,7 @@ public class RequireTest {
             Require.argumentsNotNull("", "123", null, true);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
-            assertEquals("[Problem]: Required Argument is NULL",
+            assertEquals("[Problem]: Required Object is NULL",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         // a batch of objects with 2 null values in it
@@ -210,7 +176,7 @@ public class RequireTest {
             Require.argumentsNotNull("", "123", null, null);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
-            assertEquals("[Problem]: Required Argument is NULL",
+            assertEquals("[Problem]: Required Object is NULL",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         // a batch of objects without null value in it
@@ -234,7 +200,7 @@ public class RequireTest {
                     null, "123", new Object(), false);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
-            assertEquals("[Problem]: Required Argument{@sig: String s1} is NULL",
+            assertEquals("[Problem]: Required Object{@sig: String s1} is NULL",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         // a batch of objects to be checked, the last one is null
@@ -243,7 +209,7 @@ public class RequireTest {
                     "", "123", new Object(), null);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
-            assertEquals("[Problem]: Required Argument{@sig: Boolean b} is NULL",
+            assertEquals("[Problem]: Required Object{@sig: Boolean b} is NULL",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         // a batch of objects to be checked, the 3rd one is null
@@ -252,7 +218,7 @@ public class RequireTest {
                     "", "123", null, true);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
-            assertEquals("[Problem]: Required Argument{@sig: Object o} is NULL",
+            assertEquals("[Problem]: Required Object{@sig: Object o} is NULL",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         // a batch of objects without null value
@@ -268,7 +234,7 @@ public class RequireTest {
                     "", "123", null, true);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
-            assertEquals("[Problem]: Required Argument{@sig: [-]} is NULL",
+            assertEquals("[Problem]: Required Object{@sig: [-]} is NULL",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
     }
@@ -284,7 +250,7 @@ public class RequireTest {
             Require.argument(arg, "arg > 0", arg > 0);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
-            assertEquals("[Problem]: Argument{@val: 0} doesn't meet the {@prec: arg > 0}",
+            assertEquals("[Problem]: {@val: 0} doesn't meet the {@prec: arg > 0}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         try{
@@ -298,7 +264,7 @@ public class RequireTest {
             Require.argument(null, null, arg > 0);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e) {
-            assertEquals("[Problem]: Argument{@val: [-]} doesn't meet the {@prec: [-]}",
+            assertEquals("[Problem]: {@val: [-]} doesn't meet the {@prec: [-]}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
     }
@@ -314,7 +280,7 @@ public class RequireTest {
             Require.argument(objs.length, "The length of object array argument is %s","objs.length > 10", objs.length > 10);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
-            assertEquals("[Problem]: Argument{@actual: The length of object array argument is 10} doesn't meet the {@prec: objs.length > 10}",
+            assertEquals("[Problem]: {@actual: The length of object array argument is 10} doesn't meet the {@prec: objs.length > 10}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         try{
@@ -328,7 +294,7 @@ public class RequireTest {
             Require.argument(null, "The length of object array argument is %s",null, objs.length > 10);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e) {
-            assertEquals("[Problem]: Argument{@actual: The length of object array argument is [-]} doesn't meet the {@prec: [-]}",
+            assertEquals("[Problem]: {@actual: The length of object array argument is [-]} doesn't meet the {@prec: [-]}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         try{
@@ -336,7 +302,7 @@ public class RequireTest {
             Require.argument(null, null,null, objs.length > 10);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e) {
-            assertEquals("[Problem]: Argument{@actual: [-]} doesn't meet the {@prec: [-]}",
+            assertEquals("[Problem]: {@actual: [-]} doesn't meet the {@prec: [-]}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         try{
@@ -344,7 +310,7 @@ public class RequireTest {
             Require.argument(10, null,null, objs.length > 10);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e) {
-            assertEquals("[Problem]: Argument{@actual: 10} doesn't meet the {@prec: [-]}",
+            assertEquals("[Problem]: {@actual: 10} doesn't meet the {@prec: [-]}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
     }
@@ -368,7 +334,7 @@ public class RequireTest {
             Require.argumentAll(val, precs, val > 10, val != 50, val < 100);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
-            assertEquals("[Problem]: Argument{@val: 10} doesn't meet the {@prec: val > 10}",
+            assertEquals("[Problem]: {@val: 10} doesn't meet the {@prec: val > 10}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         try{
@@ -377,7 +343,7 @@ public class RequireTest {
             Require.argumentAll(val, precs, val > 0, val != 50, val < 100);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
-            assertEquals("[Problem]: Argument{@val: 50} doesn't meet the {@prec: val != 50}",
+            assertEquals("[Problem]: {@val: 50} doesn't meet the {@prec: val != 50}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         try{
@@ -386,7 +352,7 @@ public class RequireTest {
             Require.argumentAll(val, precs, val > 0, val != 50, val < 100);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
-            assertEquals("[Problem]: Argument{@val: 100} doesn't meet the {@prec: val < 100}",
+            assertEquals("[Problem]: {@val: 100} doesn't meet the {@prec: val < 100}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
 
@@ -414,7 +380,7 @@ public class RequireTest {
             Require.argumentAll(arr.length, desc_templ, prec_strs, arr.length > 0, arr.length < 10, arr.length != 3);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
-            assertEquals("[Problem]: Argument{@actual: arr's length is 0} doesn't meet the {@prec: arr.length > 0}",
+            assertEquals("[Problem]: {@actual: arr's length is 0} doesn't meet the {@prec: arr.length > 0}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         try{
@@ -424,7 +390,7 @@ public class RequireTest {
             Require.argumentAll(arr.length, desc_templ, prec_strs, arr.length > 0, arr.length < 5, arr.length != 3);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
-            assertEquals("[Problem]: Argument{@actual: arr's length is 5} doesn't meet the {@prec: arr.length < 5}",
+            assertEquals("[Problem]: {@actual: arr's length is 5} doesn't meet the {@prec: arr.length < 5}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         try{
@@ -434,7 +400,7 @@ public class RequireTest {
             Require.argumentAll(arr.length, desc_templ, prec_strs, arr.length > 0, arr.length < 10, arr.length != 4);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
-            assertEquals("[Problem]: Argument{@actual: arr's length is 4} doesn't meet the {@prec: arr.length != 4}",
+            assertEquals("[Problem]: {@actual: arr's length is 4} doesn't meet the {@prec: arr.length != 4}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
 
@@ -453,7 +419,7 @@ public class RequireTest {
             Require.argumentAny(arg, conds, arg < 30, arg > 90, arg == 60);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
-            assertEquals("[Problem]: Argument{@val: 50} doesn't meet any of these specified conditions{@prec: arg < 30, arg > 90, arg == 60}",
+            assertEquals("[Problem]: {@val: 50} doesn't meet any of these specified conditions{@prec: arg < 30, arg > 90, arg == 60}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         try{
@@ -493,7 +459,7 @@ public class RequireTest {
             Require.argumentAny(arg.length, desc_templ, conds, arg.length == 2, arg.length == 4, arg.length == 6);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
-            assertEquals("[Problem]: Argument{@actual: arg's length is 5} doesn't meet any of these specified conditions{@prec: arg.length == 2, arg.length == 4, arg.length == 6}",
+            assertEquals("[Problem]: {@actual: arg's length is 5} doesn't meet any of these specified conditions{@prec: arg.length == 2, arg.length == 4, arg.length == 6}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         try{
@@ -532,10 +498,10 @@ public class RequireTest {
     public void stateNotNull_1() {
         // null argument
         try{
-            Require.stateNotNull((Object) null);
+            Require.stateNotNull(null);
             fail("An IllegalStateException is supposed to be thrown");
         }catch (IllegalStateException e){
-            assertEquals("[Problem]: Required State is NULL",
+            assertEquals("[Problem]: Required Object is NULL",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         // non-null argument
@@ -558,7 +524,7 @@ public class RequireTest {
             Require.stateNotNull("Object obj", null);
             fail("An IllegalStateException is supposed to be thrown");
         }catch (IllegalStateException e){
-            assertEquals("[Problem]: Required State{@sig: Object obj} is NULL",
+            assertEquals("[Problem]: Required Object{@sig: Object obj} is NULL",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         // non-null argument
@@ -573,15 +539,15 @@ public class RequireTest {
             Require.stateNotNull("", null);
             fail("An IllegalStateException is supposed to be thrown");
         }catch (IllegalStateException e){
-            assertEquals("[Problem]: Required State{@sig: [-]} is NULL",
+            assertEquals("[Problem]: Required Object{@sig: [-]} is NULL",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         // null argument, param not available (null value)
         try{
-            Require.stateNotNull((String) null, null);
+            Require.stateNotNull(null, null);
             fail("An IllegalStateException is supposed to be thrown");
         }catch (IllegalStateException e){
-            assertEquals("[Problem]: Required State{@sig: [-]} is NULL",
+            assertEquals("[Problem]: Required Object{@sig: [-]} is NULL",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
 
@@ -598,7 +564,7 @@ public class RequireTest {
             Require.statesNotNull("", "123", null, true);
             fail("An IllegalStateException is supposed to be thrown");
         }catch (IllegalStateException e){
-            assertEquals("[Problem]: Required State is NULL",
+            assertEquals("[Problem]: Required Object is NULL",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         // a batch of objects with 2 null values in it
@@ -606,7 +572,7 @@ public class RequireTest {
             Require.statesNotNull("", "123", null, null);
             fail("An IllegalStateException is supposed to be thrown");
         }catch (IllegalStateException e){
-            assertEquals("[Problem]: Required State is NULL",
+            assertEquals("[Problem]: Required Object is NULL",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         // a batch of objects without null value in it
@@ -630,7 +596,7 @@ public class RequireTest {
                     null, "123", new Object(), false);
             fail("An IllegalStateException is supposed to be thrown");
         }catch (IllegalStateException e){
-            assertEquals("[Problem]: Required State{@sig: String s1} is NULL",
+            assertEquals("[Problem]: Required Object{@sig: String s1} is NULL",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         // a batch of objects to be checked, the last one is null
@@ -639,7 +605,7 @@ public class RequireTest {
                     "", "123", new Object(), null);
             fail("An IllegalStateException is supposed to be thrown");
         }catch (IllegalStateException e){
-            assertEquals("[Problem]: Required State{@sig: Boolean b} is NULL",
+            assertEquals("[Problem]: Required Object{@sig: Boolean b} is NULL",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         // a batch of objects to be checked, the 3rd one is null
@@ -648,7 +614,7 @@ public class RequireTest {
                     "", "123", null, true);
             fail("An IllegalStateException is supposed to be thrown");
         }catch (IllegalStateException e){
-            assertEquals("[Problem]: Required State{@sig: Object o} is NULL",
+            assertEquals("[Problem]: Required Object{@sig: Object o} is NULL",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         // a batch of objects without null value
@@ -664,7 +630,7 @@ public class RequireTest {
                     "", "123", null, true);
             fail("An IllegalStateException is supposed to be thrown");
         }catch (IllegalStateException e){
-            assertEquals("[Problem]: Required State{@sig: [-]} is NULL",
+            assertEquals("[Problem]: Required Object{@sig: [-]} is NULL",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
 
@@ -681,7 +647,7 @@ public class RequireTest {
             Require.state(arg, "arg > 0", arg > 0);
             fail("An IllegalStateException is supposed to be thrown");
         }catch (IllegalStateException e){
-            assertEquals("[Problem]: State{@val: 0} doesn't meet the {@prec: arg > 0}",
+            assertEquals("[Problem]: {@val: 0} doesn't meet the {@prec: arg > 0}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         try{
@@ -695,7 +661,7 @@ public class RequireTest {
             Require.state(null, null, arg > 0);
             fail("An IllegalStateException is supposed to be thrown");
         }catch (IllegalStateException e) {
-            assertEquals("[Problem]: State{@val: [-]} doesn't meet the {@prec: [-]}",
+            assertEquals("[Problem]: {@val: [-]} doesn't meet the {@prec: [-]}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
 
@@ -712,7 +678,7 @@ public class RequireTest {
             Require.state(objs.length, "The length of object array State is %s","objs.length > 10", objs.length > 10);
             fail("An IllegalStateException is supposed to be thrown");
         }catch (IllegalStateException e){
-            assertEquals("[Problem]: State{@actual: The length of object array State is 10} doesn't meet the {@prec: objs.length > 10}",
+            assertEquals("[Problem]: {@actual: The length of object array State is 10} doesn't meet the {@prec: objs.length > 10}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         try{
@@ -726,7 +692,7 @@ public class RequireTest {
             Require.state(null, "The length of object array State is %s",null, objs.length > 10);
             fail("An IllegalStateException is supposed to be thrown");
         }catch (IllegalStateException e) {
-            assertEquals("[Problem]: State{@actual: The length of object array State is [-]} doesn't meet the {@prec: [-]}",
+            assertEquals("[Problem]: {@actual: The length of object array State is [-]} doesn't meet the {@prec: [-]}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         try{
@@ -734,7 +700,7 @@ public class RequireTest {
             Require.state(null, null,null, objs.length > 10);
             fail("An IllegalStateException is supposed to be thrown");
         }catch (IllegalStateException e) {
-            assertEquals("[Problem]: State{@actual: [-]} doesn't meet the {@prec: [-]}",
+            assertEquals("[Problem]: {@actual: [-]} doesn't meet the {@prec: [-]}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         try{
@@ -742,7 +708,7 @@ public class RequireTest {
             Require.state(10, null,null, objs.length > 10);
             fail("An IllegalStateException is supposed to be thrown");
         }catch (IllegalStateException e) {
-            assertEquals("[Problem]: State{@actual: 10} doesn't meet the {@prec: [-]}",
+            assertEquals("[Problem]: {@actual: 10} doesn't meet the {@prec: [-]}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
 
@@ -767,7 +733,7 @@ public class RequireTest {
             Require.stateAll(val, precs, val > 10, val != 50, val < 100);
             fail("An IllegalStateException is supposed to be thrown");
         }catch (IllegalStateException e){
-            assertEquals("[Problem]: State{@val: 10} doesn't meet the {@prec: val > 10}",
+            assertEquals("[Problem]: {@val: 10} doesn't meet the {@prec: val > 10}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         try{
@@ -776,7 +742,7 @@ public class RequireTest {
             Require.stateAll(val, precs, val > 0, val != 50, val < 100);
             fail("An IllegalStateException is supposed to be thrown");
         }catch (IllegalStateException e){
-            assertEquals("[Problem]: State{@val: 50} doesn't meet the {@prec: val != 50}",
+            assertEquals("[Problem]: {@val: 50} doesn't meet the {@prec: val != 50}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         try{
@@ -785,7 +751,7 @@ public class RequireTest {
             Require.stateAll(val, precs, val > 0, val != 50, val < 100);
             fail("An IllegalStateException is supposed to be thrown");
         }catch (IllegalStateException e){
-            assertEquals("[Problem]: State{@val: 100} doesn't meet the {@prec: val < 100}",
+            assertEquals("[Problem]: {@val: 100} doesn't meet the {@prec: val < 100}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         
@@ -812,7 +778,7 @@ public class RequireTest {
             Require.stateAll(arr.length, desc_templ, prec_strs, arr.length > 0, arr.length < 10, arr.length != 3);
             fail("An IllegalStateException is supposed to be thrown");
         }catch (IllegalStateException e){
-            assertEquals("[Problem]: State{@actual: arr's length is 0} doesn't meet the {@prec: arr.length > 0}",
+            assertEquals("[Problem]: {@actual: arr's length is 0} doesn't meet the {@prec: arr.length > 0}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         try{
@@ -822,7 +788,7 @@ public class RequireTest {
             Require.stateAll(arr.length, desc_templ, prec_strs, arr.length > 0, arr.length < 5, arr.length != 3);
             fail("An IllegalStateException is supposed to be thrown");
         }catch (IllegalStateException e){
-            assertEquals("[Problem]: State{@actual: arr's length is 5} doesn't meet the {@prec: arr.length < 5}",
+            assertEquals("[Problem]: {@actual: arr's length is 5} doesn't meet the {@prec: arr.length < 5}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         try{
@@ -832,7 +798,7 @@ public class RequireTest {
             Require.stateAll(arr.length, desc_templ, prec_strs, arr.length > 0, arr.length < 10, arr.length != 4);
             fail("An IllegalStateException is supposed to be thrown");
         }catch (IllegalStateException e){
-            assertEquals("[Problem]: State{@actual: arr's length is 4} doesn't meet the {@prec: arr.length != 4}",
+            assertEquals("[Problem]: {@actual: arr's length is 4} doesn't meet the {@prec: arr.length != 4}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
 
@@ -850,7 +816,7 @@ public class RequireTest {
             Require.stateAny(state, conds, state < 30, state > 90, state == 60);
             fail("An IllegalStateException is supposed to be thrown");
         }catch (IllegalStateException e){
-            assertEquals("[Problem]: State{@val: 50} doesn't meet any of these specified conditions{@prec: state < 30, state > 90, state == 60}",
+            assertEquals("[Problem]: {@val: 50} doesn't meet any of these specified conditions{@prec: state < 30, state > 90, state == 60}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         try{
@@ -890,7 +856,7 @@ public class RequireTest {
             Require.stateAny(state.length, desc_templ, conds, state.length == 2, state.length == 4, state.length == 6);
             fail("An IllegalStateException is supposed to be thrown");
         }catch (IllegalStateException e){
-            assertEquals("[Problem]: State{@actual: state's length is 5} doesn't meet any of these specified conditions{@prec: state.length == 2, state.length == 4, state.length == 6}",
+            assertEquals("[Problem]: {@actual: state's length is 5} doesn't meet any of these specified conditions{@prec: state.length == 2, state.length == 4, state.length == 6}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         try{

@@ -15,7 +15,7 @@ public class RequireTestAssitant {
     public static String errorMsg(String template, Object value, String cond) {
         try {
             Method method = Require.class.getDeclaredMethod("errorMsg",
-                    new Class[]{String.class, Object.class, String.class});
+                    String.class, Object.class, String.class);
             method.setAccessible(true);
             return (String) method.invoke(Require.class, template, value, cond);
         } catch (NoSuchMethodException e) {
@@ -35,7 +35,7 @@ public class RequireTestAssitant {
     public static String errorMsg(String msg_templ, String desc_templ, Object value, String cond) {
         try {
             Method method = Require.class.getDeclaredMethod("errorMsg",
-                    new Class[]{String.class, String.class, Object.class, String.class});
+                    String.class, String.class, Object.class, String.class);
             method.setAccessible(true);
             return (String) method.invoke(Require.class, msg_templ, desc_templ, value, cond);
         } catch (NoSuchMethodException e) {
@@ -55,7 +55,7 @@ public class RequireTestAssitant {
     public static String nullMsg(String template, String param) {
         try {
             Method method = Require.class.getDeclaredMethod("nullMsg",
-                    new Class[]{String.class, String.class});
+                    String.class, String.class);
             method.setAccessible(true);
             return (String) method.invoke(Require.class, template, param);
         } catch (NoSuchMethodException e) {
@@ -84,7 +84,7 @@ public class RequireTestAssitant {
     public static <T> T valueInArray(T[] arr, int index) {
         try {
             Method method = Require.class.getDeclaredMethod("valueInArray",
-                    new Class[]{Object[].class, int.class});
+                    Object[].class, int.class);
             method.setAccessible(true);
             return (T) method.invoke(Require.class, arr, index);
         } catch (NoSuchMethodException e) {
@@ -159,33 +159,6 @@ public class RequireTestAssitant {
         System.out.println(" - testValueInArray_random() end.");
     }
 
-    /**
-     * @see RequireTest#checkVarargs()
-     * @param times used to indicate how many times random value test will run.
-     * */
-//    @Deprecated
-//    public void testCheckVarargs(int times){
-//        System.out.println(" - testValueInArray_random() start: ");
-//        int index = -1;
-//        Object[] arr;
-//        for(int i = 0; i < times; i++){
-//            try{
-//                arr = arrs[(index = rand.nextInt(5))];
-//                RequireTestAssitant.checkVarargs(arr);
-//                printIndexAndValue(i, index, arrs_desc[index]);
-//                if(arr == null || arr.length == 0)
-//                    fail("fail to throw an IllegalArgumentException");
-//            }catch (IllegalArgumentException e){
-//                printIndexAndValue(i, index, arrs_desc[index]);
-//                assertEquals("[Warning]: 0 Argument or 'null' passed into the `Require` method",
-//                        e.getMessage().replaceAll("[\r|\n]", ""));
-//                System.out.println((i + 1) + ". IllegalArgumentException caught, assertEquals(..) called");
-//            }
-//            index = -1;
-//        }
-//        System.out.println(" - testValueInArray_random() end.");
-//    }
-
 
 
     /**
@@ -207,7 +180,7 @@ public class RequireTestAssitant {
             }catch (IllegalArgumentException e){
                 if (obj == null){
                     System.out.println("IllegalArgumentException caught, assertEquals(..) called");
-                    assertEquals("[Problem]: Required Argument is NULL",
+                    assertEquals("[Problem]: Required Object is NULL",
                             e.getMessage().replaceAll("[\r|\n]", ""));
                 }
                 else fail("obj != null, IllegalArgumentException is not supposed to be thrown");
