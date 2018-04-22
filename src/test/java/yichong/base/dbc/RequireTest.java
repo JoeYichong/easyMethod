@@ -157,36 +157,36 @@ public class RequireTest {
 
     }
 
-    /**
+    /*
      * Test {@code public static void argumentNotNull(Object... refs)}
      * @see Require#argumentsNotNull(Object...)
      * */
-    @org.junit.Test
-    public void argNotNull_3() {
-        // a batch of objects with a null value in it
-        try{
-            Require.argumentsNotNull("", "123", null, true);
-            fail("An IllegalArgumentException is supposed to be thrown");
-        }catch (IllegalArgumentException e){
-            assertEquals("[Problem]: Required Object is NULL",
-                    e.getMessage().replaceAll("[\r|\n]", ""));
-        }
-        // a batch of objects with 2 null values in it
-        try{
-            Require.argumentsNotNull("", "123", null, null);
-            fail("An IllegalArgumentException is supposed to be thrown");
-        }catch (IllegalArgumentException e){
-            assertEquals("[Problem]: Required Object is NULL",
-                    e.getMessage().replaceAll("[\r|\n]", ""));
-        }
-        // a batch of objects without null value in it
-        try{
-            Require.argumentsNotNull("", "123", 100, true);
-        }catch (IllegalArgumentException e){
-            fail("IllegalArgumentException isn't supposed to be thrown");
-        }
-
-    }
+//    @org.junit.Test
+//    public void argNotNull_3() {
+//        // a batch of objects with a null value in it
+//        try{
+//            Require.argumentsNotNull("", "123", null, true);
+//            fail("An IllegalArgumentException is supposed to be thrown");
+//        }catch (IllegalArgumentException e){
+//            assertEquals("[Problem]: Required Object is NULL",
+//                    e.getMessage().replaceAll("[\r|\n]", ""));
+//        }
+//        // a batch of objects with 2 null values in it
+//        try{
+//            Require.argumentsNotNull("", "123", null, null);
+//            fail("An IllegalArgumentException is supposed to be thrown");
+//        }catch (IllegalArgumentException e){
+//            assertEquals("[Problem]: Required Object is NULL",
+//                    e.getMessage().replaceAll("[\r|\n]", ""));
+//        }
+//        // a batch of objects without null value in it
+//        try{
+//            Require.argumentsNotNull("", "123", 100, true);
+//        }catch (IllegalArgumentException e){
+//            fail("IllegalArgumentException isn't supposed to be thrown");
+//        }
+//
+//    }
 
     /**
      * Test {@code public static void argumentNotNull(String[] params, Object... refs)}
@@ -553,36 +553,36 @@ public class RequireTest {
 
     }
 
-    /**
+    /*
      * Test {@code public static void stateNotNull(Object... refs)}
      * @see Require#statesNotNull(Object...)
      * */
-    @org.junit.Test
-    public void statesNotNull_1() {
-        // a batch of objects with a null value in it
-        try{
-            Require.statesNotNull("", "123", null, true);
-            fail("An IllegalStateException is supposed to be thrown");
-        }catch (IllegalStateException e){
-            assertEquals("[Problem]: Required Object is NULL",
-                    e.getMessage().replaceAll("[\r|\n]", ""));
-        }
-        // a batch of objects with 2 null values in it
-        try{
-            Require.statesNotNull("", "123", null, null);
-            fail("An IllegalStateException is supposed to be thrown");
-        }catch (IllegalStateException e){
-            assertEquals("[Problem]: Required Object is NULL",
-                    e.getMessage().replaceAll("[\r|\n]", ""));
-        }
-        // a batch of objects without null value in it
-        try{
-            Require.statesNotNull("", "123", 100, true);
-        }catch (IllegalStateException e){
-            fail("IllegalStateException isn't supposed to be thrown");
-        }
-
-    }
+//    @org.junit.Test
+//    public void statesNotNull_1() {
+//        // a batch of objects with a null value in it
+//        try{
+//            Require.statesNotNull("", "123", null, true);
+//            fail("An IllegalStateException is supposed to be thrown");
+//        }catch (IllegalStateException e){
+//            assertEquals("[Problem]: Required Object is NULL",
+//                    e.getMessage().replaceAll("[\r|\n]", ""));
+//        }
+//        // a batch of objects with 2 null values in it
+//        try{
+//            Require.statesNotNull("", "123", null, null);
+//            fail("An IllegalStateException is supposed to be thrown");
+//        }catch (IllegalStateException e){
+//            assertEquals("[Problem]: Required Object is NULL",
+//                    e.getMessage().replaceAll("[\r|\n]", ""));
+//        }
+//        // a batch of objects without null value in it
+//        try{
+//            Require.statesNotNull("", "123", 100, true);
+//        }catch (IllegalStateException e){
+//            fail("IllegalStateException isn't supposed to be thrown");
+//        }
+//
+//    }
 
     /**
      * Test {@code public static void stateNotNull(String[] state_names, Object... refs)}

@@ -218,20 +218,20 @@ public final class Require {
             throw new IllegalArgumentException(nullMsg(Msg_NotNull_Template, param));
     }
 
-    /**
+    /*
      * Asserts that a batch of object references are not null. If null reference detected
      * it throws an {@link IllegalArgumentException} with the given message.
      *
      * @param refs the object references(as arguments) passed to the calling method
      * @throws IllegalArgumentException if null reference detected
      */
-    public static void argumentsNotNull(Object... refs) {
-        //checkVarargs(refs);
-        for (int i = 0; i < refs.length; i++) {
-            if (refs[i] == null)
-                throw new IllegalArgumentException(Msg_NotNull);
-        }
-    }
+//    public static void argumentsNotNull(Object... refs) {
+//        //checkVarargs(refs);
+//        for (int i = 0; i < refs.length; i++) {
+//            if (refs[i] == null)
+//                throw new IllegalArgumentException(Msg_NotNull);
+//        }
+//    }
 
     /**
      * Asserts that a batch of object references are not null. If null reference detected
@@ -382,20 +382,20 @@ public final class Require {
             throw new IllegalStateException(nullMsg(Msg_NotNull_Template, state_name));
     }
 
-    /**
+    /*
      * Asserts that a batch of object references are not null. If null reference detected,
      * it throws an {@link IllegalStateException} with the given message.
      *
      * @param refs the references of state objects
      * @throws IllegalStateException if null reference detected
      */
-    public static void statesNotNull(Object... refs) {
-        //checkVarargs(refs);
-        for (int i = 0; i < refs.length; i++) {
-            if (refs[i] == null)
-                throw new IllegalStateException(Msg_NotNull);
-        }
-    }
+//    public static void statesNotNull(Object... refs) {
+//        //checkVarargs(refs);
+//        for (int i = 0; i < refs.length; i++) {
+//            if (refs[i] == null)
+//                throw new IllegalStateException(Msg_NotNull);
+//        }
+//    }
 
     /**
      * Asserts that a batch of object references are not null. If null reference detected,
