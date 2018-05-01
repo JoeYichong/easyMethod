@@ -63,8 +63,8 @@ public final class Require {
             "\r\n[Problem]: Required Object is NULL";
     private static final String Msg_NotNull_Template =
             "\r\n[Problem]: Required Object{@sig: %s} is NULL";
-    private static final String Msg_NotNull_Template_m =
-            "\r\n[Problem]: Required Object{@sig: %s} is NULL, which indicates {@that %s}";
+//    private static final String Msg_NotNull_Template_m =
+//            "\r\n[Problem]: Required Object{@sig: %s} is NULL, which indicates {@that %s}";
     private static final String Msg_ArrNotEmpty_Template =
             "\r\n[Problem]: Array{@sig: %s} is Empty";
     private static final String Msg_StrNotEmpty_Template =
@@ -127,6 +127,36 @@ public final class Require {
         String prec = (cond == null || "".equals(cond)) ? "[-]" : cond;
 
         return String.format(msg_templ, desc, prec);
+    }
+
+    /**
+     * A private method used to generate custom exception messages,
+     * {@code null} value and empty string("") are tolerated which indicated by using string '[-]' instead or
+     * other default messages.
+     *
+     * @param msg_template the custom template of exception message, string '[- Custom Error Message Not Available -]' is
+     *                     used to indicate that this argument isn't available
+     * @param value a object value to be inserted in the message template,
+     *              string '[-]' is used to indicate that this argument isn't available
+     *
+     * */
+    private static String customErrorMsg(String msg_template, Object value){
+        String val = (value == null) ? "[-]" : wrapString(value);
+        String msg_templ = (msg_template == null || "".equals(msg_template)) ?
+                "[- Custom Error Message Not Available -]" : msg_template;
+        return String.format(msg_templ, val);
+    }
+
+    /**
+     * A private method used to generate custom exception messages,
+     * default message is used if custom message not available.
+     *
+     * @param msg the custom message to be checked
+     *
+     * */
+    private static String customErrorMsg(String msg){
+        return (msg == null || "".equals(msg)) ?
+                "[- Custom Error Message Not Available -]" : msg;
     }
 
     /**
@@ -217,21 +247,6 @@ public final class Require {
         if (ref == null)
             throw new IllegalArgumentException(nullMsg(Msg_NotNull_Template, param));
     }
-
-    /*
-     * Asserts that a batch of object references are not null. If null reference detected
-     * it throws an {@link IllegalArgumentException} with the given message.
-     *
-     * @param refs the object references(as arguments) passed to the calling method
-     * @throws IllegalArgumentException if null reference detected
-     */
-//    public static void argumentsNotNull(Object... refs) {
-//        //checkVarargs(refs);
-//        for (int i = 0; i < refs.length; i++) {
-//            if (refs[i] == null)
-//                throw new IllegalArgumentException(Msg_NotNull);
-//        }
-//    }
 
     /**
      * Asserts that a batch of object references are not null. If null reference detected
@@ -338,7 +353,7 @@ public final class Require {
     }
 
     /**
-     * Asserts that at least one of many specified conditions is true
+     * Asserts that at least one of many specified conditions is true.
      *
      * @param val the value or attribute of the argument to be checked
      * @param desc_templ the template that describe the reality of the argument to be checked
@@ -353,6 +368,36 @@ public final class Require {
                 return;
         }
         throw new IllegalArgumentException(errorMsg(Msg_Template_any_d, desc_templ, val, conditions));
+    }
+
+    /**
+     * Asserts that the specified condition is true with custom exception message.
+     * 'WCM' in the method name stands for 'with custom message'.
+     *
+     * @param prec_expr the boolean expressions of the specified conditions
+     * @param msg the custom exception message
+     * @throws IllegalArgumentException if fails to match the specified condition
+     *
+     * */
+    public static void argumentWCM(boolean prec_expr, String msg){
+        if (!prec_expr)
+            throw new IllegalArgumentException(customErrorMsg(msg));
+
+    }
+
+    /**
+     * Asserts that the specified condition is true with custom exception message.
+     * 'WCM' in the method name stands for 'with custom message'.
+     *
+     * @param prec_expr the boolean expressions of the specified conditions
+     * @param msg_templ the custom message template
+     * @param val the value to be inserted in the message template
+     * @throws IllegalArgumentException if fails to match the specified condition
+     *
+     * */
+    public static void argumentWCM(boolean prec_expr, String msg_templ, Object val){
+        if (!prec_expr)
+            throw new IllegalArgumentException(customErrorMsg(msg_templ, val));
     }
 
     /* **************************************************************************************************8 */
@@ -381,21 +426,6 @@ public final class Require {
         if (ref == null)
             throw new IllegalStateException(nullMsg(Msg_NotNull_Template, state_name));
     }
-
-    /*
-     * Asserts that a batch of object references are not null. If null reference detected,
-     * it throws an {@link IllegalStateException} with the given message.
-     *
-     * @param refs the references of state objects
-     * @throws IllegalStateException if null reference detected
-     */
-//    public static void statesNotNull(Object... refs) {
-//        //checkVarargs(refs);
-//        for (int i = 0; i < refs.length; i++) {
-//            if (refs[i] == null)
-//                throw new IllegalStateException(Msg_NotNull);
-//        }
-//    }
 
     /**
      * Asserts that a batch of object references are not null. If null reference detected,
@@ -428,6 +458,7 @@ public final class Require {
         if (!prec_expr)
             throw new IllegalStateException(errorMsg(Msg_Template_v, val, prec_str));
     }
+
 
     /**
      * Asserts that the state object meets the preconditions.
@@ -518,5 +549,36 @@ public final class Require {
         }
         throw new IllegalStateException(errorMsg(Msg_Template_any_d, desc_templ, val, conditions));
     }
+
+    /**
+     * Asserts that the specified conditions is true with custom exception message.
+     * 'WCM' in the method name stands for 'with custom message'.
+     *
+     * @param prec_expr the boolean expressions of the specified conditions
+     * @param msg the custom exception message
+     * @throws IllegalStateException if fails to match the specified condition
+     *
+     * */
+    public static void stateWCM(boolean prec_expr, String msg){
+        if (!prec_expr)
+            throw new IllegalStateException(customErrorMsg(msg));
+
+    }
+
+    /**
+     * Asserts that the specified conditions is true with custom exception message.
+     * 'WCM' in the method name stands for 'with custom message'.
+     *
+     * @param prec_expr the boolean expressions of the specified conditions
+     * @param msg_templ the custom message template
+     * @param val the value to be inserted in the message template
+     * @throws IllegalStateException if fails to match the specified condition
+     *
+     * */
+    public static void stateWCM(boolean prec_expr, String msg_templ, Object val){
+        if (!prec_expr)
+            throw new IllegalStateException(customErrorMsg(msg_templ, val));
+    }
+
 
 }

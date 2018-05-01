@@ -157,36 +157,6 @@ public class RequireTest {
 
     }
 
-    /*
-     * Test {@code public static void argumentNotNull(Object... refs)}
-     * @see Require#argumentsNotNull(Object...)
-     * */
-//    @org.junit.Test
-//    public void argNotNull_3() {
-//        // a batch of objects with a null value in it
-//        try{
-//            Require.argumentsNotNull("", "123", null, true);
-//            fail("An IllegalArgumentException is supposed to be thrown");
-//        }catch (IllegalArgumentException e){
-//            assertEquals("[Problem]: Required Object is NULL",
-//                    e.getMessage().replaceAll("[\r|\n]", ""));
-//        }
-//        // a batch of objects with 2 null values in it
-//        try{
-//            Require.argumentsNotNull("", "123", null, null);
-//            fail("An IllegalArgumentException is supposed to be thrown");
-//        }catch (IllegalArgumentException e){
-//            assertEquals("[Problem]: Required Object is NULL",
-//                    e.getMessage().replaceAll("[\r|\n]", ""));
-//        }
-//        // a batch of objects without null value in it
-//        try{
-//            Require.argumentsNotNull("", "123", 100, true);
-//        }catch (IllegalArgumentException e){
-//            fail("IllegalArgumentException isn't supposed to be thrown");
-//        }
-//
-//    }
 
     /**
      * Test {@code public static void argumentNotNull(String[] params, Object... refs)}
@@ -489,11 +459,59 @@ public class RequireTest {
 
     }
 
+    /**
+     * @see Require#argumentWCM(boolean, String)
+     * */
+    @org.junit.Test
+    public void argumentWCM_1() {
+        try{
+            String msg = "Custom Exception Message";
+            Require.argumentWCM(false, msg);
+            fail("An IllegalArgumentException is supposed to be thrown");
+        }catch (IllegalArgumentException e){
+            assertEquals("Custom Exception Message",
+                    e.getMessage().replaceAll("[\r|\n]", ""));
+        }
 
-        /**
-         * Test {@code public static void stateNotNull(Object ref)}
-         * @see Require#stateNotNull(Object)
-         * */
+        try{
+            String msg = "Custom Exception Message";
+            Require.argumentWCM(true, msg);
+
+        }catch (IllegalArgumentException e){
+            fail("An IllegalArgumentException isn't supposed to be thrown");
+        }
+
+    }
+
+    /**
+     * @see Require#argumentWCM(boolean, String, Object)
+     * */
+    @org.junit.Test
+    public void argumentWCM_2() {
+        try{
+            String msg = "Custom Exception Message with value %s";
+            int value = 100;
+            Require.argumentWCM(false, msg, 100);
+            fail("An IllegalArgumentException is supposed to be thrown");
+        }catch (IllegalArgumentException e){
+            assertEquals("Custom Exception Message with value 100",
+                    e.getMessage().replaceAll("[\r|\n]", ""));
+        }
+
+        try{
+            String msg = "Custom Exception Message with value %s";
+            Require.argumentWCM(true, msg, 100);
+
+        }catch (IllegalArgumentException e){
+            fail("An IllegalArgumentException isn't supposed to be thrown");
+        }
+    }
+
+    /**
+     * Test {@code public static void stateNotNull(Object ref)}
+     *
+     * @see Require#stateNotNull(Object)
+     */
     @org.junit.Test
     public void stateNotNull_1() {
         // null argument
@@ -553,36 +571,6 @@ public class RequireTest {
 
     }
 
-    /*
-     * Test {@code public static void stateNotNull(Object... refs)}
-     * @see Require#statesNotNull(Object...)
-     * */
-//    @org.junit.Test
-//    public void statesNotNull_1() {
-//        // a batch of objects with a null value in it
-//        try{
-//            Require.statesNotNull("", "123", null, true);
-//            fail("An IllegalStateException is supposed to be thrown");
-//        }catch (IllegalStateException e){
-//            assertEquals("[Problem]: Required Object is NULL",
-//                    e.getMessage().replaceAll("[\r|\n]", ""));
-//        }
-//        // a batch of objects with 2 null values in it
-//        try{
-//            Require.statesNotNull("", "123", null, null);
-//            fail("An IllegalStateException is supposed to be thrown");
-//        }catch (IllegalStateException e){
-//            assertEquals("[Problem]: Required Object is NULL",
-//                    e.getMessage().replaceAll("[\r|\n]", ""));
-//        }
-//        // a batch of objects without null value in it
-//        try{
-//            Require.statesNotNull("", "123", 100, true);
-//        }catch (IllegalStateException e){
-//            fail("IllegalStateException isn't supposed to be thrown");
-//        }
-//
-//    }
 
     /**
      * Test {@code public static void stateNotNull(String[] state_names, Object... refs)}
@@ -885,4 +873,55 @@ public class RequireTest {
         }
 
     }
+
+    /**
+     * @see Require#stateWCM(boolean, String)
+     *
+     * */
+    @org.junit.Test
+    public void stateWCM_1() {
+        try{
+            String msg = "Custom Exception Message";
+            Require.stateWCM(false, msg);
+            fail("An IllegalStateException is supposed to be thrown");
+        }catch (IllegalStateException e){
+            assertEquals("Custom Exception Message",
+                    e.getMessage().replaceAll("[\r|\n]", ""));
+        }
+
+        try{
+            String msg = "Custom Exception Message";
+            Require.stateWCM(true, msg);
+
+        }catch (IllegalStateException e){
+            fail("An IllegalStateException isn't supposed to be thrown");
+        }
+
+    }
+
+    /**
+     * @see Require#stateWCM(boolean, String, Object)
+     *
+     * */
+    @org.junit.Test
+    public void stateWCM_2() {
+        try{
+            String msg = "Custom Exception Message with value %s";
+            int value = 100;
+            Require.stateWCM(false, msg, 100);
+            fail("An IllegalStateException is supposed to be thrown");
+        }catch (IllegalStateException e){
+            assertEquals("Custom Exception Message with value 100",
+                    e.getMessage().replaceAll("[\r|\n]", ""));
+        }
+
+        try{
+            String msg = "Custom Exception Message with value %s";
+            Require.stateWCM(true, msg, 100);
+
+        }catch (IllegalStateException e){
+            fail("An IllegalStateException isn't supposed to be thrown");
+        }
+    }
+
 }
