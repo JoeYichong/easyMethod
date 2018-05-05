@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 
 public class RequireTest {
     /**
-     * Test {@code private static <T> T valueInArray(T[] arr, int index)} in class {@code Require}.
      * Random values used for testing are automatically generated.
      * @see Require#valueInArray(Object[], int)
      * */
@@ -14,14 +13,13 @@ public class RequireTest {
     }
 
     /**
-     * Test {@code public static <T> void argumentNotNullAndNotEmpty(String sig, T[] arr)}
-     * @see Require#argumentNotNullAndNotEmpty(String, Object[])
+     * @see Require#argumentNotNullAndNotEmpty(Object[], String)
      * */
     @org.junit.Test
     public void argumentNotNullAndNotEmpty_1(){
         // a null value passed into the method as an array
         try{
-            Require.argumentNotNullAndNotEmpty("Array arr", (Object[]) null);
+            Require.argumentNotNullAndNotEmpty((Object[]) null, "Array arr");
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
             assertEquals("[Problem]: Required Object{@sig: Array arr} is NULL",
@@ -29,7 +27,7 @@ public class RequireTest {
         }
         // an empty array passed into the method
         try{
-            Require.argumentNotNullAndNotEmpty("Array arr", new Object[0]);
+            Require.argumentNotNullAndNotEmpty(new Object[0], "Array arr");
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
             assertEquals("[Problem]: Array{@sig: Array arr} is Empty",
@@ -37,7 +35,7 @@ public class RequireTest {
         }
         // null. null
         try{
-            Require.argumentNotNullAndNotEmpty(null, (Object[]) null);
+            Require.argumentNotNullAndNotEmpty((Object[]) null, null);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
             assertEquals("[Problem]: Required Object{@sig: [-]} is NULL",
@@ -45,7 +43,7 @@ public class RequireTest {
         }
         // "", new Object[0]
         try{
-            Require.argumentNotNullAndNotEmpty("", new Object[0]);
+            Require.argumentNotNullAndNotEmpty(new Object[0], "");
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
             assertEquals("[Problem]: Array{@sig: [-]} is Empty",
@@ -54,14 +52,13 @@ public class RequireTest {
     }
 
     /**
-     * Test {@code public static void argumentNotNullAndNotEmpty(String sig, String str)}
      * @see Require#argumentNotNullAndNotEmpty(String, String)
      * */
     @org.junit.Test
     public void argumentNotNullAndNotEmpty_2(){
         // a null value passed into the method as an string
         try{
-            Require.argumentNotNullAndNotEmpty("String str", (String) null);
+            Require.argumentNotNullAndNotEmpty((String) null, "String str");
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
             assertEquals("[Problem]: Required Object{@sig: String str} is NULL",
@@ -69,7 +66,7 @@ public class RequireTest {
         }
         // an empty string passed into the method
         try{
-            Require.argumentNotNullAndNotEmpty("String str", "");
+            Require.argumentNotNullAndNotEmpty("", "String str");
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
             assertEquals("[Problem]: String{@sig: String str} is Empty",
@@ -77,7 +74,7 @@ public class RequireTest {
         }
         // null. null
         try{
-            Require.argumentNotNullAndNotEmpty(null, (String) null);
+            Require.argumentNotNullAndNotEmpty((String) null, null);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
             assertEquals("[Problem]: Required Object{@sig: [-]} is NULL",
@@ -94,7 +91,6 @@ public class RequireTest {
     }
 
     /**
-     * Test {@code public static void argumentNotNull(Object ref)}
      * @see Require#argumentNotNull(Object)
      * */
     @org.junit.Test
@@ -118,14 +114,13 @@ public class RequireTest {
     }
 
     /**
-     * Test {@code public static void argumentNotNull(String param, Object ref)}
-     * @see Require#argumentNotNull(String, Object)
+     * @see Require#argumentNotNull(Object, String)
      * */
     @org.junit.Test
     public void argNotNull_2() {
         // null argument
         try{
-            Require.argumentNotNull("Object obj", null);
+            Require.argumentNotNull(null, "Object obj");
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
             assertEquals("[Problem]: Required Object{@sig: Object obj} is NULL",
@@ -133,14 +128,14 @@ public class RequireTest {
         }
         // non-null argument
         try{
-            Require.argumentNotNull("Object obj", "");
+            Require.argumentNotNull("", "Object obj");
         }catch (IllegalArgumentException e){
             fail("IllegalArgumentException isn't supposed to be thrown");
         }
 
         // null argument, param not available ("" empty string)
         try{
-            Require.argumentNotNull("", null);
+            Require.argumentNotNull(null, "");
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
             assertEquals("[Problem]: Required Object{@sig: [-]} is NULL",
@@ -159,15 +154,14 @@ public class RequireTest {
 
 
     /**
-     * Test {@code public static void argumentNotNull(String[] params, Object... refs)}
-     * @see Require#argumentsNotNull(String[], Object...)
+     * @see Require#argumentsNotNull(Object[], String[])
      * */
     @org.junit.Test
     public void argNotNull_4() {
         // a batch of objects to be checked, the first one is null
         try{
-            Require.argumentsNotNull(new String[]{"String s1", "String s2", "Object o", "Boolean b"},
-                    null, "123", new Object(), false);
+            Require.argumentsNotNull(new Object[]{null, "123", new Object(), false},
+                    new String[]{"String s1", "String s2", "Object o", "Boolean b"});
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
             assertEquals("[Problem]: Required Object{@sig: String s1} is NULL",
@@ -175,8 +169,8 @@ public class RequireTest {
         }
         // a batch of objects to be checked, the last one is null
         try{
-            Require.argumentsNotNull(new String[]{"String s1", "String s2", "Object o", "Boolean b"},
-                    "", "123", new Object(), null);
+            Require.argumentsNotNull(new Object[]{"", "123", new Object(), null},
+                    new String[]{"String s1", "String s2", "Object o", "Boolean b"});
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
             assertEquals("[Problem]: Required Object{@sig: Boolean b} is NULL",
@@ -184,8 +178,8 @@ public class RequireTest {
         }
         // a batch of objects to be checked, the 3rd one is null
         try{
-            Require.argumentsNotNull(new String[]{"String s1", "String s2", "Object o", "Boolean b"},
-                    "", "123", null, true);
+            Require.argumentsNotNull(new Object[]{"", "123", null, true},
+                    new String[]{"String s1", "String s2", "Object o", "Boolean b"});
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
             assertEquals("[Problem]: Required Object{@sig: Object o} is NULL",
@@ -193,15 +187,15 @@ public class RequireTest {
         }
         // a batch of objects without null value
         try{
-            Require.argumentsNotNull(new String[]{"String s1", "String s2", "Object o", "Boolean b"},
-                    "", "123", 100, true);
+            Require.argumentsNotNull(new Object[]{"", "123", 100, true},
+                    new String[]{"String s1", "String s2", "Object o", "Boolean b"});
         }catch (IllegalArgumentException e){
             fail("IllegalArgumentException isn't supposed to be thrown");
         }
         // a batch of objects to be checked, the 3rd one is null and its corresponding sig is also null
         try{
-            Require.argumentsNotNull(new String[]{"String s1", "String s2", null, "Boolean b"},
-                    "", "123", null, true);
+            Require.argumentsNotNull(new Object[]{"", "123", null, true},
+                    new String[]{"String s1", "String s2", null, "Boolean b"});
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
             assertEquals("[Problem]: Required Object{@sig: [-]} is NULL",
@@ -210,14 +204,13 @@ public class RequireTest {
     }
 
     /**
-     * Test {@code public static void argument(Object val, String prec_str, boolean prec_expr)}
-     * @see Require#argument(Object, String, boolean)
+     * @see Require#argument(boolean, Object, String)
      * */
     @org.junit.Test
     public void argument_1() {
         try{
             int arg = 0;
-            Require.argument(arg, "arg > 0", arg > 0);
+            Require.argument(arg > 0, arg, "arg > 0");
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
             assertEquals("[Problem]: {@val: 0} doesn't meet the {@prec: arg > 0}",
@@ -225,13 +218,13 @@ public class RequireTest {
         }
         try{
             int arg = 1;
-            Require.argument(arg, "arg > 0", arg > 0);
+            Require.argument(arg > 0, arg, "arg > 0");
         }catch (IllegalArgumentException e){
             fail("An IllegalArgumentException isn't supposed to be thrown");
         }
         try{
             int arg = 0;
-            Require.argument(null, null, arg > 0);
+            Require.argument(arg > 0, null, null);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e) {
             assertEquals("[Problem]: {@val: [-]} doesn't meet the {@prec: [-]}",
@@ -240,14 +233,13 @@ public class RequireTest {
     }
 
     /**
-     * Test {@code public static void argument(Object val, String desc_templ, String prec_str, boolean prec_expr)}
-     * @see Require#argument(Object, String, String, boolean)
+     * @see Require#argument(boolean, Object, String, String)
      * */
     @org.junit.Test
     public void argument_2() {
         try{
             Object[] objs = new Object[10];
-            Require.argument(objs.length, "The length of object array argument is %s","objs.length > 10", objs.length > 10);
+            Require.argument(objs.length > 10, objs.length, "The length of object array argument is %s","objs.length > 10");
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
             assertEquals("[Problem]: {@actual: The length of object array argument is 10} doesn't meet the {@prec: objs.length > 10}",
@@ -255,13 +247,13 @@ public class RequireTest {
         }
         try{
             Object[] objs = new Object[11];
-            Require.argument(objs.length, "The length of object array argument is %s","objs.length > 10", objs.length > 10);
+            Require.argument(objs.length > 10, objs.length, "The length of object array argument is %s","objs.length > 10");
         }catch (IllegalArgumentException e){
             fail("IllegalArgumentException isn't supposed to be thrown");
         }
         try{
             Object[] objs = new Object[10];
-            Require.argument(null, "The length of object array argument is %s",null, objs.length > 10);
+            Require.argument(objs.length > 10, null, "The length of object array argument is %s",null);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e) {
             assertEquals("[Problem]: {@actual: The length of object array argument is [-]} doesn't meet the {@prec: [-]}",
@@ -269,7 +261,7 @@ public class RequireTest {
         }
         try{
             Object[] objs = new Object[10];
-            Require.argument(null, null,null, objs.length > 10);
+            Require.argument(objs.length > 10, null, null,null);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e) {
             assertEquals("[Problem]: {@actual: [-]} doesn't meet the {@prec: [-]}",
@@ -277,7 +269,7 @@ public class RequireTest {
         }
         try{
             Object[] objs = new Object[10];
-            Require.argument(10, null,null, objs.length > 10);
+            Require.argument(objs.length > 10, 10, null,null);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e) {
             assertEquals("[Problem]: {@actual: 10} doesn't meet the {@prec: [-]}",
@@ -286,31 +278,37 @@ public class RequireTest {
     }
 
     /**
-     * Test {@code public static void argumentAll(Object val, String[] prec_strs, Boolean... prec_exprs)}
-     * @see Require#argumentAll(Object, String[], Boolean...)
+     * @see Require#argumentAll(boolean[], Object, String[])
      * */
     @org.junit.Test
     public void argumentAll_1() {
+
         try{
             int val = 10;
+            boolean[] prec_expr = {val > 0, val != 50, val < 100};
             String[] precs = new String[]{"val > 0", "val != 50", "val < 100"};
-            Require.argumentAll(val, precs, val > 0, val != 50, val < 100);
+
+            Require.argumentAll(prec_expr, val, precs);
         }catch (IllegalArgumentException e){
+            e.printStackTrace();
             fail("IllegalArgumentException isn't supposed to be thrown");
         }
         try{
-            int val = 10;
-            String[] precs = new String[]{"val > 10", "val != 50", "val < 100"};
-            Require.argumentAll(val, precs, val > 10, val != 50, val < 100);
+            int val = 0;
+            boolean[] prec_expr = {val > 0, val != 50, val < 100};
+            String[] precs = new String[]{"val > 0", "val != 50", "val < 100"};
+            Require.argumentAll(prec_expr, val, precs);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
-            assertEquals("[Problem]: {@val: 10} doesn't meet the {@prec: val > 10}",
+            assertEquals("[Problem]: {@val: 0} doesn't meet the {@prec: val > 0}",
                     e.getMessage().replaceAll("[\r|\n]", ""));
         }
         try{
             int val = 50;
+            boolean[] prec_expr = {val > 0, val != 50, val < 100};
             String[] precs = new String[]{"val > 0", "val != 50", "val < 100"};
-            Require.argumentAll(val, precs, val > 0, val != 50, val < 100);
+
+            Require.argumentAll(prec_expr, val, precs);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
             assertEquals("[Problem]: {@val: 50} doesn't meet the {@prec: val != 50}",
@@ -318,8 +316,10 @@ public class RequireTest {
         }
         try{
             int val = 100;
+            boolean[] prec_expr = {val > 0, val != 50, val < 100};
             String[] precs = new String[]{"val > 0", "val != 50", "val < 100"};
-            Require.argumentAll(val, precs, val > 0, val != 50, val < 100);
+
+            Require.argumentAll(prec_expr, val, precs);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
             assertEquals("[Problem]: {@val: 100} doesn't meet the {@prec: val < 100}",
@@ -329,9 +329,7 @@ public class RequireTest {
     }
 
     /**
-     * Test
-     * {@code public static void argumentAll(Object val, String desc_templ, String[] prec_strs, Boolean... prec_exprs)}
-     * @see Require#argumentAll(Object, String, String[], Boolean...)
+     * @see Require#argumentAll(boolean[], Object, String, String[])
      * */
     @org.junit.Test
     public void argumentAll_2() {
@@ -339,7 +337,7 @@ public class RequireTest {
             int[] arr = new int[]{10, 20, 30, 40};
             String desc_templ = "arr's length is %s";
             String[] prec_strs = new String[]{"arr.length > 0", "arr.length < 10", "arr.length != 3"};
-            Require.argumentAll(arr.length, desc_templ, prec_strs, arr.length > 0, arr.length < 10, arr.length != 3);
+            Require.argumentAll(new boolean[]{arr.length > 0, arr.length < 10, arr.length != 3}, arr.length, desc_templ, prec_strs);
         }catch (IllegalArgumentException e){
             fail("IllegalArgumentException isn't supposed to be thrown");
         }
@@ -347,7 +345,7 @@ public class RequireTest {
             int[] arr = new int[]{};
             String desc_templ = "arr's length is %s";
             String[] prec_strs = new String[]{"arr.length > 0", "arr.length < 10", "arr.length != 3"};
-            Require.argumentAll(arr.length, desc_templ, prec_strs, arr.length > 0, arr.length < 10, arr.length != 3);
+            Require.argumentAll(new boolean[]{arr.length > 0, arr.length < 10, arr.length != 3}, arr.length, desc_templ, prec_strs);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
             assertEquals("[Problem]: {@actual: arr's length is 0} doesn't meet the {@prec: arr.length > 0}",
@@ -357,7 +355,7 @@ public class RequireTest {
             int[] arr = new int[]{10, 20, 30, 40, 50};
             String desc_templ = "arr's length is %s";
             String[] prec_strs = new String[]{"arr.length > 0", "arr.length < 5", "arr.length != 3"};
-            Require.argumentAll(arr.length, desc_templ, prec_strs, arr.length > 0, arr.length < 5, arr.length != 3);
+            Require.argumentAll(new boolean[]{arr.length > 0, arr.length < 5, arr.length != 3}, arr.length, desc_templ, prec_strs);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
             assertEquals("[Problem]: {@actual: arr's length is 5} doesn't meet the {@prec: arr.length < 5}",
@@ -367,7 +365,7 @@ public class RequireTest {
             int[] arr = new int[]{10, 20, 30, 40};
             String desc_templ = "arr's length is %s";
             String[] prec_strs = new String[]{"arr.length > 0", "arr.length < 10", "arr.length != 4"};
-            Require.argumentAll(arr.length, desc_templ, prec_strs, arr.length > 0, arr.length < 10, arr.length != 4);
+            Require.argumentAll(new boolean[]{arr.length > 0, arr.length < 10, arr.length != 4}, arr.length, desc_templ, prec_strs);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
             assertEquals("[Problem]: {@actual: arr's length is 4} doesn't meet the {@prec: arr.length != 4}",
@@ -378,15 +376,14 @@ public class RequireTest {
 
 
     /**
-     * Test {@code public static void argumentAny(Object val, String conditions, Boolean... exprs)}
-     * @see Require#argumentAny(Object, String, Boolean...)
+     * @see Require#argumentAny(boolean[], Object, String)
      * */
     @org.junit.Test
     public void argumentAny_1() {
         try{
             int arg = 50;
             String conds = "arg < 30, arg > 90, arg == 60";
-            Require.argumentAny(arg, conds, arg < 30, arg > 90, arg == 60);
+            Require.argumentAny(new boolean[]{arg < 30, arg > 90, arg == 60}, arg, conds);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
             assertEquals("[Problem]: {@val: 50} doesn't meet any of these specified conditions{@prec: arg < 30, arg > 90, arg == 60}",
@@ -395,21 +392,21 @@ public class RequireTest {
         try{
             int arg = 10;
             String conds = "arg < 30, arg > 90, arg == 60";
-            Require.argumentAny(arg, conds, arg < 30, arg > 90, arg == 60);
+            Require.argumentAny(new boolean[]{arg < 30, arg > 90, arg == 60}, arg, conds);
         }catch (IllegalArgumentException e){
             fail("An IllegalArgumentException isn't supposed to be thrown");
         }
         try{
             int arg = 100;
             String conds = "arg < 30, arg > 90, arg == 60";
-            Require.argumentAny(arg, conds, arg < 30, arg > 90, arg == 60);
+            Require.argumentAny(new boolean[]{arg < 30, arg > 90, arg == 60}, arg, conds);
         }catch (IllegalArgumentException e){
             fail("An IllegalArgumentException isn't supposed to be thrown");
         }
         try{
             int arg = 60;
             String conds = "arg < 30, arg > 90, arg == 60";
-            Require.argumentAny(arg, conds, arg < 30, arg > 90, arg == 60);
+            Require.argumentAny(new boolean[]{arg < 30, arg > 90, arg == 60}, arg, conds);
         }catch (IllegalArgumentException e){
             fail("An IllegalArgumentException isn't supposed to be thrown");
         }
@@ -417,8 +414,7 @@ public class RequireTest {
     }
 
     /**
-     * Test {@code public static void argumentAny(Object val, String desc_templ, String conditions, Boolean... exprs)}
-     * @see Require#argumentAny(Object, String, String, Boolean...)
+     * @see Require#argumentAny(boolean[], Object, String, String)
      * */
     @org.junit.Test
     public void argumentAny_2() {
@@ -426,7 +422,7 @@ public class RequireTest {
             int[] arg = new int[]{10, 20, 30, 40, 50};
             String desc_templ = "arg's length is %s";
             String conds = "arg.length == 2, arg.length == 4, arg.length == 6";
-            Require.argumentAny(arg.length, desc_templ, conds, arg.length == 2, arg.length == 4, arg.length == 6);
+            Require.argumentAny(new boolean[]{arg.length == 2, arg.length == 4, arg.length == 6}, arg.length, desc_templ, conds);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
             assertEquals("[Problem]: {@actual: arg's length is 5} doesn't meet any of these specified conditions{@prec: arg.length == 2, arg.length == 4, arg.length == 6}",
@@ -436,7 +432,7 @@ public class RequireTest {
             int[] arg = new int[]{10, 20};
             String desc_templ = "arg's length is %s";
             String conds = "arg.length == 2, arg.length == 4, arg.length == 6";
-            Require.argumentAny(arg.length, desc_templ, conds, arg.length == 2, arg.length == 4, arg.length == 6);
+            Require.argumentAny(new boolean[]{arg.length == 2, arg.length == 4, arg.length == 6}, arg.length, desc_templ, conds);
         }catch (IllegalArgumentException e){
             fail("An IllegalArgumentException isn't supposed to be thrown");
         }
@@ -444,7 +440,7 @@ public class RequireTest {
             int[] arg = new int[]{10, 20, 30, 40};
             String desc_templ = "arg's length is %s";
             String conds = "arg.length == 2, arg.length == 4, arg.length == 6";
-            Require.argumentAny(arg.length, desc_templ, conds, arg.length == 2, arg.length == 4, arg.length == 6);
+            Require.argumentAny(new boolean[]{arg.length == 2, arg.length == 4, arg.length == 6}, arg.length, desc_templ, conds);
         }catch (IllegalArgumentException e){
             fail("An IllegalArgumentException isn't supposed to be thrown");
         }
@@ -452,7 +448,7 @@ public class RequireTest {
             int[] arg = new int[]{10, 20, 30, 40, 50, 60};
             String desc_templ = "arg's length is %s";
             String conds = "arg.length == 2, arg.length == 4, arg.length == 6";
-            Require.argumentAny(arg.length, desc_templ, conds, arg.length == 2, arg.length == 4, arg.length == 6);
+            Require.argumentAny(new boolean[]{arg.length == 2, arg.length == 4, arg.length == 6}, arg.length, desc_templ, conds);
         }catch (IllegalArgumentException e){
             fail("An IllegalArgumentException isn't supposed to be thrown");
         }
@@ -484,14 +480,14 @@ public class RequireTest {
     }
 
     /**
-     * @see Require#argumentWCM(boolean, String, Object)
+     * @see Require#argumentWCM(boolean, Object, String)
      * */
     @org.junit.Test
     public void argumentWCM_2() {
         try{
             String msg = "Custom Exception Message with value %s";
             int value = 100;
-            Require.argumentWCM(false, msg, 100);
+            Require.argumentWCM(false, 100, msg);
             fail("An IllegalArgumentException is supposed to be thrown");
         }catch (IllegalArgumentException e){
             assertEquals("Custom Exception Message with value 100",
@@ -500,7 +496,7 @@ public class RequireTest {
 
         try{
             String msg = "Custom Exception Message with value %s";
-            Require.argumentWCM(true, msg, 100);
+            Require.argumentWCM(true, 100, msg);
 
         }catch (IllegalArgumentException e){
             fail("An IllegalArgumentException isn't supposed to be thrown");
@@ -508,8 +504,6 @@ public class RequireTest {
     }
 
     /**
-     * Test {@code public static void stateNotNull(Object ref)}
-     *
      * @see Require#stateNotNull(Object)
      */
     @org.junit.Test
@@ -532,14 +526,13 @@ public class RequireTest {
     }
 
     /**
-     * Test {@code public static void stateNotNull(Object ref, String state_name)}
-     * @see Require#stateNotNull(String, Object)
+     * @see Require#stateNotNull(Object, String)
      * */
     @org.junit.Test
     public void stateNotNull_2() {
         // null argument
         try{
-            Require.stateNotNull("Object obj", null);
+            Require.stateNotNull(null, "Object obj");
             fail("An IllegalStateException is supposed to be thrown");
         }catch (IllegalStateException e){
             assertEquals("[Problem]: Required Object{@sig: Object obj} is NULL",
@@ -547,14 +540,14 @@ public class RequireTest {
         }
         // non-null argument
         try{
-            Require.stateNotNull("Object obj", "");
+            Require.stateNotNull("", "Object obj");
         }catch (IllegalStateException e){
             fail("IllegalStateException isn't supposed to be thrown");
         }
 
         // null argument, param not available ("" empty string)
         try{
-            Require.stateNotNull("", null);
+            Require.stateNotNull(null, "");
             fail("An IllegalStateException is supposed to be thrown");
         }catch (IllegalStateException e){
             assertEquals("[Problem]: Required Object{@sig: [-]} is NULL",
@@ -573,15 +566,14 @@ public class RequireTest {
 
 
     /**
-     * Test {@code public static void stateNotNull(String[] state_names, Object... refs)}
-     * @see Require#statesNotNull(String[], Object...)
+     * @see Require#statesNotNull(Object[], String[])
      * */
     @org.junit.Test
     public void statesNotNull_2() {
         // a batch of objects to be checked, the first one is null
         try{
-            Require.statesNotNull(new String[]{"String s1", "String s2", "Object o", "Boolean b"},
-                    null, "123", new Object(), false);
+            Require.statesNotNull(new Object[]{null, "123", new Object(), false},
+                    new String[]{"String s1", "String s2", "Object o", "Boolean b"});
             fail("An IllegalStateException is supposed to be thrown");
         }catch (IllegalStateException e){
             assertEquals("[Problem]: Required Object{@sig: String s1} is NULL",
@@ -589,8 +581,8 @@ public class RequireTest {
         }
         // a batch of objects to be checked, the last one is null
         try{
-            Require.statesNotNull(new String[]{"String s1", "String s2", "Object o", "Boolean b"},
-                    "", "123", new Object(), null);
+            Require.statesNotNull(new Object[]{"", "123", new Object(), null},
+                    new String[]{"String s1", "String s2", "Object o", "Boolean b"});
             fail("An IllegalStateException is supposed to be thrown");
         }catch (IllegalStateException e){
             assertEquals("[Problem]: Required Object{@sig: Boolean b} is NULL",
@@ -598,8 +590,8 @@ public class RequireTest {
         }
         // a batch of objects to be checked, the 3rd one is null
         try{
-            Require.statesNotNull(new String[]{"String s1", "String s2", "Object o", "Boolean b"},
-                    "", "123", null, true);
+            Require.statesNotNull(new Object[]{"", "123", null, true},
+                    new String[]{"String s1", "String s2", "Object o", "Boolean b"});
             fail("An IllegalStateException is supposed to be thrown");
         }catch (IllegalStateException e){
             assertEquals("[Problem]: Required Object{@sig: Object o} is NULL",
@@ -607,15 +599,15 @@ public class RequireTest {
         }
         // a batch of objects without null value
         try{
-            Require.statesNotNull(new String[]{"String s1", "String s2", "Object o", "Boolean b"},
-                    "", "123", 100, true);
+            Require.statesNotNull(new Object[]{"", "123", 100, true},
+                    new String[]{"String s1", "String s2", "Object o", "Boolean b"});
         }catch (IllegalStateException e){
             fail("IllegalStateException isn't supposed to be thrown");
         }
         // a batch of objects to be checked, the 3rd one is null and its corresponding sig is also null
         try{
-            Require.statesNotNull(new String[]{"String s1", "String s2", null, "Boolean b"},
-                    "", "123", null, true);
+            Require.statesNotNull(new Object[]{"", "123", null, true},
+                    new String[]{"String s1", "String s2", null, "Boolean b"});
             fail("An IllegalStateException is supposed to be thrown");
         }catch (IllegalStateException e){
             assertEquals("[Problem]: Required Object{@sig: [-]} is NULL",
@@ -625,14 +617,13 @@ public class RequireTest {
     }
 
     /**
-     * Test {@code public static void state(Object val, String prec_str, boolean prec_expr)}
-     * @see Require#state(Object, String, boolean)
+     * @see Require#state(boolean, Object, String)
      * */
     @org.junit.Test
     public void state_1() {
         try{
             int arg = 0;
-            Require.state(arg, "arg > 0", arg > 0);
+            Require.state(arg > 0, arg, "arg > 0");
             fail("An IllegalStateException is supposed to be thrown");
         }catch (IllegalStateException e){
             assertEquals("[Problem]: {@val: 0} doesn't meet the {@prec: arg > 0}",
@@ -640,13 +631,13 @@ public class RequireTest {
         }
         try{
             int arg = 1;
-            Require.state(arg, "arg > 0", arg > 0);
+            Require.state(arg > 0, arg, "arg > 0");
         }catch (IllegalStateException e){
             fail("An IllegalStateException isn't supposed to be thrown");
         }
         try{
             int arg = 0;
-            Require.state(null, null, arg > 0);
+            Require.state(arg > 0, null, null);
             fail("An IllegalStateException is supposed to be thrown");
         }catch (IllegalStateException e) {
             assertEquals("[Problem]: {@val: [-]} doesn't meet the {@prec: [-]}",
@@ -656,14 +647,13 @@ public class RequireTest {
     }
 
     /**
-     * Test {@code public static void state(Object val, String desc_templ, String prec_str, boolean prec_expr)}
-     * @see Require#state(Object, String, String, boolean)
+     * @see Require#state(boolean, Object, String, String)
      * */
     @org.junit.Test
     public void state_2() {
         try{
             Object[] objs = new Object[10];
-            Require.state(objs.length, "The length of object array State is %s","objs.length > 10", objs.length > 10);
+            Require.state(objs.length > 10, objs.length, "The length of object array State is %s","objs.length > 10");
             fail("An IllegalStateException is supposed to be thrown");
         }catch (IllegalStateException e){
             assertEquals("[Problem]: {@actual: The length of object array State is 10} doesn't meet the {@prec: objs.length > 10}",
@@ -671,13 +661,13 @@ public class RequireTest {
         }
         try{
             Object[] objs = new Object[11];
-            Require.state(objs.length, "The length of object array State is %s","objs.length > 10", objs.length > 10);
+            Require.state(objs.length > 10, objs.length, "The length of object array State is %s","objs.length > 10");
         }catch (IllegalStateException e){
             fail("IllegalStateException isn't supposed to be thrown");
         }
         try{
             Object[] objs = new Object[10];
-            Require.state(null, "The length of object array State is %s",null, objs.length > 10);
+            Require.state(objs.length > 10, null, "The length of object array State is %s",null);
             fail("An IllegalStateException is supposed to be thrown");
         }catch (IllegalStateException e) {
             assertEquals("[Problem]: {@actual: The length of object array State is [-]} doesn't meet the {@prec: [-]}",
@@ -685,7 +675,7 @@ public class RequireTest {
         }
         try{
             Object[] objs = new Object[10];
-            Require.state(null, null,null, objs.length > 10);
+            Require.state(objs.length > 10, null, null,null);
             fail("An IllegalStateException is supposed to be thrown");
         }catch (IllegalStateException e) {
             assertEquals("[Problem]: {@actual: [-]} doesn't meet the {@prec: [-]}",
@@ -693,7 +683,7 @@ public class RequireTest {
         }
         try{
             Object[] objs = new Object[10];
-            Require.state(10, null,null, objs.length > 10);
+            Require.state(objs.length > 10, 10, null,null);
             fail("An IllegalStateException is supposed to be thrown");
         }catch (IllegalStateException e) {
             assertEquals("[Problem]: {@actual: 10} doesn't meet the {@prec: [-]}",
@@ -703,22 +693,21 @@ public class RequireTest {
     }
 
     /**
-     * Test {@code public static void stateAll(Object[] vals, String[] prec_strs, Boolean... prec_exprs)}
-     * @see Require#stateAll(Object, String[], Boolean...)
+     * @see Require#stateAll(boolean[], Object, String[])
      * */
     @org.junit.Test
     public void statesAll_1() {
         try{
             int val = 10;
             String[] precs = new String[]{"val > 0", "val != 50", "val < 100"};
-            Require.stateAll(val, precs, val > 0, val != 50, val < 100);
+            Require.stateAll(new boolean[]{val > 0, val != 50, val < 100}, val, precs);
         }catch (IllegalStateException e){
             fail("IllegalStateException isn't supposed to be thrown");
         }
         try{
             int val = 10;
             String[] precs = new String[]{"val > 10", "val != 50", "val < 100"};
-            Require.stateAll(val, precs, val > 10, val != 50, val < 100);
+            Require.stateAll(new boolean[]{val > 10, val != 50, val < 100}, val, precs);
             fail("An IllegalStateException is supposed to be thrown");
         }catch (IllegalStateException e){
             assertEquals("[Problem]: {@val: 10} doesn't meet the {@prec: val > 10}",
@@ -727,7 +716,7 @@ public class RequireTest {
         try{
             int val = 50;
             String[] precs = new String[]{"val > 0", "val != 50", "val < 100"};
-            Require.stateAll(val, precs, val > 0, val != 50, val < 100);
+            Require.stateAll(new boolean[]{val > 0, val != 50, val < 100}, val, precs);
             fail("An IllegalStateException is supposed to be thrown");
         }catch (IllegalStateException e){
             assertEquals("[Problem]: {@val: 50} doesn't meet the {@prec: val != 50}",
@@ -736,7 +725,7 @@ public class RequireTest {
         try{
             int val = 100;
             String[] precs = new String[]{"val > 0", "val != 50", "val < 100"};
-            Require.stateAll(val, precs, val > 0, val != 50, val < 100);
+            Require.stateAll(new boolean[]{val > 0, val != 50, val < 100}, val, precs);
             fail("An IllegalStateException is supposed to be thrown");
         }catch (IllegalStateException e){
             assertEquals("[Problem]: {@val: 100} doesn't meet the {@prec: val < 100}",
@@ -746,8 +735,7 @@ public class RequireTest {
     }
 
     /**
-     * Test {@code public static void stateAll(Object[] vals, String[] desc_templs, String[] prec_strs, Boolean... prec_exprs)}
-     * @see Require#stateAll(Object, String, String[], Boolean...)
+     * @see Require#stateAll(boolean[], Object, String, String[])
      * */
     @org.junit.Test
     public void statesAll_2() {
@@ -755,7 +743,7 @@ public class RequireTest {
             int[] arr = new int[]{10, 20, 30, 40};
             String desc_templ = "arr's length is %s";
             String[] prec_strs = new String[]{"arr.length > 0", "arr.length < 10", "arr.length != 3"};
-            Require.stateAll(arr.length, desc_templ, prec_strs, arr.length > 0, arr.length < 10, arr.length != 3);
+            Require.stateAll(new boolean[]{arr.length > 0, arr.length < 10, arr.length != 3}, arr.length, desc_templ, prec_strs);
         }catch (IllegalStateException e){
             fail("IllegalStateException isn't supposed to be thrown");
         }
@@ -763,7 +751,7 @@ public class RequireTest {
             int[] arr = new int[]{};
             String desc_templ = "arr's length is %s";
             String[] prec_strs = new String[]{"arr.length > 0", "arr.length < 10", "arr.length != 3"};
-            Require.stateAll(arr.length, desc_templ, prec_strs, arr.length > 0, arr.length < 10, arr.length != 3);
+            Require.stateAll(new boolean[]{arr.length > 0, arr.length < 10, arr.length != 3}, arr.length, desc_templ, prec_strs);
             fail("An IllegalStateException is supposed to be thrown");
         }catch (IllegalStateException e){
             assertEquals("[Problem]: {@actual: arr's length is 0} doesn't meet the {@prec: arr.length > 0}",
@@ -773,7 +761,7 @@ public class RequireTest {
             int[] arr = new int[]{10, 20, 30, 40, 50};
             String desc_templ = "arr's length is %s";
             String[] prec_strs = new String[]{"arr.length > 0", "arr.length < 5", "arr.length != 3"};
-            Require.stateAll(arr.length, desc_templ, prec_strs, arr.length > 0, arr.length < 5, arr.length != 3);
+            Require.stateAll(new boolean[]{arr.length > 0, arr.length < 5, arr.length != 3}, arr.length, desc_templ, prec_strs);
             fail("An IllegalStateException is supposed to be thrown");
         }catch (IllegalStateException e){
             assertEquals("[Problem]: {@actual: arr's length is 5} doesn't meet the {@prec: arr.length < 5}",
@@ -783,7 +771,7 @@ public class RequireTest {
             int[] arr = new int[]{10, 20, 30, 40};
             String desc_templ = "arr's length is %s";
             String[] prec_strs = new String[]{"arr.length > 0", "arr.length < 10", "arr.length != 4"};
-            Require.stateAll(arr.length, desc_templ, prec_strs, arr.length > 0, arr.length < 10, arr.length != 4);
+            Require.stateAll(new boolean[]{arr.length > 0, arr.length < 10, arr.length != 4}, arr.length, desc_templ, prec_strs);
             fail("An IllegalStateException is supposed to be thrown");
         }catch (IllegalStateException e){
             assertEquals("[Problem]: {@actual: arr's length is 4} doesn't meet the {@prec: arr.length != 4}",
@@ -793,15 +781,14 @@ public class RequireTest {
     }
 
     /**
-     * Test {@code public static void stateAny(Object val, String conditions, Boolean... exprs)}
-     * @see Require#stateAny(Object, String, Boolean...)
+     * @see Require#stateAny(boolean[], Object, String)
      * */
     @org.junit.Test
     public void stateAny_1() {
         try{
             int state = 50;
             String conds = "state < 30, state > 90, state == 60";
-            Require.stateAny(state, conds, state < 30, state > 90, state == 60);
+            Require.stateAny(new boolean[]{state < 30, state > 90, state == 60}, state, conds);
             fail("An IllegalStateException is supposed to be thrown");
         }catch (IllegalStateException e){
             assertEquals("[Problem]: {@val: 50} doesn't meet any of these specified conditions{@prec: state < 30, state > 90, state == 60}",
@@ -810,21 +797,21 @@ public class RequireTest {
         try{
             int state = 10;
             String conds = "state < 30, state > 90, state == 60";
-            Require.stateAny(state, conds, state < 30, state > 90, state == 60);
+            Require.stateAny(new boolean[]{state < 30, state > 90, state == 60}, state, conds);
         }catch (IllegalStateException e){
             fail("An IllegalStateException isn't supposed to be thrown");
         }
         try{
             int state = 100;
             String conds = "state < 30, state > 90, state == 60";
-            Require.stateAny(state, conds, state < 30, state > 90, state == 60);
+            Require.stateAny(new boolean[]{state < 30, state > 90, state == 60}, state, conds);
         }catch (IllegalStateException e){
             fail("An IllegalStateException isn't supposed to be thrown");
         }
         try{
             int state = 60;
             String conds = "state < 30, state > 90, state == 60";
-            Require.stateAny(state, conds, state < 30, state > 90, state == 60);
+            Require.stateAny(new boolean[]{state < 30, state > 90, state == 60}, state, conds);
         }catch (IllegalStateException e){
             fail("An IllegalStateException isn't supposed to be thrown");
         }
@@ -832,8 +819,7 @@ public class RequireTest {
     }
 
     /**
-     * Test {@code public static void stateAny(Object val, String desc_templ, String conditions, Boolean... exprs)}
-     * @see Require#stateAny(Object, String, String, Boolean...)
+     * @see Require#stateAny(boolean[], Object, String, String)
      * */
     @org.junit.Test
     public void stateAny_2() {
@@ -841,7 +827,7 @@ public class RequireTest {
             int[] state = new int[]{10, 20, 30, 40, 50};
             String desc_templ = "state's length is %s";
             String conds = "state.length == 2, state.length == 4, state.length == 6";
-            Require.stateAny(state.length, desc_templ, conds, state.length == 2, state.length == 4, state.length == 6);
+            Require.stateAny(new boolean[]{state.length == 2, state.length == 4, state.length == 6}, state.length, desc_templ, conds);
             fail("An IllegalStateException is supposed to be thrown");
         }catch (IllegalStateException e){
             assertEquals("[Problem]: {@actual: state's length is 5} doesn't meet any of these specified conditions{@prec: state.length == 2, state.length == 4, state.length == 6}",
@@ -851,7 +837,7 @@ public class RequireTest {
             int[] state = new int[]{10, 20};
             String desc_templ = "state's length is %s";
             String conds = "state.length == 2, state.length == 4, state.length == 6";
-            Require.stateAny(state.length, desc_templ, conds, state.length == 2, state.length == 4, state.length == 6);
+            Require.stateAny(new boolean[]{state.length == 2, state.length == 4, state.length == 6}, state.length, desc_templ, conds);
         }catch (IllegalStateException e){
             fail("An IllegalStateException isn't supposed to be thrown");
         }
@@ -859,7 +845,7 @@ public class RequireTest {
             int[] state = new int[]{10, 20, 30, 40};
             String desc_templ = "state's length is %s";
             String conds = "state.length == 2, state.length == 4, state.length == 6";
-            Require.stateAny(state.length, desc_templ, conds, state.length == 2, state.length == 4, state.length == 6);
+            Require.stateAny(new boolean[]{state.length == 2, state.length == 4, state.length == 6}, state.length, desc_templ, conds);
         }catch (IllegalStateException e){
             fail("An IllegalStateException isn't supposed to be thrown");
         }
@@ -867,7 +853,7 @@ public class RequireTest {
             int[] state = new int[]{10, 20, 30, 40, 50, 60};
             String desc_templ = "state's length is %s";
             String conds = "state.length == 2, state.length == 4, state.length == 6";
-            Require.stateAny(state.length, desc_templ, conds, state.length == 2, state.length == 4, state.length == 6);
+            Require.stateAny(new boolean[]{state.length == 2, state.length == 4, state.length == 6}, state.length, desc_templ, conds);
         }catch (IllegalStateException e){
             fail("An IllegalStateException isn't supposed to be thrown");
         }
@@ -900,7 +886,7 @@ public class RequireTest {
     }
 
     /**
-     * @see Require#stateWCM(boolean, String, Object)
+     * @see Require#stateWCM(boolean, Object, String)
      *
      * */
     @org.junit.Test
@@ -908,7 +894,7 @@ public class RequireTest {
         try{
             String msg = "Custom Exception Message with value %s";
             int value = 100;
-            Require.stateWCM(false, msg, 100);
+            Require.stateWCM(false, 100, msg);
             fail("An IllegalStateException is supposed to be thrown");
         }catch (IllegalStateException e){
             assertEquals("Custom Exception Message with value 100",
@@ -917,7 +903,7 @@ public class RequireTest {
 
         try{
             String msg = "Custom Exception Message with value %s";
-            Require.stateWCM(true, msg, 100);
+            Require.stateWCM(true, 100, msg);
 
         }catch (IllegalStateException e){
             fail("An IllegalStateException isn't supposed to be thrown");

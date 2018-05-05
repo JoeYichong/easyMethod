@@ -1,1 +1,0 @@
-packageSearchIndex = [{"m":"easyMethod","l":"yichong.base.dbc"}]

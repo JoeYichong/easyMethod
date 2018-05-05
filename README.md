@@ -5,7 +5,7 @@
 <h3>Example 1</h3>
 <pre>
 public int getLength(String target){
-     Require.argumentNotNull("String target", target);
+     Require.argumentNotNull(target, "String target");
      return target.length();
 }
 new OtherPrecTests().getLength(null);
@@ -22,7 +22,7 @@ java.lang.IllegalArgumentException:
 <h3>Example 2</h3>
 <pre>
 public float divide(float left, float right){
-    Require.argument(right, "right != 0", right != 0);
+    Require.argument(right != 0, right, "right != 0");
     return left / right;
 }
 new OtherPrecTests().divide(100, 0);
@@ -39,7 +39,8 @@ java.lang.IllegalArgumentException:
 <h3>Example 3</h3>
 <pre>
 public void setMonth(int month){
-    Require.argumentAll(month, new String[]{"month > 0", "month < 13"}, month > 0, month < 13);
+    Require.argumentAll(new boolean[]{month > 0, month < 13}, 
+                         month, new String[]{"month > 0", "month < 13"});
     this.month = month;
 }
 new OtherPrecTests().setMonth(0);
@@ -57,8 +58,8 @@ java.lang.IllegalArgumentException:
 <pre>
 public void process(byte[] bytes){
     Require.argumentNotNull("byte[] bytes", bytes);
-    Require.argumentAny(bytes.length, "%s bytes input", "2 bytes or 4 bytes",
-            bytes.length == 2, bytes.length == 4);
+    Require.argumentAny(new boolean[]{bytes.length == 2, bytes.length == 4},
+                         bytes.length, "%s bytes input", "2 bytes or 4 bytes only");
     String result = new String(bytes);
     System.out.println(result);
 }

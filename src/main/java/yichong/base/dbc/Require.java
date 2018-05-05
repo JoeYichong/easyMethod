@@ -40,7 +40,7 @@ package yichong.base.dbc;
  * </p>
  * <p>
  * The common traits of these assert methods' parameter signatures are like this:
- * {@code (actual/reality, expected/precondition, boolean expression)}
+ * {@code (boolean expression, actual/reality, expected/precondition)}
  * Customized variable information is inserted into the message templates offered by this class to
  * generate specific and precise exception message.
  * <p>Here we use a notation similar to javadoc tags to highlight these variable information.
@@ -197,12 +197,12 @@ public final class Require {
      * If it is it throws an {@link IllegalArgumentException} with the given
      * message.
      *
-     * @param sig a string representation of the array signature
-     * @param arr the array to be checked
      * @param <T> the type of the array
+     * @param arr the array to be checked
+     * @param sig a string representation of the array signature
      * @return the original array
      * */
-    public static <T> T[] argumentNotNullAndNotEmpty(String sig, T[] arr) {
+    public static <T> T[] argumentNotNullAndNotEmpty(T[] arr, String sig) {
         if (arr == null)
             throw new IllegalArgumentException(nullMsg(Msg_NotNull_Template, sig));
         if (arr.length == 0)
@@ -215,11 +215,11 @@ public final class Require {
      * If it is it throws an {@link IllegalArgumentException} with the given
      * message.
      *
-     * @param sig a string representation of the string argument signature
      * @param str the string to be checked
+     * @param sig a string representation of the string argument signature
      * @return the original string
      * */
-    public static String argumentNotNullAndNotEmpty(String sig, String str) {
+    public static String argumentNotNullAndNotEmpty(String str, String sig) {
         if (str == null)
             throw new IllegalArgumentException(nullMsg(Msg_NotNull_Template, sig));
         if (str.length() == 0)
@@ -231,44 +231,44 @@ public final class Require {
      * Asserts that the specified object reference is not null. If it is it throws an
      * {@link IllegalArgumentException} with the given message.
      *
-     * @param ref the object reference(as argument) passed to the calling method
+     * @param val the object reference(as argument) passed to the calling method
      * @return the original object reference
      * @throws IllegalArgumentException if the reference is null
      */
-    public static <T> T argumentNotNull(T ref) {
-        if (ref == null)
+    public static <T> T argumentNotNull(T val) {
+        if (val == null)
             throw new IllegalArgumentException(Msg_NotNull);
-        return ref;
+        return val;
     }
 
     /**
      * Asserts that the specified object reference is not null. If it is it throws an
      * {@link IllegalArgumentException} with the given message.
      *
-     * @param param a string that represents the reference's parameter signature
-     * @param ref the object reference(as argument) passed to the calling method
+     * @param val the object reference(as argument) passed to the calling method
+     * @param sig a string that represents the reference's parameter signature
      * @return the original object reference
      * @throws IllegalArgumentException if the reference is null
      * */
-    public static <T> T argumentNotNull(String param, T ref) {
-        if (ref == null)
-            throw new IllegalArgumentException(nullMsg(Msg_NotNull_Template, param));
-        return ref;
+    public static <T> T argumentNotNull(T val, String sig) {
+        if (val == null)
+            throw new IllegalArgumentException(nullMsg(Msg_NotNull_Template, sig));
+        return val;
     }
 
     /**
      * Asserts that a batch of object references are not null. If null reference detected
      * it throws an {@link IllegalArgumentException} with the given message.
      *
-     * @param params strings that represent the arguments' parameter signatures
-     * @param refs the object references(as arguments) passed to the calling method
+     * @param vals the object references(as arguments) passed to the calling method
+     * @param sig strings that represent the arguments' parameter signatures
      * @throws IllegalArgumentException if null reference detected
      */
-    public static void argumentsNotNull(String[] params, Object... refs) {
-        //checkVarargs(refs);
-        for (int i = 0; i < refs.length; i++) {
-            if (refs[i] == null) {
-                String param = valueInArray(params, i);
+    public static void argumentsNotNull(Object[] vals, String[] sig) {
+        //checkVarargs(vals);
+        for (int i = 0; i < vals.length; i++) {
+            if (vals[i] == null) {
+                String param = valueInArray(sig, i);
                 throw new IllegalArgumentException(nullMsg(Msg_NotNull_Template, param));
             }
         }
@@ -279,13 +279,13 @@ public final class Require {
      * If it doesn't it throws an {@link IllegalArgumentException} with the given
      * message.
      *
+     * @param prec_expr a boolean expression that represents the parameter restrictions
      * @param val an argument to be checked
      * @param prec_str a string that represents the parameter restrictions
-     * @param prec_expr a boolean expression that represents the parameter restrictions
      * @return the original object reference value
      * @throws IllegalArgumentException if the argument is not valid
      */
-    public static <T> T argument(T val, String prec_str, boolean prec_expr) {
+    public static <T> T argument(boolean prec_expr, T val, String prec_str) {
         if (!prec_expr)
             throw new IllegalArgumentException(errorMsg(Msg_Template_v, val, prec_str));
         return val;
@@ -295,14 +295,14 @@ public final class Require {
      * Asserts that the argument passed to the calling method meets the preconditions.
      * If it doesn't it throws an {@link IllegalArgumentException} with the given
      * message.
+     * @param prec_expr a boolean expression that represents the parameter restrictions
      * @param val a value or an attribute of the argument to be checked
      * @param desc_templ a template that describes the reality of the argument to be checked
      * @param prec_str a string that represents the parameter restrictions
-     * @param prec_expr a boolean expression that represents the parameter restrictions
      * @return the original object reference value
      * @throws IllegalArgumentException if the argument is not valid
      */
-    public static <T> T argument(T val, String desc_templ, String prec_str, boolean prec_expr) {
+    public static <T> T argument(boolean prec_expr, T val, String desc_templ, String prec_str) {
         if (!prec_expr)
             throw new IllegalArgumentException(errorMsg(Msg_Template_d, desc_templ, val, prec_str));
         return val;
@@ -312,13 +312,13 @@ public final class Require {
      * Asserts that argument passed to the calling method meet the preconditions.
      * If they don't it throws an {@link IllegalArgumentException} with the given message.
      *
+     * @param prec_exprs boolean expressions that represent the parameter restrictions
      * @param val the argument to be checked
      * @param prec_strs strings that represent the parameter restrictions
-     * @param prec_exprs boolean expressions that represent the parameter restrictions
      * @return the original object reference value
      * @throws IllegalArgumentException if invalid argument detected
      */
-    public static <T> T argumentAll(T val, String[] prec_strs, Boolean... prec_exprs) {
+    public static <T> T argumentAll(boolean[] prec_exprs, T val, String[] prec_strs) {
         //checkVarargs(prec_exprs);
         for (int i = 0; i < prec_exprs.length; i++) {
             if (!prec_exprs[i]) {
@@ -333,14 +333,14 @@ public final class Require {
      * Asserts that the argument passed to the calling method meet the preconditions.
      * If they don't it throws an {@link IllegalArgumentException} with the given message.
      *
+     * @param prec_exprs boolean expressions that represent the parameter restrictions
      * @param val the value or attribute of the argument to be checked
      * @param desc_templ the template that describe the reality of the argument to be checked
      * @param prec_strs strings that represent the parameter restrictions
-     * @param prec_exprs boolean expressions that represent the parameter restrictions
      * @return the original object reference value
      * @throws IllegalArgumentException if invalid argument detected
      */
-    public static <T> T argumentAll(T val, String desc_templ, String[] prec_strs, Boolean... prec_exprs) {
+    public static <T> T argumentAll(boolean[] prec_exprs, T val, String desc_templ, String[] prec_strs) {
         //checkVarargs(prec_exprs);
         for (int i = 0; i < prec_exprs.length; i++) {
             if (!prec_exprs[i]) {
@@ -354,13 +354,13 @@ public final class Require {
     /**
      * Asserts that at least one of many specified conditions is true
      *
+     * @param exprs the boolean expressions of the specified conditions
      * @param val the argument to be checked
      * @param conditions the strings that represent the specified conditions
-     * @param exprs the boolean expressions of the specified conditions
      * @return the original object reference value
      * @throws IllegalArgumentException if invalid argument detected
      * */
-    public static <T> T argumentAny(T val, String conditions, Boolean... exprs) {
+    public static <T> T argumentAny(boolean[] exprs, T val, String conditions) {
         //checkVarargs(exprs);
         for (int i = 0; i < exprs.length; i++) {
             if (exprs[i])
@@ -372,14 +372,14 @@ public final class Require {
     /**
      * Asserts that at least one of many specified conditions is true.
      *
+     * @param exprs the boolean expressions of the specified conditions
      * @param val the value or attribute of the argument to be checked
      * @param desc_templ the template that describe the reality of the argument to be checked
      * @param conditions the string that represent the specified conditions
-     * @param exprs the boolean expressions of the specified conditions
      * @return the original object reference value
      * @throws IllegalArgumentException if invalid argument detected
      * */
-    public static <T> T argumentAny(T val, String desc_templ, String conditions, Boolean... exprs) {
+    public static <T> T argumentAny(boolean[] exprs, T val, String desc_templ, String conditions) {
         //checkVarargs(exprs);
         for (int i = 0; i < exprs.length; i++) {
             if (exprs[i])
@@ -408,60 +408,60 @@ public final class Require {
      * 'WCM' in the method name stands for 'with custom message'.
      *
      * @param prec_expr the boolean expressions of the specified conditions
-     * @param msg_templ the custom message template
      * @param val the value to be inserted in the message template
+     * @param msg_templ the custom message template
      * @throws IllegalArgumentException if fails to match the specified condition
      *
      * */
-    public static <T> T argumentWCM(boolean prec_expr, String msg_templ, T val){
+    public static <T> T argumentWCM(boolean prec_expr, T val, String msg_templ){
         if (!prec_expr)
             throw new IllegalArgumentException(customErrorMsg(msg_templ, val));
         return val;
     }
 
-    /* **************************************************************************************************8 */
+    /* ************************************************************************************************** */
 
     /**
      * Asserts that the specified object reference is not null. If it is it throws an
      * {@link IllegalStateException} with the given message.
      *
-     * @param ref the reference of a state object
+     * @param val the reference of a state object
      * @return the original object reference
      * @throws IllegalStateException if the reference is null
      */
-    public static <T> T stateNotNull(T ref) {
-        if (ref == null)
+    public static <T> T stateNotNull(T val) {
+        if (val == null)
             throw new IllegalStateException(Msg_NotNull);
-        return ref;
+        return val;
     }
 
     /**
      * Asserts that the specified object reference is not null. If it is it throws an
      * {@link IllegalStateException} with the given message.
      *
+     * @param val the reference of a state object
      * @param state_name a string that represents the state object's name
-     * @param ref the reference of a state object
      * @return the original object reference
      * @throws IllegalStateException if the reference is null
      * */
-    public static <T> T stateNotNull(String state_name, T ref) {
-        if (ref == null)
+    public static <T> T stateNotNull(T val, String state_name) {
+        if (val == null)
             throw new IllegalStateException(nullMsg(Msg_NotNull_Template, state_name));
-        return ref;
+        return val;
     }
 
     /**
      * Asserts that a batch of object references are not null. If null reference detected,
      * it throws an {@link IllegalStateException} with the given message.
      *
+     * @param vals the object references passed to the calling method
      * @param state_names strings that represent the state objects' names
-     * @param refs the object references passed to the calling method
      * @throws IllegalStateException if null reference detected
      */
-    public static void statesNotNull(String[] state_names, Object... refs) {
-        //checkVarargs(refs);
-        for (int i = 0; i < refs.length; i++) {
-            if (refs[i] == null) {
+    public static void statesNotNull(Object[] vals, String[] state_names) {
+        //checkVarargs(vals);
+        for (int i = 0; i < vals.length; i++) {
+            if (vals[i] == null) {
                 String state_name = valueInArray(state_names, i);
                 throw new IllegalStateException(nullMsg(Msg_NotNull_Template, state_name));
             }
@@ -472,13 +472,13 @@ public final class Require {
      * Asserts that the state object meets the preconditions.
      * If it doesn't, it throws an {@link IllegalStateException} with the given message.
      *
+     * @param prec_expr a boolean expression that represents the preconditions
      * @param val the state object to be checked
      * @param prec_str a string that represents the preconditions
-     * @param prec_expr a boolean expression that represents the preconditions
      * @return the original object reference value
      * @throws IllegalStateException if the state is not valid
      */
-    public static <T> T state(T val, String prec_str, boolean prec_expr) {
+    public static <T> T state(boolean prec_expr, T val, String prec_str) {
         if (!prec_expr)
             throw new IllegalStateException(errorMsg(Msg_Template_v, val, prec_str));
         return val;
@@ -489,14 +489,14 @@ public final class Require {
      * Asserts that the state object meets the preconditions.
      * If it doesn't, it throws an {@link IllegalStateException} with the given message.
      *
+     * @param prec_expr a boolean expression that represents the preconditions
      * @param val a value or an attribute of the state object to be checked
      * @param desc_templ a template that describes the reality of the state object to be checked
      * @param prec_str a string that represents the preconditions
-     * @param prec_expr a boolean expression that represents the preconditions
      * @return the original object reference value
      * @throws IllegalStateException if the state is not valid
      */
-    public static <T> T state(T val, String desc_templ, String prec_str, boolean prec_expr) {
+    public static <T> T state(boolean prec_expr, T val, String desc_templ, String prec_str) {
         if (!prec_expr)
             throw new IllegalStateException(errorMsg(Msg_Template_d, desc_templ, val, prec_str));
         return val;
@@ -507,13 +507,13 @@ public final class Require {
      * Asserts that the state object meet the preconditions.
      * If they don't, it throws an {@link IllegalStateException} with the given message.
      *
+     * @param prec_exprs the boolean expressions that represent the preconditions
      * @param val the state object to be checked
      * @param prec_strs the strings that represent the preconditions
-     * @param prec_exprs the boolean expressions that represent the preconditions
      * @return the original object reference value
      * @throws IllegalStateException if invalid state detected
      */
-    public static <T> T stateAll(T val, String[] prec_strs, Boolean... prec_exprs) {
+    public static <T> T stateAll(boolean[] prec_exprs, T val, String[] prec_strs) {
         //checkVarargs(prec_exprs);
         for (int i = 0; i < prec_exprs.length; i++) {
             if (!prec_exprs[i]) {
@@ -528,14 +528,14 @@ public final class Require {
      * Asserts that the state object meet the preconditions.
      * If they don't, it throws an {@link IllegalStateException} with the given message.
      *
+     * @param prec_exprs the boolean expressions that represent the preconditions
      * @param val the value or attribute of the state objects to be checked
      * @param desc_templ the template that describe the reality of the state objects to be checked
      * @param prec_strs the strings that represent the preconditions
-     * @param prec_exprs the boolean expressions that represent the preconditions
      * @return the original object reference value
      * @throws IllegalStateException if invalid state detected
      */
-    public static <T> T stateAll(T val, String desc_templ, String[] prec_strs, Boolean... prec_exprs) {
+    public static <T> T stateAll(boolean[] prec_exprs, T val, String desc_templ, String[] prec_strs) {
         //checkVarargs(prec_exprs);
         for (int i = 0; i < prec_exprs.length; i++) {
             if (!prec_exprs[i]) {
@@ -549,13 +549,13 @@ public final class Require {
     /**
      * Asserts that at least one of many specified conditions is true
      *
+     * @param exprs the boolean expressions of the specified conditions
      * @param val the state object to be checked
      * @param conditions the string that represent the specified conditions
-     * @param exprs the boolean expressions of the specified conditions
      * @return the original object reference value
      * @throws IllegalStateException if invalid state detected
      * */
-    public static <T> T stateAny(T val, String conditions, Boolean... exprs) {
+    public static <T> T stateAny(boolean[] exprs, T val, String conditions) {
         //checkVarargs(exprs);
         for (int i = 0; i < exprs.length; i++) {
             if (exprs[i])
@@ -567,14 +567,14 @@ public final class Require {
     /**
      * Asserts that at least one of many specified conditions is true
      *
+     * @param exprs the boolean expressions of the specified conditions
      * @param val the state object to be checked
      * @param desc_templ the template that describe the reality of the state object to be checked
      * @param conditions the string that represent the specified conditions
-     * @param exprs the boolean expressions of the specified conditions
      * @return the original object reference value
      * @throws IllegalStateException if invalid state detected
      * */
-    public static <T> T stateAny(T val, String desc_templ, String conditions, Boolean... exprs) {
+    public static <T> T stateAny(boolean[] exprs, T val, String desc_templ, String conditions) {
         //checkVarargs(exprs);
         for (int i = 0; i < exprs.length; i++) {
             if (exprs[i])
@@ -603,13 +603,13 @@ public final class Require {
      * 'WCM' in the method name stands for 'with custom message'.
      *
      * @param prec_expr the boolean expressions of the specified conditions
-     * @param msg_templ the custom message template
      * @param val the value to be inserted in the message template
+     * @param msg_templ the custom message template
      * @return the original object reference value
      * @throws IllegalStateException if fails to match the specified condition
      *
      * */
-    public static <T> T stateWCM(boolean prec_expr, String msg_templ, T val){
+    public static <T> T stateWCM(boolean prec_expr, T val, String msg_templ){
         if (!prec_expr)
             throw new IllegalStateException(customErrorMsg(msg_templ, val));
         return val;
