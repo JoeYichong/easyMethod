@@ -39,8 +39,7 @@ java.lang.IllegalArgumentException:
 <h3>Example 3</h3>
 <pre>
 public void setMonth(int month){
-    Require.argumentAll(new boolean[]{month > 0, month < 13}, 
-                         month, new String[]{"month > 0", "month < 13"});
+    Require.argumentAll(G.a(month > 0, month < 13), month, G.a("month > 0", "month < 13"));
     this.month = month;
 }
 new OtherPrecTests().setMonth(0);
@@ -58,8 +57,8 @@ java.lang.IllegalArgumentException:
 <pre>
 public void process(byte[] bytes){
     Require.argumentNotNull("byte[] bytes", bytes);
-    Require.argumentAny(new boolean[]{bytes.length == 2, bytes.length == 4},
-                         bytes.length, "%s bytes input", "2 bytes or 4 bytes only");
+    Require.argumentAny(G.a(bytes.length == 2, bytes.length == 4),
+            bytes.length, "%s bytes input", "2 bytes or 4 bytes only");
     String result = new String(bytes);
     System.out.println(result);
 }
