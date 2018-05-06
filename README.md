@@ -5,7 +5,10 @@
 <h3>Example 1</h3>
 <pre>
 public int getLength(String target){
-     Require.argumentNotNull(target, "String target");
+     Require.argumentNotNull(target);
+     // Or specify which parameter is examinated if there is more than one parameter.
+     // Require.argumentNotNull(target, "String target");
+     
      return target.length();
 }
 new OtherPrecTests().getLength(null);
@@ -13,7 +16,7 @@ new OtherPrecTests().getLength(null);
 Test output:
 <pre>
 java.lang.IllegalArgumentException: 
-[Problem]: Required Object{@sig: String target} is NULL
+[Problem]: Required Object is NULL
 
 	at yichong.base.dbc.Require.argumentNotNull(Require.java:239)
 	at yichong.base.dbc.OtherPrecTests.getLength(OtherPrecTests.java:5)
@@ -40,6 +43,12 @@ java.lang.IllegalArgumentException:
 <pre>
 public void setMonth(int month){
     Require.argumentAll(G.a(month > 0, month < 13), month, G.a("month > 0", "month < 13"));
+    // Or make it faster by separating it.
+    // Require.argument(month > 0, month, "month > 0");
+    // Require.argument(month < 13, month, "month < 13");
+    // Or make it faster by providing less precise exception message.
+    // Require.argument(month > 0 && month < 13, month, "0 < month < 13");
+
     this.month = month;
 }
 new OtherPrecTests().setMonth(0);
@@ -56,8 +65,8 @@ java.lang.IllegalArgumentException:
 <h3>Example 4</h3>
 <pre>
 public void process(byte[] bytes){
-    Require.argumentNotNull("byte[] bytes", bytes);
-    Require.argumentAny(G.a(bytes.length == 2, bytes.length == 4),
+    Require.argumentNotNull(bytes);
+    Require.argument(bytes.length == 2 || bytes.length == 4,
             bytes.length, "%s bytes input", "2 bytes or 4 bytes only");
     String result = new String(bytes);
     System.out.println(result);

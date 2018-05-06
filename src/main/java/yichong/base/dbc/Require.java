@@ -55,7 +55,7 @@ package yichong.base.dbc;
  * cause an exception to be thrown.
  *
  * @author Joe Yichong
- * @version 1.2
+ * @version 2.0
  */
 
 public final class Require {
@@ -63,8 +63,6 @@ public final class Require {
             "\r\n[Problem]: Required Object is NULL";
     private static final String Msg_NotNull_Template =
             "\r\n[Problem]: Required Object{@sig: %s} is NULL";
-//    private static final String Msg_NotNull_Template_m =
-//            "\r\n[Problem]: Required Object{@sig: %s} is NULL, which indicates {@that %s}";
     private static final String Msg_ArrNotEmpty_Template =
             "\r\n[Problem]: Array{@sig: %s} is Empty";
     private static final String Msg_StrNotEmpty_Template =
@@ -360,6 +358,7 @@ public final class Require {
      * @return the original object reference value
      * @throws IllegalArgumentException if invalid argument detected
      * */
+    @Deprecated
     public static <T> T argumentAny(boolean[] exprs, T val, String conditions) {
         //checkVarargs(exprs);
         for (int i = 0; i < exprs.length; i++) {
@@ -379,6 +378,7 @@ public final class Require {
      * @return the original object reference value
      * @throws IllegalArgumentException if invalid argument detected
      * */
+    @Deprecated
     public static <T> T argumentAny(boolean[] exprs, T val, String desc_templ, String conditions) {
         //checkVarargs(exprs);
         for (int i = 0; i < exprs.length; i++) {
@@ -555,6 +555,7 @@ public final class Require {
      * @return the original object reference value
      * @throws IllegalStateException if invalid state detected
      * */
+    @Deprecated
     public static <T> T stateAny(boolean[] exprs, T val, String conditions) {
         //checkVarargs(exprs);
         for (int i = 0; i < exprs.length; i++) {
@@ -574,6 +575,7 @@ public final class Require {
      * @return the original object reference value
      * @throws IllegalStateException if invalid state detected
      * */
+    @Deprecated
     public static <T> T stateAny(boolean[] exprs, T val, String desc_templ, String conditions) {
         //checkVarargs(exprs);
         for (int i = 0; i < exprs.length; i++) {

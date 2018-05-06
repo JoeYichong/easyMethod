@@ -2,7 +2,8 @@ package yichong.base.dbc;
 
 public class OtherPrecTests {
     public int getLength(String target){
-        Require.argumentNotNull(target, "String target");
+        Require.argumentNotNull(target);
+        //Require.argumentNotNull(target, "String target");
 
         return target.length();
     }
@@ -29,7 +30,9 @@ public class OtherPrecTests {
         Require.argumentNotNull(bytes, "byte[] bytes");
 //        Require.argumentAny(new boolean[]{bytes.length == 2, bytes.length == 4},
 //                bytes.length, "%s bytes input", "2 bytes or 4 bytes only");
-        Require.argumentAny(G.a(bytes.length == 2, bytes.length == 4),
+//        Require.argumentAny(G.a(bytes.length == 2, bytes.length == 4),
+//                bytes.length, "%s bytes input", "2 bytes or 4 bytes only");
+        Require.argument(bytes.length == 2 || bytes.length == 4,
                 bytes.length, "%s bytes input", "2 bytes or 4 bytes only");
 
         String result = new String(bytes);
