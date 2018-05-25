@@ -55,7 +55,7 @@ package yichong.base.dbc;
  * cause an exception to be thrown.
  *
  * @author Joe Yichong
- * @version 2.0
+ * @version 2.10
  */
 
 public final class Require {
@@ -350,45 +350,6 @@ public final class Require {
     }
 
     /**
-     * Asserts that at least one of many specified conditions is true
-     *
-     * @param exprs the boolean expressions of the specified conditions
-     * @param val the argument to be checked
-     * @param conditions the strings that represent the specified conditions
-     * @return the original object reference value
-     * @throws IllegalArgumentException if invalid argument detected
-     * */
-    @Deprecated
-    public static <T> T argumentAny(boolean[] exprs, T val, String conditions) {
-        //checkVarargs(exprs);
-        for (int i = 0; i < exprs.length; i++) {
-            if (exprs[i])
-                return val;
-        }
-        throw new IllegalArgumentException(errorMsg(Msg_Template_any_v, val, conditions));
-    }
-
-    /**
-     * Asserts that at least one of many specified conditions is true.
-     *
-     * @param exprs the boolean expressions of the specified conditions
-     * @param val the value or attribute of the argument to be checked
-     * @param desc_templ the template that describe the reality of the argument to be checked
-     * @param conditions the string that represent the specified conditions
-     * @return the original object reference value
-     * @throws IllegalArgumentException if invalid argument detected
-     * */
-    @Deprecated
-    public static <T> T argumentAny(boolean[] exprs, T val, String desc_templ, String conditions) {
-        //checkVarargs(exprs);
-        for (int i = 0; i < exprs.length; i++) {
-            if (exprs[i])
-                return val;
-        }
-        throw new IllegalArgumentException(errorMsg(Msg_Template_any_d, desc_templ, val, conditions));
-    }
-
-    /**
      * Asserts that the specified condition is true with custom exception message.
      * 'WCM' in the method name stands for 'with custom message'.
      *
@@ -547,45 +508,6 @@ public final class Require {
     }
 
     /**
-     * Asserts that at least one of many specified conditions is true
-     *
-     * @param exprs the boolean expressions of the specified conditions
-     * @param val the state object to be checked
-     * @param conditions the string that represent the specified conditions
-     * @return the original object reference value
-     * @throws IllegalStateException if invalid state detected
-     * */
-    @Deprecated
-    public static <T> T stateAny(boolean[] exprs, T val, String conditions) {
-        //checkVarargs(exprs);
-        for (int i = 0; i < exprs.length; i++) {
-            if (exprs[i])
-                return val;
-        }
-        throw new IllegalStateException(errorMsg(Msg_Template_any_v, val, conditions));
-    }
-
-    /**
-     * Asserts that at least one of many specified conditions is true
-     *
-     * @param exprs the boolean expressions of the specified conditions
-     * @param val the state object to be checked
-     * @param desc_templ the template that describe the reality of the state object to be checked
-     * @param conditions the string that represent the specified conditions
-     * @return the original object reference value
-     * @throws IllegalStateException if invalid state detected
-     * */
-    @Deprecated
-    public static <T> T stateAny(boolean[] exprs, T val, String desc_templ, String conditions) {
-        //checkVarargs(exprs);
-        for (int i = 0; i < exprs.length; i++) {
-            if (exprs[i])
-                return val;
-        }
-        throw new IllegalStateException(errorMsg(Msg_Template_any_d, desc_templ, val, conditions));
-    }
-
-    /**
      * Asserts that the specified conditions is true with custom exception message.
      * 'WCM' in the method name stands for 'with custom message'.
      *
@@ -616,6 +538,5 @@ public final class Require {
             throw new IllegalStateException(customErrorMsg(msg_templ, val));
         return val;
     }
-
 
 }
